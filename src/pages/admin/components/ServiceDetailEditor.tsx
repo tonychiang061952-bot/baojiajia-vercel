@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../../lib/supabase';
+import { db as supabase } from '../../../lib/database';
 import { uploadToCloudinary } from '../../../lib/cloudinary';
 import RichTextEditor from '../../../components/RichTextEditor';
 
@@ -42,9 +42,9 @@ export default function ServiceDetailEditor({ service, onBack }: Props) {
         .from('service_details')
         .select('*')
         .eq('service_id', service.id)
-        .single();
+        .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') throw error;
+      if (error) throw error;
       
       if (data) {
         setContent(data.content || '');

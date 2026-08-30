@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
 import { Link } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
+import { db as supabase } from '../../lib/database';
 import { SEO } from '../../components/SEO';
 
 interface AboutContent {

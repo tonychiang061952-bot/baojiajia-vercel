@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
-import { supabase } from '../../lib/supabase';
+import { db } from '../../lib/database';
 import { SEO } from '../../components/SEO';
 
 interface BlogPost {
@@ -52,7 +52,7 @@ export default function Blog() {
 
   const fetchCategories = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await db
         .from('blog_categories')
         .select('name')
         .eq('is_active', true)
@@ -75,7 +75,7 @@ export default function Blog() {
   const fetchPosts = async () => {
     try {
       const keyword = searchKeyword.trim();
-      let query = supabase
+      let query = db
         .from('blog_posts')
         .select('*')
         .eq('is_active', true);
@@ -85,9 +85,13 @@ export default function Blog() {
       }
 
       if (keyword) {
-        query = query.or(
-          `title.ilike.%${keyword}%,excerpt.ilike.%${keyword}%,category.ilike.%${keyword}%,content.ilike.%${keyword}%`
-        );
+        const term = `%${keyword}%`;
+        query = query.or([
+          { column: 'title', operator: 'ilike', value: term },
+          { column: 'excerpt', operator: 'ilike', value: term },
+          { column: 'category', operator: 'ilike', value: term },
+          { column: 'content', operator: 'ilike', value: term },
+        ]);
       }
 
       const { data, error } = await query.order('updated_at', { ascending: false });

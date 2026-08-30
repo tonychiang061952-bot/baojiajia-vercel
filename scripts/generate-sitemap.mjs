@@ -1,146 +1,96 @@
-import { createClient } from '@supabase/supabase-js';
 import { existsSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
+import { neon } from '@neondatabase/serverless';
 
-if (existsSync('.env')) {
+if (existsSync('.env') && typeof process.loadEnvFile === 'function') {
   process.loadEnvFile('.env');
 }
 
 const SITE_URL = 'https://baojiajia.tw';
+const databaseUrl = process.env.DATABASE_URL;
+const sql = databaseUrl ? neon(databaseUrl) : null;
 
-const supabaseUrl = process.env.VITE_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.VITE_PUBLIC_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Missing env: VITE_PUBLIC_SUPABASE_URL / VITE_PUBLIC_SUPABASE_ANON_KEY');
-  process.exit(1);
-}
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-const escapeXml = (value) =>
-  String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&apos;');
+const escapeXml = (value) => String(value)
+  .replaceAll('&', '&amp;')
+  .replaceAll('<', '&lt;')
+  .replaceAll('>', '&gt;')
+  .replaceAll('"', '&quot;')
+  .replaceAll("'", '&apos;');
 
 const toIsoDate = (value) => {
   if (!value) return null;
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return null;
-  return d.toISOString().slice(0, 10);
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date.toISOString().slice(0, 10);
 };
 
-const buildUrl = (path) => {
-  if (!path.startsWith('/')) return `${SITE_URL}/${path}`;
-  return `${SITE_URL}${path}`;
-};
+const makeUrlTag = ({ loc, lastmod, changefreq, priority }) => [
+  '  <url>',
+  `    <loc>${escapeXml(loc)}</loc>`,
+  lastmod ? `    <lastmod>${escapeXml(lastmod)}</lastmod>` : null,
+  `    <changefreq>${changefreq}</changefreq>`,
+  `    <priority>${priority}</priority>`,
+  '  </url>',
+].filter(Boolean).join('\n');
 
-const makeUrlTag = ({ loc, lastmod, changefreq, priority }) => {
-  const parts = [
-    '  <url>',
-    `    <loc>${escapeXml(loc)}</loc>`,
-  ];
-
-  if (lastmod) parts.push(`    <lastmod>${escapeXml(lastmod)}</lastmod>`);
-  if (changefreq) parts.push(`    <changefreq>${escapeXml(changefreq)}</changefreq>`);
-  if (priority) parts.push(`    <priority>${escapeXml(priority)}</priority>`);
-
-  parts.push('  </url>');
-  return parts.join('\n');
-};
+const staticUrls = (today) => [
+  { loc: `${SITE_URL}/`, lastmod: today, changefreq: 'weekly', priority: '1.0' },
+  { loc: `${SITE_URL}/about`, lastmod: today, changefreq: 'monthly', priority: '0.95' },
+  { loc: `${SITE_URL}/blog`, lastmod: today, changefreq: 'weekly', priority: '0.90' },
+  { loc: `${SITE_URL}/analysis`, lastmod: today, changefreq: 'weekly', priority: '0.85' },
+  { loc: `${SITE_URL}/beginner`, lastmod: today, changefreq: 'monthly', priority: '0.80' },
+  { loc: `${SITE_URL}/services`, lastmod: today, changefreq: 'monthly', priority: '0.75' },
+  { loc: `${SITE_URL}/contact`, lastmod: today, changefreq: 'monthly', priority: '0.60' },
+  { loc: `${SITE_URL}/terms`, lastmod: today, changefreq: 'yearly', priority: '0.30' },
+  { loc: `${SITE_URL}/privacy`, lastmod: today, changefreq: 'yearly', priority: '0.30' },
+];
 
 const main = async () => {
   const today = new Date().toISOString().slice(0, 10);
-
-  const staticUrls = [
-    { loc: buildUrl('/'), lastmod: today, changefreq: 'weekly', priority: '1.0' },
-    { loc: buildUrl('/about'), lastmod: today, changefreq: 'monthly', priority: '0.95' },
-    { loc: buildUrl('/blog'), lastmod: today, changefreq: 'weekly', priority: '0.90' },
-    { loc: buildUrl('/analysis'), lastmod: today, changefreq: 'weekly', priority: '0.85' },
-    { loc: buildUrl('/beginner'), lastmod: today, changefreq: 'monthly', priority: '0.80' },
-    { loc: buildUrl('/services'), lastmod: today, changefreq: 'monthly', priority: '0.75' },
-    { loc: buildUrl('/contact'), lastmod: today, changefreq: 'monthly', priority: '0.60' },
-    { loc: buildUrl('/terms'), lastmod: today, changefreq: 'yearly', priority: '0.30' },
-    { loc: buildUrl('/privacy'), lastmod: today, changefreq: 'yearly', priority: '0.30' },
-  ];
-
-  const { data: posts, error } = await supabase
-    .from('blog_posts')
-    .select('slug, updated_at, published_at, is_active')
-    .eq('is_active', true)
-    .not('slug', 'is', null);
-
-  if (error) {
-    console.error('Failed to fetch blog_posts for sitemap:', error);
-    process.exit(1);
+  let rows = [];
+  if (sql) {
+    try {
+      rows = await sql.query(
+        `select collection, data, updated_at
+         from app_records
+         where collection = any($1::text[])
+           and coalesce(data->>'is_active', 'true') = 'true'
+           and data ? 'slug'`,
+        [['blog_posts', 'service_items']],
+      );
+    } catch (error) {
+      console.warn('Unable to load dynamic sitemap URLs; generating static sitemap only.', error instanceof Error ? error.message : error);
+    }
+  } else {
+    console.warn('Missing DATABASE_URL; generating static sitemap only.');
   }
 
-  const blogUrls = (posts ?? [])
-    .map((p) => {
-      const slug = (p.slug ?? '').trim();
-      if (!slug) return null;
-
-      const lastmod = toIsoDate(p.updated_at) || toIsoDate(p.published_at) || today;
-      return {
-        loc: buildUrl(`/blog/${slug}`),
-        lastmod,
-        changefreq: 'monthly',
-        priority: '0.70',
-      };
-    })
-    .filter(Boolean);
-
-  const { data: services, error: servicesError } = await supabase
-    .from('service_items')
-    .select('slug, updated_at, is_active')
-    .eq('is_active', true)
-    .not('slug', 'is', null);
-
-  if (servicesError) {
-    console.error('Failed to fetch service_items for sitemap:', servicesError);
-    process.exit(1);
-  }
-
-  const serviceUrls = (services ?? [])
-    .map((s) => {
-      const slug = (s.slug ?? '').trim();
-      if (!slug) return null;
-
-      const lastmod = toIsoDate(s.updated_at) || today;
-      return {
-        loc: buildUrl(`/services/${slug}`),
-        lastmod,
-        changefreq: 'monthly',
-        priority: '0.70',
-      };
-    })
-    .filter(Boolean);
-
-  const allUrls = [...staticUrls, ...serviceUrls, ...blogUrls];
+  const dynamicUrls = rows.flatMap((row) => {
+    const slug = String(row.data?.slug ?? '').trim();
+    if (!slug) return [];
+    const prefix = row.collection === 'blog_posts' ? '/blog/' : '/services/';
+    return [{
+      loc: `${SITE_URL}${prefix}${slug}`,
+      lastmod: toIsoDate(row.data?.updated_at) || toIsoDate(row.data?.published_at) || toIsoDate(row.updated_at) || today,
+      changefreq: 'monthly',
+      priority: '0.70',
+    }];
+  });
 
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
-    '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"',
-    '        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9',
-    '        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     '',
-    ...allUrls.map(makeUrlTag),
+    ...[...staticUrls(today), ...dynamicUrls].map(makeUrlTag),
     '',
     '</urlset>',
     '',
   ].join('\n');
 
   await writeFile(new URL('../public/sitemap.xml', import.meta.url), xml, 'utf8');
-  console.log(
-    `Generated sitemap.xml with ${allUrls.length} URLs (${serviceUrls.length} services, ${blogUrls.length} blog posts).`
-  );
+  console.log(`Generated sitemap.xml with ${staticUrls(today).length + dynamicUrls.length} URLs.`);
 };
 
-main().catch((err) => {
-  console.error('generate-sitemap failed:', err);
+main().catch((error) => {
+  console.error('generate-sitemap failed:', error);
   process.exit(1);
 });

@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
+import { useGoogleAuth } from '../../auth/GoogleAuthProvider';
 import ServiceItemEditor from './components/ServiceItemEditor';
 import ServiceDetailEditor from './components/ServiceDetailEditor';
 import HomepageEditor from './components/HomepageEditor';
@@ -17,7 +17,6 @@ import SystemSettingsEditor from './components/SystemSettingsEditor';
 import SiteSettingsEditor from './components/SiteSettingsEditor';
 import StatisticsEditor from './components/StatisticsEditor';
 import CategoryManager from './components/CategoryManager';
-import ChangePassword from './components/ChangePassword';
 import ServiceManager from './components/ServiceManager';
 import PdfTemplateEditor from './components/PdfTemplateEditor';
 
@@ -32,13 +31,14 @@ interface ServiceItem {
   is_active: boolean;
 }
 
-type EditMode = 'list' | 'service-item' | 'service-detail' | 'homepage' | 'hero-carousel' | 'features' | 'testimonials' | 'customer-reviews' | 'blog' | 'about' | 'member-manager' | 'navigation' | 'site-settings' | 'system-settings' | 'statistics' | 'blog-categories' | 'change-password' | 'pdf-template';
+type EditMode = 'list' | 'service-item' | 'service-detail' | 'homepage' | 'hero-carousel' | 'features' | 'testimonials' | 'customer-reviews' | 'blog' | 'about' | 'member-manager' | 'navigation' | 'site-settings' | 'system-settings' | 'statistics' | 'blog-categories' | 'pdf-template';
 
 export default function AdminPage() {
   const navigate = useNavigate();
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [editMode, setEditMode] = useState<EditMode>('list');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { signOut } = useGoogleAuth();
 
   const handleEditItem = (service: ServiceItem) => {
     setSelectedService(service);
@@ -57,7 +57,7 @@ export default function AdminPage() {
 
   const handleLogout = async () => {
     try {
-      await supabase.auth.signOut();
+      await signOut();
       navigate('/admin/login');
     } catch (error) {
       console.error('Logout error:', error);
@@ -116,8 +116,6 @@ export default function AdminPage() {
         return <CategoryManager onBack={handleBack} />;
       case 'pdf-template':
         return <PdfTemplateEditor onBack={handleBack} />;
-      case 'change-password':
-        return <ChangePassword onBack={handleBack} />;
       case 'list':
       default:
         return <ServiceManager onEditItem={handleEditItem} onEditDetail={handleEditDetail} />;
@@ -171,19 +169,6 @@ export default function AdminPage() {
 
         {/* Bottom Actions */}
         <div className="p-4 border-t border-gray-100 space-y-2">
-          <button
-            onClick={() => setEditMode('change-password')}
-            className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all duration-200 group ${editMode === 'change-password'
-                ? 'bg-teal-50 text-teal-600 shadow-sm'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              } ${!isSidebarOpen && 'justify-center'}`}
-            title={!isSidebarOpen ? '修改密碼' : ''}
-          >
-            <i className={`ri-lock-password-line text-xl ${editMode === 'change-password' ? 'text-teal-600' : 'text-gray-400 group-hover:text-gray-600'
-              }`}></i>
-            {isSidebarOpen && <span className="font-medium whitespace-nowrap">修改密碼</span>}
-          </button>
-
           <button
             onClick={handleLogout}
             className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-gray-600 hover:bg-red-50 hover:text-red-600 transition-all duration-200 group ${!isSidebarOpen && 'justify-center'}`}

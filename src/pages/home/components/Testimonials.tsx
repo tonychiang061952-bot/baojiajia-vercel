@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../../lib/supabase';
+import { db as supabase } from '../../../lib/database';
+import { useGoogleAuth } from '../../../auth/GoogleAuthProvider';
 import { Helmet } from 'react-helmet-async';
 import { sendTelegramNotification } from '../../../services/telegramService';
 
@@ -18,8 +19,7 @@ export default function Testimonials() {
   const [loading, setLoading] = useState(true);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [reviewsSubmissionEnabled, setReviewsSubmissionEnabled] = useState(true);
-  const [sessionLoading, setSessionLoading] = useState(true);
-  const [session, setSession] = useState<any>(null);
+  const { user, signIn, loading: sessionLoading } = useGoogleAuth();
   const [submitting, setSubmitting] = useState(false);
   const [formName, setFormName] = useState('');
   const [formRole, setFormRole] = useState('');
@@ -31,22 +31,6 @@ export default function Testimonials() {
 
   useEffect(() => {
     fetchSettingsAndData();
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setSessionLoading(false);
-    }).catch(() => {
-      setSession(null);
-      setSessionLoading(false);
-    });
-
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession);
-      setSessionLoading(false);
-    });
-
-    return () => {
-      listener.subscription.unsubscribe();
-    };
   }, []);
 
   useEffect(() => {
@@ -120,17 +104,7 @@ export default function Testimonials() {
 
   const signInWithGoogle = async () => {
     setFormError('');
-    try {
-      await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: window.location.href
-        }
-      });
-    } catch (e) {
-      console.error('Google sign-in error:', e);
-      setFormError('Google 登入失敗，請稍後再試');
-    }
+    signIn();
   };
 
   const submitReview = async () => {
@@ -155,24 +129,21 @@ export default function Testimonials() {
       return;
     }
 
-    if (!session) {
+    if (!user) {
       setFormError('請先登入後再送出評價');
       return;
     }
 
     setSubmitting(true);
     try {
-      const user = session?.user;
       const googleAvatar =
-        (user as any)?.user_metadata?.picture ||
-        (user as any)?.user_metadata?.avatar_url ||
-        null;
+        user.picture || null;
       const { error } = await supabase
         .from('customer_reviews')
         .insert({
-          user_id: user?.id ?? null,
-          user_email: user?.email ?? null,
-          user_name: name || user?.user_metadata?.full_name || user?.user_metadata?.name || '匿名',
+          user_id: user.id,
+          user_email: user.email,
+          user_name: name || user.name || '匿名',
           avatar_url: googleAvatar,
           role: role || null,
           rating: formRating,
@@ -190,8 +161,8 @@ export default function Testimonials() {
       try {
         await sendTelegramNotification({
           type: 'review_submitted',
-          memberName: name || user?.user_metadata?.full_name || '匿名',
-          memberEmail: user?.email || '',
+          memberName: name || user.name || '匿名',
+          memberEmail: user.email,
           timestamp: new Date(),
           reviewData: { rating: formRating, content, role: role || undefined }
         });
@@ -364,11 +335,11 @@ export default function Testimonials() {
                     <button
                       type="button"
                       onClick={signInWithGoogle}
-                      disabled={sessionLoading || !!session}
+                      disabled={sessionLoading || !!user}
                       className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 whitespace-nowrap"
                     >
                       <i className="ri-google-fill"></i>
-                      {session ? '已登入' : 'Google 登入'}
+                      {user ? '已登入' : 'Google 登入'}
                     </button>
                   </div>
                 </div>

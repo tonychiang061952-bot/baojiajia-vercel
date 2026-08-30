@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '../../../lib/supabase';
-import type { User } from '@supabase/supabase-js';
+import { useState } from 'react';
+import { useGoogleAuth } from '../../../auth/GoogleAuthProvider';
 import html2pdf from 'html2pdf.js';
 import { sendTelegramNotification } from '../../../services/telegramService';
+import { db } from '../../../lib/database';
 
 // 預設模板樣式
 const DEFAULT_STYLES = `
@@ -141,30 +141,11 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
   });
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [pdfProgress, setPdfProgress] = useState(0);
-  const [user, setUser] = useState<User | null>(null);
+  const { user, signIn } = useGoogleAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showReviewInvite, setShowReviewInvite] = useState(false);
 
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: window.location.origin + '/analysis'
-      }
-    });
-  };
+  const handleLogin = () => signIn();
 
   // 計算年齡
   const calculateAge = (birthDate: string) => {
@@ -252,40 +233,27 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
     setIsGeneratingPDF(true);
     setPdfProgress(0);
 
-    // 檢查下載限制
-    if (user && user.email) {
-      try {
-        const { data: limitData, error: limitError } = await supabase
-          .from('user_download_limits')
-          .select('*')
-          .eq('email', user.email)
-          .maybeSingle();
-
-        if (limitError) {
-          throw limitError;
-        }
-
-        if (limitData) {
-          if (limitData.download_limit !== -1 && limitData.download_count >= limitData.download_limit) {
-            alert(`您的下載次數已達上限 (${limitData.download_limit} 次)`);
-            setIsGeneratingPDF(false);
-            setPdfProgress(0);
-            return;
-          }
-
-          // 增加下載次數
-          await supabase
-            .from('user_download_limits')
-            .update({
-              download_count: limitData.download_count + 1,
-              updated_at: new Date().toISOString()
-            })
-            .eq('email', user.email);
-        }
-      } catch (error) {
-        console.error('Error checking download limit:', error);
-        // 發生錯誤時是否阻擋下載？這裡選擇不阻擋，避免系統錯誤影響用戶
+    // 伺服器端以單一原子操作檢查並扣除下載次數，避免前端遭竄改或併發繞過限制。
+    try {
+      const limitResponse = await fetch('/api/downloads/claim', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      const limitResult = await limitResponse.json();
+      if (!limitResponse.ok) throw new Error(limitResult?.error || 'Unable to verify the download limit');
+      if (!limitResult.allowed) {
+        const limit = Number(limitResult.downloadLimit ?? 0);
+        alert(`您的下載次數已達上限 (${limit} 次)`);
+        setIsGeneratingPDF(false);
+        setPdfProgress(0);
+        return;
       }
+    } catch (error) {
+      console.error('Error claiming download:', error);
+      alert('暫時無法驗證下載資格，請稍後再試。');
+      setIsGeneratingPDF(false);
+      setPdfProgress(0);
+      return;
     }
 
     // 啟動進度條動畫（6秒完成）
@@ -301,7 +269,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
     try {
       // 保存會員問卷資料
       if (user) {
-        const { error } = await supabase.from('member_submissions').insert({
+        const { error } = await db.from('member_submissions').insert({
           user_id: user.id,
           email: user.email,
           name: downloadData.name,
@@ -339,7 +307,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
 
       try {
         // 1. 嘗試獲取指定名稱的模板 (使用 ilike 模糊匹配，支援 "adult" 或 "Adult 保障需求分析報告")
-        const { data: templates, error: templatesError } = await supabase
+        const { data: templates, error: templatesError } = await db
           .from('pdf_templates')
           .select('*')
           .ilike('name', `%${targetTemplateName}%`)
@@ -361,7 +329,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
           };
         } else if (!data) {
           // 3. 如果是 adult 且找不到，或者其他情況，嘗試獲取任意 active 模板
-          const { data: anyTemplates, error: anyError } = await supabase
+          const { data: anyTemplates, error: anyError } = await db
             .from('pdf_templates')
             .select('*')
             .eq('is_active', true)

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { supabase } from '../../../lib/supabase';
+import { db as supabase } from '../../../lib/database';
 import ImageUpload from './ImageUpload';
 
 interface ServiceItem {

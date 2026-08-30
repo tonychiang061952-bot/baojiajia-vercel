@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../../lib/supabase';
+import { db as supabase } from '../../../lib/database';
+import { useGoogleAuth } from '../../../auth/GoogleAuthProvider';
 import html2pdf from 'html2pdf.js';
 import { sendTelegramNotification } from '../../../services/telegramService';
 
@@ -81,6 +82,7 @@ const OPTIONS_MAP = {
 };
 
 export default function MemberManager() {
+  const { user } = useGoogleAuth();
   const [submissions, setSubmissions] = useState<MemberSubmission[]>([]);
   const [contactSubmissions, setContactSubmissions] = useState<ContactSubmission[]>([]);
   const [loading, setLoading] = useState(true);
@@ -636,14 +638,13 @@ export default function MemberManager() {
 
       // 發送 Telegram 通知 - Admin PDF 下載
       try {
-        const currentUser = await supabase.auth.getUser();
         await sendTelegramNotification({
           type: 'admin_pdf_downloaded',
           memberName: member.name,
           memberEmail: member.email,
           planType: isChildPlan ? 'child' : 'adult',
           timestamp: new Date(),
-          adminUser: currentUser.data.user?.email || '未知管理員'
+          adminUser: user?.email || '未知管理員'
         });
       } catch (notificationError) {
         console.error('Error sending admin PDF download notification:', notificationError);

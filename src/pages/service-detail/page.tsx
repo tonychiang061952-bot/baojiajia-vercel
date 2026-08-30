@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
+import { db as supabase } from '../../lib/database';
 import Navigation from '../../components/feature/Navigation';
 import { SEO } from '../../components/SEO';
 

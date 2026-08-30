@@ -1,11 +1,13 @@
 {
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "@stripe/react-stripe-js": "4.0.2",
-    "@supabase/supabase-js": "2.57.4",
     "firebase": "12.0.0",
+    "google-auth-library": "^11.0.2",
     "html2pdf.js": "^0.12.1",
     "i18next": "25.4.1",
     "i18next-browser-languagedetector": "^8.2.0",
+    "jose": "^6.2.10",
     "quill": "^2.0.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -38,8 +40,11 @@
   "name": "react",
   "private": true,
   "scripts": {
+    "migrate:neon": "node scripts/migrate-neon.mjs",
+    "seed:admins": "node scripts/seed-admins.mjs",
+    "check:api": "tsc -p tsconfig.api.json",
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
-    "build": "npm run generate:sitemap && vite build",
+    "build": "npm run check:api && npm run generate:sitemap && vite build",
     "dev": "vite",
     "preview": "vite preview"
   },

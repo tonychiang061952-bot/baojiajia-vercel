@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
-import { supabase } from '../../lib/supabase';
+import { db as supabase } from '../../lib/database';
 import { SEO } from '../../components/SEO';
 
 interface BlogPost {

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../../../lib/supabase';
+import { db as supabase } from '../../../lib/database';
 
 interface HeroItem {
   id: string;

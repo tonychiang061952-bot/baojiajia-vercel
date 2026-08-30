@@ -1,40 +1,12 @@
-import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
+import { useGoogleAuth } from '../../auth/GoogleAuthProvider';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
-
-  useEffect(() => {
-    checkAuth();
-
-    // 監聽登入狀態變化
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      setAuthenticated(!!session);
-      setLoading(false);
-    });
-
-    return () => {
-      authListener.subscription.unsubscribe();
-    };
-  }, []);
-
-  const checkAuth = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      setAuthenticated(!!session);
-    } catch (error) {
-      console.error('Auth check error:', error);
-      setAuthenticated(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { user, loading } = useGoogleAuth();
 
   if (loading) {
     return (
@@ -47,7 +19,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     );
   }
 
-  if (!authenticated) {
+  if (user?.role !== 'admin') {
     return <Navigate to="/admin/login" replace />;
   }
 

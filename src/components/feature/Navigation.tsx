@@ -1,32 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
-import type { User } from '@supabase/supabase-js';
+import { useGoogleAuth } from '../../auth/GoogleAuthProvider';
+import { GoogleSignInButton } from '../GoogleSignInButton';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google',
-    });
-  };
+  const { user, signOut } = useGoogleAuth();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await signOut();
     setIsMenuOpen(false);
   };
 
@@ -72,22 +54,16 @@ export default function Navigation() {
                 >
                   登出
                 </button>
-                {user.user_metadata.avatar_url && (
+                {user.picture && (
                   <img 
-                    src={user.user_metadata.avatar_url} 
+                    src={user.picture}
                     alt="avatar" 
                     className="w-8 h-8 rounded-full border border-gray-200"
                   />
                 )}
               </div>
             ) : (
-              <button
-                onClick={handleLogin}
-                className="flex items-center gap-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium shadow-sm cursor-pointer"
-              >
-                <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4" />
-                登入會員
-              </button>
+              <GoogleSignInButton />
             )}
           </div>
 
@@ -150,9 +126,9 @@ export default function Navigation() {
                   {user ? (
                     <>
                       <div className="flex items-center gap-3 py-2 px-2">
-                        {user.user_metadata.avatar_url && (
+                        {user.picture && (
                           <img 
-                            src={user.user_metadata.avatar_url} 
+                            src={user.picture}
                             alt="avatar" 
                             className="w-8 h-8 rounded-full border border-gray-200"
                           />
@@ -167,16 +143,7 @@ export default function Navigation() {
                       </button>
                     </>
                   ) : (
-                    <button
-                      onClick={() => {
-                        handleLogin();
-                        setIsMenuOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2 py-2 text-sm text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded transition-colors cursor-pointer px-2"
-                    >
-                      <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4" />
-                      登入會員
-                    </button>
+                    <GoogleSignInButton className="px-2 py-2" />
                   )}
                 </div>
               </div>

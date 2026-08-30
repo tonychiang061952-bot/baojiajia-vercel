@@ -2,8 +2,6 @@ import { useState } from 'react';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
 import { SEO } from '../../components/SEO';
-import { sendTelegramNotification } from '../../services/telegramService';
-import { supabase } from '../../lib/supabase';
 
 const CONSULTATION_OPTIONS = [
   { value: 'first-time', label: '首購族諮詢（過去不曾規劃保險）' },
@@ -67,44 +65,26 @@ export default function Contact() {
       });
 
       if (response.ok) {
-        // 同時保存到 Supabase
-        try {
-          await supabase.from('contact_submissions').insert({
+        // 一律由 Vercel API 寫入 Neon 並發送通知，避免匿名使用者直接呼叫通知端點。
+        const storageResponse = await fetch('/api/contact-submissions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             name: formData.name,
             phone: formData.phone,
-            line_id: formData.lineId,
+            lineId: formData.lineId,
             gender: formData.gender === 'male' ? '男' : '女',
-            birth_date: formData.birthDate || null,
+            birthDate: formData.birthDate,
             occupation: formData.occupation,
-            annual_income: formData.annualIncome,
-            monthly_budget: formData.monthlyBudget,
-            consultation_type: consultationDisplayValue || '未指定',
-            additional_message: formData.additionalMessage
-          });
-        } catch (dbError) {
-          console.error('Failed to save to database:', dbError);
-        }
-
-        // 發送 Telegram 通知
-        try {
-          await sendTelegramNotification({
-            type: 'contact_form_submitted',
-            memberName: formData.name,
-            memberPhone: formData.phone,
-            timestamp: new Date(),
-            contactFormData: {
-              lineId: formData.lineId,
-              gender: formData.gender === 'male' ? '男' : '女',
-              birthDate: formData.birthDate,
-              occupation: formData.occupation,
-              annualIncome: formData.annualIncome,
-              monthlyBudget: formData.monthlyBudget,
-              consultationType: consultationDisplayValue || '未指定',
-              additionalMessage: formData.additionalMessage
-            }
-          });
-        } catch (error) {
-          console.error('Failed to send Telegram notification:', error);
+            annualIncome: formData.annualIncome,
+            monthlyBudget: formData.monthlyBudget,
+            consultationType: consultationDisplayValue || '未指定',
+            additionalMessage: formData.additionalMessage,
+          }),
+        });
+        if (!storageResponse.ok) {
+          const result = await storageResponse.json().catch(() => ({}));
+          throw new Error(result.error || 'Unable to save contact request');
         }
 
         setSubmitStatus('success');
