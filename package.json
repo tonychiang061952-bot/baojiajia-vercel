@@ -46,7 +46,8 @@
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
     "build": "npm run check:api && npm run generate:sitemap && vite build",
     "dev": "vite",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "seed:content": "node scripts/seed-content.mjs"
   },
   "type": "module",
   "version": "0.0.0",

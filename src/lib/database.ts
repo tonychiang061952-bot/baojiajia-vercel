@@ -140,10 +140,23 @@ class QueryBuilder implements PromiseLike<DbResult<any>> {
           mode: this.responseMode,
         }),
       });
-      const payload = await response.json();
+      // Platform-level failures (a crashed function, a gateway error) answer with
+      // plain text, so parsing unconditionally would throw and the catch below
+      // would hide the status code behind a JSON syntax error.
+      const body = await response.text();
+      let payload: { data?: unknown; error?: DbError } | null = null;
+      try {
+        payload = body ? JSON.parse(body) : null;
+      } catch {
+        return {
+          data: null,
+          error: { message: `伺服器回應非 JSON (HTTP ${response.status})`, status: response.status },
+        };
+      }
+
       return {
-        data: payload.data ?? null,
-        error: payload.error ?? (response.ok ? null : { message: 'Database request failed' }),
+        data: payload?.data ?? null,
+        error: payload?.error ?? (response.ok ? null : { message: 'Database request failed', status: response.status }),
       };
     } catch (error) {
       return { data: null, error: { message: error instanceof Error ? error.message : 'Database request failed' } };
