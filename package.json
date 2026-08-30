@@ -47,7 +47,7 @@
     "build": "npm run check:api && npm run generate:sitemap && vite build",
     "dev": "vite",
     "preview": "vite preview",
-    "seed:content": "node scripts/seed-content.mjs"
+    "migrate:supabase": "node scripts/migrate-from-supabase.mjs"
   },
   "type": "module",
   "version": "0.0.0",

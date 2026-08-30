@@ -43,3 +43,7 @@ coverage/
 *.local
 
 node_modules
+
+# Local data backups (contain secrets — keep out of git)
+backups/
+app_records-backup-*.json
