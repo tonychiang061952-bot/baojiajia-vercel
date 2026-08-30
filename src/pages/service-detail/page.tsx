@@ -24,27 +24,34 @@ export default function ServiceDetailPage() {
       try {
         const { data, error } = await supabase
           .from('service_items')
-          .select(`
-            *,
-            service_details (
-              content,
-              hero_image_url
-            )
-          `)
+          .select('*')
           .eq('slug', slug)
           .limit(1);
 
         if (error) throw error;
 
         if (data && data.length > 0) {
+          const item = data[0];
+
+          // service_details is fetched separately rather than as an embedded
+          // select: the database client talks to /api/database, which has no
+          // equivalent of Supabase's nested resource syntax.
+          const { data: details, error: detailsError } = await supabase
+            .from('service_details')
+            .select('*')
+            .eq('service_id', item.id)
+            .limit(1);
+
+          if (detailsError) throw detailsError;
+
           setService({
-            id: data[0].id,
-            title: data[0].title,
-            description: data[0].description,
-            icon: data[0].icon,
-            image_url: data[0].image_url,
-            content: data[0].service_details?.[0]?.content || '',
-            hero_image_url: data[0].service_details?.[0]?.hero_image_url
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            icon: item.icon,
+            image_url: item.image_url,
+            content: details?.[0]?.content || '',
+            hero_image_url: details?.[0]?.hero_image_url
           });
         }
       } catch (error) {
