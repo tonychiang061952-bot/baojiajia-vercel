@@ -1,4 +1,4 @@
-import { sql } from './neon';
+import { sql } from './neon.js';
 
 type NotificationData = {
   type: 'questionnaire_submitted' | 'pdf_downloaded' | 'admin_pdf_downloaded' | 'contact_form_submitted' | 'review_submitted';

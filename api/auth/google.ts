@@ -1,5 +1,5 @@
 import { OAuth2Client } from 'google-auth-library';
-import { requiredEnv } from '../_lib/env';
+import { requiredEnv } from '../_lib/env.js';
 import {
   createSession,
   expiredSessionCookie,
@@ -7,7 +7,7 @@ import {
   readSession,
   sessionCookie,
   type SessionUser,
-} from '../_lib/session';
+} from '../_lib/session.js';
 
 function body(request: any) {
   if (typeof request.body === 'string') return JSON.parse(request.body || '{}');

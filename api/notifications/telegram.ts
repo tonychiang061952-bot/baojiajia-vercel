@@ -1,6 +1,6 @@
-import { consumeRateLimit } from '../_lib/rateLimit';
-import { readSession } from '../_lib/session';
-import { sendTelegramMessage } from '../_lib/telegram';
+import { consumeRateLimit } from '../_lib/rateLimit.js';
+import { readSession } from '../_lib/session.js';
+import { sendTelegramMessage } from '../_lib/telegram.js';
 
 const TYPES = new Set([
   'questionnaire_submitted', 'pdf_downloaded', 'admin_pdf_downloaded', 'review_submitted',

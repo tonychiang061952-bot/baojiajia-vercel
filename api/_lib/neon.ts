@@ -1,5 +1,5 @@
 import { neon, type NeonQueryFunction } from '@neondatabase/serverless';
-import { requiredEnv } from './env';
+import { requiredEnv } from './env.js';
 
 let client: NeonQueryFunction<false, false> | null = null;
 

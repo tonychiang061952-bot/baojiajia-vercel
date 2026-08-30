@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { sql } from './neon';
+import { sql } from './neon.js';
 
 function clientIp(request: { headers?: Record<string, string | string[] | undefined> }) {
   const forwarded = request.headers?.['x-forwarded-for'];

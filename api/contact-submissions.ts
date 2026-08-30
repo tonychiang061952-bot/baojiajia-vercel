@@ -1,6 +1,6 @@
-import { sql } from './_lib/neon';
-import { consumeRateLimit } from './_lib/rateLimit';
-import { sendTelegramMessage } from './_lib/telegram';
+import { sql } from './_lib/neon.js';
+import { consumeRateLimit } from './_lib/rateLimit.js';
+import { sendTelegramMessage } from './_lib/telegram.js';
 
 function body(request: any) {
   if (typeof request.body === 'string') return JSON.parse(request.body || '{}');

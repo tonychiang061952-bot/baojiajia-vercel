@@ -1,5 +1,5 @@
-import { sql } from '../_lib/neon';
-import { readSession } from '../_lib/session';
+import { sql } from '../_lib/neon.js';
+import { readSession } from '../_lib/session.js';
 
 export default async function handler(request: any, response: any) {
   if (request.method !== 'POST') {

@@ -1,5 +1,5 @@
-import { sql } from './_lib/neon';
-import { readSession } from './_lib/session';
+import { sql } from './_lib/neon.js';
+import { readSession } from './_lib/session.js';
 
 const COLLECTIONS = new Set([
   'about_content', 'blog_categories', 'blog_posts', 'carousel_settings',

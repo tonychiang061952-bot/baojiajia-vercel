@@ -1,6 +1,6 @@
 import { SignJWT, jwtVerify } from 'jose';
-import { requiredEnv } from './env';
-import { sql } from './neon';
+import { requiredEnv } from './env.js';
+import { sql } from './neon.js';
 
 export const SESSION_COOKIE = 'baojiajia_session';
 
