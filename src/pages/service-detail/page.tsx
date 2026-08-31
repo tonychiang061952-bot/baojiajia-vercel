@@ -94,6 +94,27 @@ export default function ServiceDetailPage() {
     );
   }
 
+  const ctaBySlug: Record<string, { title: string; description: string; button: string; icon: string }> = {
+    'savings-planning': {
+      title: '先把目標與現金流整理清楚',
+      description: '你不需要先決定要使用什麼工具。帶著目前的收入、支出與想完成的目標，我們先一起找出真正卡住的地方。',
+      button: '預約儲蓄理財諮詢',
+      icon: 'ri-compass-3-line'
+    },
+    'retirement-planning': {
+      title: '先知道退休後每個月可能差多少',
+      description: '帶著勞保、勞退與目前資產資料，我們先盤點已有資源，再把生活期待轉成看得懂的退休現金流。',
+      button: '預約退休現金流盤點',
+      icon: 'ri-line-chart-line'
+    }
+  };
+  const cta = ctaBySlug[slug || ''] || {
+    title: '想把自己的狀況整理清楚嗎？',
+    description: '不必先決定要買什麼。把目前的疑問帶來，我們先從現況與需求開始。',
+    button: '預約諮詢，先聊聊',
+    icon: 'ri-chat-smile-3-line'
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
 
@@ -144,44 +165,38 @@ export default function ServiceDetailPage() {
               <div className="w-16 h-16 bg-teal-500 rounded-2xl flex items-center justify-center">
                 <i className={`${service.icon} text-3xl text-white`}></i>
               </div>
-              <h1 className="text-5xl font-bold text-white">{service.title}</h1>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">{service.title}</h1>
             </div>
             <p className="text-xl text-white/90 max-w-3xl">{service.description}</p>
           </div>
         </div>
       </div>
 
-      {/* Content Section - 調整容器寬度為 1000px，字體縮小為 10px */}
+      {/* Content Section */}
       <div className="mx-auto px-4 sm:px-6 lg:px-8 py-16" style={{ maxWidth: '1000px' }}>
         <div className="bg-white rounded-2xl shadow-lg p-8 lg:p-12">
           <div
-            className={`prose prose-sm max-w-none
-              prose-headings:text-gray-900 prose-headings:font-bold
-              prose-h2:text-2xl prose-h2:mb-6 prose-h2:mt-12 prose-h2:first:mt-0
-              prose-h3:text-xl prose-h3:mb-4 prose-h3:mt-8
-              prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-6 prose-p:text-sm
-              prose-ul:my-6 prose-ul:space-y-3
-              prose-ol:my-6 prose-ol:space-y-3 prose-ol:list-inside
-              prose-li:text-gray-700 prose-li:leading-relaxed prose-li:text-sm
-              prose-strong:text-teal-600 prose-strong:font-semibold
+            className={`service-content service-content--${slug} prose max-w-none
               ${slug === 'policy-checkup' ? 'prose-ol:list-none' : 'prose-ol:list-decimal'}
             `}
-            style={{ fontSize: '10px', lineHeight: '1.6' }}
             dangerouslySetInnerHTML={{ __html: service.content }}
           />
 
           {/* CTA Section */}
           <div className="mt-12 pt-8 border-t border-gray-200">
-            <div className="bg-gradient-to-r from-teal-50 to-blue-50 rounded-xl p-8 text-center">
-              <h3 className="text-lg font-bold text-gray-900 mb-3">想了解更多？</h3>
-              <p className="text-gray-700 mb-6 text-sm">歡迎與我們聯繫，我們將為您提供專業的諮詢服務</p>
+            <div className="service-page-cta rounded-2xl p-8 text-center">
+              <div className="service-page-cta__icon" aria-hidden="true">
+                <i className={cta.icon}></i>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">{cta.title}</h3>
+              <p className="text-gray-700 mb-6 text-base leading-relaxed max-w-2xl mx-auto">{cta.description}</p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Link
                   to="/contact"
                   className="inline-flex items-center gap-2 px-8 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors shadow-lg hover:shadow-xl whitespace-nowrap"
                 >
                   <i className="ri-mail-line"></i>
-                  立即諮詢
+                  {cta.button}
                 </Link>
               </div>
             </div>
