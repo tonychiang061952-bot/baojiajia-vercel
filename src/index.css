@@ -123,6 +123,73 @@
   box-shadow: 0 12px 25px -24px rgba(15, 23, 42, 0.6);
 }
 
+/* 幼兒保障頁的原始內容全以 h3 排列；依既有順序建立閱讀層級，不變動任何文字。 */
+.service-content--children-protection > h3:nth-of-type(1) {
+  margin: 0 0 1.5rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid #99f6e4;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #f0fdfa, #ecfeff);
+  color: #134e4a;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.65;
+}
+
+.service-content--children-protection > h3:nth-of-type(3),
+.service-content--children-protection > h3:nth-of-type(4),
+.service-content--children-protection > h3:nth-of-type(5) {
+  margin: 0.65rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #2dd4bf;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #334155;
+  font-weight: 650;
+}
+
+.service-content--children-protection > h3:nth-of-type(8) {
+  margin-top: 1.6rem;
+  color: #0f766e;
+  font-weight: 750;
+}
+
+.service-content--children-protection > h3:nth-of-type(15),
+.service-content--children-protection > h3:nth-of-type(21) {
+  margin-top: 2.5rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid #14b8a6;
+  color: #0f766e;
+  font-size: 1.2rem;
+  font-weight: 750;
+  line-height: 1.5;
+}
+
+.service-content--children-protection > h3:nth-of-type(17),
+.service-content--children-protection > h3:nth-of-type(18),
+.service-content--children-protection > h3:nth-of-type(19) {
+  margin: 0.65rem 0;
+  padding: 0.85rem 1rem;
+  border-left: 4px solid #f59e0b;
+  border-radius: 0 0.75rem 0.75rem 0;
+  background: #fffbeb;
+  color: #4b5563;
+}
+
+.service-content--children-protection > h3:nth-of-type(23),
+.service-content--children-protection > h3:nth-of-type(24),
+.service-content--children-protection > h3:nth-of-type(25),
+.service-content--children-protection > h3:nth-of-type(26) {
+  margin: 0.65rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid #ccfbf1;
+  border-radius: 0.75rem;
+  background: #f0fdfa;
+  color: #134e4a;
+  font-weight: 650;
+}
+
 .bj-lead {
   display: grid;
   grid-template-columns: auto 1fr;
