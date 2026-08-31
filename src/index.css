@@ -60,6 +60,69 @@
   font-weight: 700;
 }
 
+/* 舊版服務內容沿用原始 HTML；僅以外層樣式統一閱讀節奏與圖片呈現。 */
+.service-content:is(
+  .service-content--policy-checkup,
+  .service-content--adult-protection,
+  .service-content--children-protection,
+  .service-content--senior-protection
+) > :first-child {
+  margin-top: 0;
+}
+
+.service-content:is(
+  .service-content--policy-checkup,
+  .service-content--adult-protection,
+  .service-content--children-protection,
+  .service-content--senior-protection
+) h3 {
+  margin: 0.9rem 0;
+  color: #4b5563;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.9;
+}
+
+.service-content:is(
+  .service-content--policy-checkup,
+  .service-content--adult-protection,
+  .service-content--children-protection,
+  .service-content--senior-protection
+) h3:empty,
+.service-content:is(
+  .service-content--policy-checkup,
+  .service-content--adult-protection,
+  .service-content--children-protection,
+  .service-content--senior-protection
+) h3:has(> br:only-child) {
+  display: none;
+}
+
+.service-content:is(
+  .service-content--policy-checkup,
+  .service-content--adult-protection,
+  .service-content--children-protection,
+  .service-content--senior-protection
+) strong {
+  color: #0f766e !important;
+}
+
+.service-content:is(
+  .service-content--policy-checkup,
+  .service-content--adult-protection,
+  .service-content--children-protection,
+  .service-content--senior-protection
+) img {
+  display: block;
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 1.75rem auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.9rem;
+  box-shadow: 0 12px 25px -24px rgba(15, 23, 42, 0.6);
+}
+
 .bj-lead {
   display: grid;
   grid-template-columns: auto 1fr;
