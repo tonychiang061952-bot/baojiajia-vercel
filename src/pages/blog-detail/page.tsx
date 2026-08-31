@@ -249,7 +249,7 @@ export default function BlogDetail() {
 
           {/* 文章正文 */}
           <div
-            className="prose prose-lg max-w-none mb-12"
+            className="article-content prose prose-lg max-w-none mb-12"
             dangerouslySetInnerHTML={{ __html: post.content }}
             style={{
               lineHeight: '1.8',
