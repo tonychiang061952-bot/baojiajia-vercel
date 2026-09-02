@@ -12,6 +12,7 @@ interface BlogPost {
   category: string;
   author: string;
   published_at: string;
+  updated_at: string;
   read_time: string;
   image_url: string;
   content: string;
@@ -159,15 +160,16 @@ export default function BlogDetail() {
         type="article"
         author={post.author}
         publishedTime={post.published_at}
+        modifiedTime={post.updated_at}
         schema={{
           "@context": "https://schema.org",
           "@type": "BlogPosting",
           "headline": post.title,
           "image": post.image_url ? [post.image_url] : [],
           "datePublished": post.published_at,
-          "dateModified": new Date().toISOString(),
+          "dateModified": post.updated_at,
           "author": [{
-            "@type": "Person",
+            "@type": "Organization",
             "name": post.author,
             "url": "https://baojiajia.tw/about"
           }],

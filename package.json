@@ -44,7 +44,8 @@
     "seed:admins": "node scripts/seed-admins.mjs",
     "check:api": "tsc -p tsconfig.api.json",
     "generate:sitemap": "node scripts/generate-sitemap.mjs",
-    "build": "npm run check:api && npm run generate:sitemap && vite build",
+    "prerender": "node scripts/prerender.mjs",
+    "build": "npm run check:api && npm run generate:sitemap && vite build && npm run prerender",
     "dev": "vite",
     "preview": "vite preview",
     "migrate:supabase": "node scripts/migrate-from-supabase.mjs"

@@ -153,32 +153,23 @@ export default function Blog() {
       />
       <Navigation />
 
-      <section className="bg-gradient-to-r from-teal-600 to-teal-700 py-12 sm:py-16 md:py-20">
+      <section className="bg-gradient-to-r from-teal-600 to-teal-700 py-8 sm:py-10 md:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">保險知識分享</h1>
-          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto mb-6 sm:mb-8 px-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2 sm:mb-3">保險知識分享</h1>
+          <p className="text-base sm:text-lg text-white/90 max-w-3xl mx-auto px-4">
             用淺顯易懂的方式，讓保險不再艱澀難懂
           </p>
-          <a
-            href="https://www.instagram.com/baojia_jia/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center text-white hover:text-white/80 transition-colors cursor-pointer"
-          >
-            <i className="ri-instagram-line text-xl sm:text-2xl mr-2"></i>
-            <span className="text-sm sm:text-base md:text-lg">追蹤 @baojia_jia 獲取更多保險知識</span>
-          </a>
         </div>
       </section>
 
-      <section className="py-10 sm:py-12 md:py-16">
+      <section className="pt-8 pb-10 sm:pt-10 sm:pb-12 md:pt-12 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
             {/* 左側主要內容區 */}
             <div className="lg:col-span-2">
               {/* 搜尋欄位和刷新按鈕 */}
-              <div className="mb-6 sm:mb-8">
-                <div className="flex gap-3 mb-4">
+              <div className="mb-4 sm:mb-5">
+                <div className="flex gap-3">
                   <div className="relative flex-1">
                     <input
                       type="text"
@@ -396,6 +387,23 @@ export default function Blog() {
                     </div>
                   </div>
                 )}
+
+                {/* Instagram */}
+                <a
+                  href="https://www.instagram.com/baojia_jia/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-4 rounded-xl sm:rounded-2xl border border-teal-100 bg-white p-5 sm:p-6 shadow-sm hover:border-teal-200 hover:shadow-md transition-all"
+                >
+                  <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-fuchsia-500 via-rose-500 to-amber-400 text-white">
+                    <i className="ri-instagram-line text-2xl"></i>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-bold text-gray-900 group-hover:text-teal-700 transition-colors">追蹤 @baojia_jia</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-gray-600">獲取最新保險知識與內容更新</p>
+                  </div>
+                  <i className="ri-arrow-right-up-line text-xl text-gray-400 group-hover:text-teal-600 transition-colors"></i>
+                </a>
               </div>
             </div>
           </div>

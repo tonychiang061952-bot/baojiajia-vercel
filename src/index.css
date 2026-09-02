@@ -645,8 +645,7 @@
   text-decoration-color: #0f766e;
 }
 
-/* 原文 CTA 的 href 完全保留，僅把它們變成辨識明確的行動按鈕。 */
-.article-content :is(p, h2, h3, h4):has(a[href*="baojiajia-insurance.vercel.app/contact"]),
+/* 將正式網域的文章 CTA 呈現為辨識明確的行動按鈕。 */
 .article-content :is(p, h2, h3, h4):has(a[href*="baojiajia.tw/contact"]) {
   margin-top: 2.25rem;
   padding: 1.2rem 1.3rem;
@@ -655,7 +654,6 @@
   background: linear-gradient(135deg, #f0fdfa, #ecfeff);
 }
 
-.article-content :is(p, h2, h3, h4):has(a[href*="baojiajia-insurance.vercel.app/analysis"]),
 .article-content :is(p, h2, h3, h4):has(a[href*="baojiajia.tw/analysis"]) {
   margin-top: 2.25rem;
   padding: 1.2rem 1.3rem;
@@ -664,7 +662,6 @@
   background: linear-gradient(135deg, #eff6ff, #f0fdfa);
 }
 
-.article-content a[href*="baojiajia-insurance.vercel.app/contact"],
 .article-content a[href*="baojiajia.tw/contact"] {
   display: inline-flex;
   align-items: center;
@@ -679,13 +676,11 @@
   box-shadow: 0 8px 18px -14px rgba(15, 118, 110, 0.9);
 }
 
-.article-content a[href*="baojiajia-insurance.vercel.app/contact"]:hover,
 .article-content a[href*="baojiajia.tw/contact"]:hover {
   background: #115e59;
   color: #fff !important;
 }
 
-.article-content a[href*="baojiajia-insurance.vercel.app/analysis"],
 .article-content a[href*="baojiajia.tw/analysis"] {
   display: inline-flex;
   align-items: center;
@@ -700,7 +695,6 @@
   text-decoration: none;
 }
 
-.article-content a[href*="baojiajia-insurance.vercel.app/analysis"]:hover,
 .article-content a[href*="baojiajia.tw/analysis"]:hover {
   background: #f0fdfa;
   color: #115e59 !important;
@@ -753,9 +747,7 @@
     font-size: 1.2rem;
   }
 
-  .article-content :is(p, h2, h3, h4):has(a[href*="baojiajia-insurance.vercel.app/contact"]),
   .article-content :is(p, h2, h3, h4):has(a[href*="baojiajia.tw/contact"]),
-  .article-content :is(p, h2, h3, h4):has(a[href*="baojiajia-insurance.vercel.app/analysis"]),
   .article-content :is(p, h2, h3, h4):has(a[href*="baojiajia.tw/analysis"]) {
     padding: 1rem 1.1rem;
   }

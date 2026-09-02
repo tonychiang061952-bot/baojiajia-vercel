@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { db as supabase } from '../../lib/database';
 import { SEO } from '../../components/SEO';
+import Navigation from '../../components/feature/Navigation';
+import Footer from '../../components/feature/Footer';
 
 interface ServiceItem {
   id: string;
@@ -40,13 +42,17 @@ export default function ServicesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-600">載入中...</p>
+      <div className="min-h-screen bg-gray-50">
+        <Navigation />
+        <div className="py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-gray-600">載入中...</p>
+            </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
@@ -59,6 +65,7 @@ export default function ServicesPage() {
         keywords={["保險服務", "保單健診", "醫療保障", "退休規劃", "保險諮詢"]}
         url="/services"
       />
+      <Navigation />
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-teal-600 to-blue-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -131,6 +138,7 @@ export default function ServicesPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

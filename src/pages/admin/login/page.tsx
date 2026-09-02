@@ -14,7 +14,7 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-50 flex items-center justify-center px-4">
-      <SEO title="後台登入 | 保家佳" description="保家佳後台管理系統登入頁面" keywords={[]} url="/admin/login" />
+      <SEO title="後台登入 | 保家佳" description="保家佳後台管理系統登入頁面" keywords={[]} url="/admin/login" noindex />
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-teal-600 rounded-2xl mb-4">

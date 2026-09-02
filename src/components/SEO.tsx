@@ -12,6 +12,7 @@ interface SEOProps {
     publishedTime?: string;
     modifiedTime?: string;
     schema?: Record<string, any>;
+    noindex?: boolean;
 }
 
 export const SEO: React.FC<SEOProps> = ({
@@ -24,7 +25,8 @@ export const SEO: React.FC<SEOProps> = ({
     author,
     publishedTime,
     modifiedTime,
-    schema
+    schema,
+    noindex = false
 }) => {
     const siteUrl = 'https://baojiajia.tw';
     const defaultImage = `${siteUrl}/hero.png`;
@@ -38,6 +40,7 @@ export const SEO: React.FC<SEOProps> = ({
             {/* Standard Meta Tags */}
             <title>{title}</title>
             <meta name="description" content={description} />
+            {noindex && <meta name="robots" content="noindex, nofollow" />}
             {metaKeywords && <meta name="keywords" content={metaKeywords} />}
             <link rel="canonical" href={fullUrl} />
 

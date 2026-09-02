@@ -19,6 +19,7 @@ import StatisticsEditor from './components/StatisticsEditor';
 import CategoryManager from './components/CategoryManager';
 import ServiceManager from './components/ServiceManager';
 import PdfTemplateEditor from './components/PdfTemplateEditor';
+import { SEO } from '../../components/SEO';
 
 interface ServiceItem {
   id: string;
@@ -124,6 +125,7 @@ export default function AdminPage() {
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
+      <SEO title="網站管理後台 | 保家佳" description="保家佳網站管理區域。" url="/admin" noindex />
       {/* Sidebar */}
       <aside
         className={`bg-white shadow-xl z-20 transition-all duration-300 flex flex-col ${isSidebarOpen ? 'w-64' : 'w-20'

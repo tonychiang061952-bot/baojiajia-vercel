@@ -29,6 +29,9 @@ export default function Navigation() {
             <Link to="/" className="text-sm lg:text-base text-gray-700 hover:text-teal-600 transition-colors cursor-pointer whitespace-nowrap">
               首頁
             </Link>
+            <Link to="/services" className="text-sm lg:text-base text-gray-700 hover:text-teal-600 transition-colors cursor-pointer whitespace-nowrap">
+              服務項目
+            </Link>
             <Link to="/beginner" className="text-sm lg:text-base text-gray-700 hover:text-teal-600 transition-colors cursor-pointer whitespace-nowrap">
               保險新手村
             </Link>
@@ -85,6 +88,13 @@ export default function Navigation() {
                   onClick={() => setIsMenuOpen(false)}
                 >
                   首頁
+                </Link>
+                <Link
+                  to="/services"
+                  className="block py-2 text-sm text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded transition-colors cursor-pointer"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  服務項目
                 </Link>
                 <Link 
                   to="/beginner" 

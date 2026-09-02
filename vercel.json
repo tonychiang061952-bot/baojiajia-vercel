@@ -2,6 +2,8 @@
   "buildCommand": "npm run build",
   "outputDirectory": "out",
   "framework": "vite",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "redirects": [
     {
       "source": "/(.*)",
@@ -13,12 +15,6 @@
       ],
       "destination": "https://baojiajia.tw/$1",
       "permanent": true
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/((?!api/|sitemap.xml|robots.txt).*)",
-      "destination": "/index.html"
     }
   ]
 }
