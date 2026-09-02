@@ -1,9 +1,6 @@
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
-  const copyrightYears = currentYear > 2024 ? `2024–${currentYear}` : '2024';
-
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16">
@@ -42,7 +39,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-400 text-xs sm:text-sm text-center md:text-left">
-            © {copyrightYears} 保家佳. All rights reserved.
+            保家佳 All rights reserved.
           </p>
           <div className="flex items-center space-x-4 sm:space-x-6">
             <Link to="/privacy" className="text-gray-400 hover:text-teal-400 text-xs sm:text-sm transition-colors cursor-pointer">

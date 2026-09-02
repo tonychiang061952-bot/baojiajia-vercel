@@ -97,8 +97,6 @@ const homepageValues = Object.fromEntries(
   collection('homepage_content').map((item) => [item.content_key, item.content_value]),
 );
 const aboutIntro = collection('about_content').find((item) => item.content_key === 'about_intro')?.content_value || '';
-const currentYear = new Date().getFullYear();
-const copyrightYears = currentYear > 2024 ? `2024–${currentYear}` : '2024';
 
 const navigation = () => `
   <header class="seo-static-header">
@@ -117,7 +115,7 @@ const navigation = () => `
 const footer = () => `
   <footer class="seo-static-footer">
     <p>保家佳｜用知識守護每個家庭，讓保險不再艱澀難懂</p>
-    <p>© ${copyrightYears} 保家佳. All rights reserved.</p>
+    <p>保家佳 All rights reserved.</p>
     <p><a href="/privacy">隱私權政策</a>　<a href="/terms">服務條款</a></p>
   </footer>`;
 
