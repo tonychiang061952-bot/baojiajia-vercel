@@ -645,6 +645,89 @@
   text-decoration-color: #0f766e;
 }
 
+/* 文章行動呼籲：容器由 blog-detail 的 withCtaBlock() 在渲染時產生，
+   內容本身只是純段落，後台編輯不會破壞版面。 */
+.article-content .article-cta {
+  margin: 3rem 0 0;
+  padding: 2rem 1.75rem;
+  border-radius: 0.9rem;
+  background: linear-gradient(135deg, #0d9488, #0f766e);
+  color: #fff;
+}
+
+.article-content .article-cta > p {
+  color: #fff;
+  margin: 0 0 0.9rem;
+}
+
+.article-content .article-cta > p:last-child {
+  margin-bottom: 0;
+  font-size: 0.97rem;
+  opacity: 0.94;
+}
+
+/* 誘因說明（含粗體的那一段）做成半透明底的內框 */
+.article-content .article-cta > p:has(strong) {
+  padding: 1rem 1.25rem;
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.14);
+  line-height: 1.85;
+}
+
+.article-content .article-cta strong {
+  color: #fff;
+}
+
+/* 容器內的連結：主按鈕滿版，其餘走底線樣式 */
+.article-content .article-cta p:has(a[href*="baojiajia.tw/analysis"]) {
+  margin: 1.4rem 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: center;
+}
+
+.article-content .article-cta a[href*="baojiajia.tw/analysis"] {
+  display: block;
+  padding: 1rem 1.25rem;
+  border: 0;
+  border-radius: 99px;
+  background: #fff;
+  color: #0f766e !important;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.article-content .article-cta a[href*="baojiajia.tw/analysis"]:hover {
+  background: #ecfdf5;
+}
+
+.article-content .article-cta p:has(a[href*="baojiajia.tw/contact"]) {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.article-content .article-cta a[href*="baojiajia.tw/contact"],
+.article-content .article-cta a[href*="lin.ee"] {
+  display: inline;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: #fff !important;
+  font-weight: 750;
+  text-decoration: underline;
+}
+
+.article-content .article-cta a[href*="baojiajia.tw/contact"]:hover,
+.article-content .article-cta a[href*="lin.ee"]:hover {
+  background: none;
+  color: #d1fae5 !important;
+}
+
 /* 將正式網域的文章 CTA 呈現為辨識明確的行動按鈕。 */
 .article-content :is(p, h2, h3, h4):has(a[href*="baojiajia.tw/contact"]) {
   margin-top: 2.25rem;

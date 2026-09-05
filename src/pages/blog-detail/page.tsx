@@ -21,6 +21,50 @@ function withHeadingIds(html: string): string {
   });
 }
 
+/**
+ * 行動呼籲區塊：把 CTA 那幾個段落包成一個 .article-cta 容器。
+ *
+ * 內容本身只寫純 <p>（Quill 存得住），視覺容器在渲染時才產生，
+ * 所以後台怎麼編輯都不會把版面弄壞。
+ *
+ * 判定方式：找到含 baojiajia.tw/analysis 連結的段落當錨點，
+ * 往前收兩段（處境句、誘因說明），往後收一段（免費諮詢／LINE）。
+ */
+function withCtaBlock(html: string): string {
+  const blocks = html.match(/<p\b[^>]*>[\s\S]*?<\/p>/gi);
+  if (!blocks) return html;
+
+  const anchor = blocks.find((b) => /baojiajia\.tw\/analysis/i.test(b));
+  if (!anchor) return html;
+
+  const start = html.indexOf(anchor);
+  if (start < 0) return html;
+
+  // 往前收最多兩段，且必須是緊鄰的 </p>...<p>
+  let from = start;
+  for (let i = 0; i < 2; i += 1) {
+    const before = html.slice(0, from).trimEnd();
+    if (!before.endsWith('</p>')) break;
+    const prev = before.lastIndexOf('<p');
+    if (prev < 0) break;
+    from = prev;
+  }
+
+  // 往後收一段（免費諮詢那句）
+  let to = start + anchor.length;
+  const after = html.slice(to).trimStart();
+  if (after.startsWith('<p')) {
+    const end = html.indexOf('</p>', to);
+    if (end > 0) to = end + 4;
+  }
+
+  return (
+    html.slice(0, from) +
+    '<div class="article-cta">' + html.slice(from, to) + '</div>' +
+    html.slice(to)
+  );
+}
+
 interface BlogPost {
   id: string;
   title: string;
@@ -268,7 +312,7 @@ export default function BlogDetail() {
           {/* 文章正文 */}
           <div
             className="article-content prose prose-lg max-w-none mb-12"
-            dangerouslySetInnerHTML={{ __html: withHeadingIds(post.content) }}
+            dangerouslySetInnerHTML={{ __html: withCtaBlock(withHeadingIds(post.content)) }}
             style={{
               lineHeight: '1.8',
               fontSize: '1.125rem',
