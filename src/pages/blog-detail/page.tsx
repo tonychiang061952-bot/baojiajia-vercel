@@ -5,6 +5,22 @@ import Footer from '../../components/feature/Footer';
 import { db as supabase } from '../../lib/database';
 import { SEO } from '../../components/SEO';
 
+/**
+ * 文章目錄用的錨點：依序給每個 <h2> 加上 id="sec-1"、"sec-2"⋯
+ * 後台的 Quill 編輯器會清掉 id，所以改在渲染時補，
+ * 內容裡只要寫 <a href="#sec-1"> 就能跳轉（連結 Quill 存得住）。
+ * 已經有 id 的標題不動。
+ */
+function withHeadingIds(html: string): string {
+  let n = 0;
+  return html.replace(/<h2(\s[^>]*)?>/gi, (match, attrs) => {
+    const a = attrs || '';
+    if (/\sid\s*=/i.test(a)) return match;
+    n += 1;
+    return `<h2${a} id="sec-${n}">`;
+  });
+}
+
 interface BlogPost {
   id: string;
   title: string;
@@ -252,7 +268,7 @@ export default function BlogDetail() {
           {/* 文章正文 */}
           <div
             className="article-content prose prose-lg max-w-none mb-12"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: withHeadingIds(post.content) }}
             style={{
               lineHeight: '1.8',
               fontSize: '1.125rem',

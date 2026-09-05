@@ -1,4 +1,4 @@
-import { useRef, useMemo, useCallback } from 'react';
+import { useRef, useMemo, useCallback, useState } from 'react';
 import ReactQuill, { Quill } from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 const isBrowser = typeof window !== 'undefined';
@@ -195,6 +195,9 @@ interface Props {
 
 export default function RichTextEditor({ value, onChange, placeholder }: Props) {
   const quillRef = useRef<ReactQuill>(null);
+  // HTML 原始碼模式：直接編輯原始 HTML，Quill 不會介入正規化，
+  // 表格、<div>、id 等 Quill 不支援的標籤才存得住。
+  const [sourceMode, setSourceMode] = useState(false);
 
   const imageHandler = useCallback(() => {
     const input = document.createElement('input');
@@ -255,8 +258,44 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
     'width', 'height'
   ];
 
+  if (sourceMode) {
+    return (
+      <div className="rich-text-editor">
+        <div className="flex items-center justify-between gap-3 rounded-t-lg border border-b-0 border-gray-300 bg-amber-50 px-3 py-2">
+          <p className="text-xs text-amber-800">
+            HTML 原始碼模式。存檔後內容原封不動，表格與自訂排版都保得住。
+            <strong className="font-semibold">切回編輯模式並修改後，Quill 會清掉表格、div 與 id。</strong>
+          </p>
+          <button
+            type="button"
+            onClick={() => setSourceMode(false)}
+            className="shrink-0 rounded-md border border-amber-300 bg-white px-3 py-1.5 text-xs font-semibold text-amber-800 hover:bg-amber-100"
+          >
+            切回編輯模式
+          </button>
+        </div>
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          spellCheck={false}
+          className="w-full min-h-[400px] rounded-b-lg border border-gray-300 bg-white p-3 font-mono text-[13px] leading-relaxed text-gray-800 focus:outline-none focus:ring-2 focus:ring-teal-500"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="rich-text-editor">
+      <div className="flex justify-end pb-2">
+        <button
+          type="button"
+          onClick={() => setSourceMode(true)}
+          className="rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+        >
+          &lt;/&gt; HTML 原始碼
+        </button>
+      </div>
       <ReactQuill
         ref={quillRef}
         theme="snow"
