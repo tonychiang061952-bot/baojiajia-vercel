@@ -127,6 +127,47 @@ const layout = (content) => `
   </div>`;
 
 const cardList = (items) => `<div class="seo-static-grid">${items.join('')}</div>`;
+
+const beginnerContent = JSON.parse(
+  await readFile(new URL('../src/data/beginner-content.json', import.meta.url), 'utf8'),
+);
+
+const beginnerSnapshot = () => {
+  const types = beginnerContent.insuranceTypes.map((type) => `
+      <section id="type-${escapeHtml(type.id)}">
+        <h3>${escapeHtml(type.name)}</h3>
+        <p>${escapeHtml(type.description)}</p>
+        <h4>保障內容</h4>
+        <ul>${type.coverage.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+        <h4>重點提醒</h4>
+        <ul>${type.keyPoints.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+        <h4>專家小提醒</h4>
+        <ul>${type.tips.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+      </section>`).join('');
+
+  const comparison = beginnerContent.comparisonData.map((row) => `
+        <tr><th scope="row">${escapeHtml(row.aspect)}</th><td>${escapeHtml(row.singleCompany)}</td><td>${escapeHtml(row.broker)}</td></tr>`).join('');
+
+  const faq = beginnerContent.faqs.map((item) => `
+      <h3>${escapeHtml(item.question)}</h3>
+      <p>${escapeHtml(item.answer)}</p>`).join('');
+
+  return `
+      <h1>保險新手村</h1>
+      <p class="seo-static-lead">從零開始，輕鬆了解保險知識。</p>
+      <h2>認識六大保障</h2>
+      <p>人身保險主要分為六大類，每種保障都有其重要性。</p>${types}
+      <h2>該找誰規劃？</h2>
+      <p>選對專業顧問，讓保險規劃更完善。以下比較單一公司業務與保險經紀人業務的差異。</p>
+      <table>
+        <thead><tr><th scope="col">比較項目</th><th scope="col">單一公司業務</th><th scope="col">保險經紀人業務</th></tr></thead>
+        <tbody>${comparison}
+        </tbody>
+      </table>
+      <h2>常見問題解答</h2>
+      <p>解答保險新手最常遇到的疑問。</p>${faq}
+      <a class="seo-static-cta" href="/analysis">試算自己的保險需求</a>`;
+};
 const pageSchema = (path, title, description) => ({
   '@context': 'https://schema.org',
   '@type': 'WebPage',
@@ -236,11 +277,7 @@ const staticPages = [
     path: '/beginner',
     title: '保險新手村 - 從零開始了解保險 | 保家佳',
     description: '專為保險新手設計的入門指南，介紹壽險、醫療險、意外險等六大保障，教您如何規劃最適合自己的保險方案。',
-    snapshot: layout(`
-      <h1>保險新手村</h1><p class="seo-static-lead">從零開始，輕鬆了解保險知識。</p>
-      <h2>認識六大保障</h2><p>壽險、意外險、失能險、長期照顧險、醫療險與癌症及重大傷病保障，各自處理不同的人生風險。</p>
-      <h2>該找誰規劃？</h2><p>規劃前應先盤點家庭責任、現有保障、預算與真正需要轉嫁的風險，再比較正式契約條款。</p>
-      <a class="seo-static-cta" href="/analysis">試算自己的保險需求</a>`),
+    snapshot: layout(beginnerSnapshot()),
   },
   {
     path: '/analysis',
