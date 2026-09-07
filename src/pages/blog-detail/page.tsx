@@ -23,6 +23,27 @@ function withHeadingIds(html: string): string {
 }
 
 /**
+ * 內文自帶的目錄要拿掉，因為頁面上方已經有一份樣式一致、連結會跳轉的目錄。
+ *
+ * 9 篇文章裡有 3 篇的內文開頭寫了
+ * `<p><strong>這篇文章會談什麼</strong></p><ol>⋯</ol>`，
+ * 不拿掉就會一頁出現兩份目錄。
+ * 這裡只是「不顯示」，資料庫裡的內容原封不動。
+ */
+const INLINE_TOC_TITLES = ['這篇文章會談什麼', '本篇重點', '文章目錄'];
+
+function stripInlineToc(html: string): string {
+  for (const title of INLINE_TOC_TITLES) {
+    const re = new RegExp(
+      `<p\\b[^>]*>\\s*(?:<strong>|<b>)?\\s*${title}\\s*(?:</strong>|</b>)?\\s*</p>\\s*<(ol|ul)\\b[\\s\\S]*?</\\1>`,
+      'i',
+    );
+    if (re.test(html)) return html.replace(re, '');
+  }
+  return html;
+}
+
+/**
  * 行動呼籲區塊：把 CTA 那幾個段落包成一個 .article-cta 容器。
  *
  * 內容本身只寫純 <p>（Quill 存得住），視覺容器在渲染時才產生，
@@ -357,7 +378,7 @@ export default function BlogDetail() {
 
           <div
             className="article-content prose prose-lg max-w-none mt-7"
-            dangerouslySetInnerHTML={{ __html: withCtaBlock(withHeadingIds(post.content)) }}
+            dangerouslySetInnerHTML={{ __html: withCtaBlock(withHeadingIds(stripInlineToc(post.content))) }}
           />
 
           <div className="mt-12">
