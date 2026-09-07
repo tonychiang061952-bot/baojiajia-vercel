@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db as supabase } from '../../../lib/database';
+import { GoogleSignInButton } from '../../../components/GoogleSignInButton';
 import { useGoogleAuth } from '../../../auth/GoogleAuthProvider';
 import { sendTelegramNotification } from '../../../services/telegramService';
 
@@ -18,7 +19,7 @@ export default function Testimonials() {
   const [loading, setLoading] = useState(true);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [reviewsSubmissionEnabled, setReviewsSubmissionEnabled] = useState(true);
-  const { user, signIn, loading: sessionLoading } = useGoogleAuth();
+  const { user } = useGoogleAuth();
   const [submitting, setSubmitting] = useState(false);
   const [formName, setFormName] = useState('');
   const [formRole, setFormRole] = useState('');
@@ -97,11 +98,6 @@ export default function Testimonials() {
 
   const closeReviewModal = () => {
     setReviewModalOpen(false);
-  };
-
-  const signInWithGoogle = async () => {
-    setFormError('');
-    signIn();
   };
 
   const submitReview = async () => {
@@ -299,15 +295,16 @@ export default function Testimonials() {
                       <div className="font-semibold text-gray-900">登入後才能送出評價</div>
                       <div className="text-sm text-gray-600 mt-1">為避免垃圾評價，送出評價前需先登入</div>
                     </div>
-                    <button
-                      type="button"
-                      onClick={signInWithGoogle}
-                      disabled={sessionLoading || !!user}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 whitespace-nowrap"
-                    >
-                      <i className="ri-google-fill"></i>
-                      {user ? '已登入' : 'Google 登入'}
-                    </button>
+                    {user ? (
+                      <span className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg whitespace-nowrap text-gray-500">
+                        <i className="ri-google-fill"></i>
+                        已登入
+                      </span>
+                    ) : (
+                      /* 用 Google 自己畫的按鈕，不要自製按鈕去叫 One Tap。
+                         One Tap 常常被瀏覽器擋掉，按下去畫面完全沒反應，客戶就卡在這裡。 */
+                      <GoogleSignInButton />
+                    )}
                   </div>
                 </div>
 

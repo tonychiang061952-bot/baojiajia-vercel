@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { GoogleSignInButton } from '../../../components/GoogleSignInButton';
 import { useGoogleAuth } from '../../../auth/GoogleAuthProvider';
 import { sendTelegramNotification } from '../../../services/telegramService';
 import { db } from '../../../lib/database';
@@ -140,11 +141,9 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
   });
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [pdfProgress, setPdfProgress] = useState(0);
-  const { user, signIn } = useGoogleAuth();
+  const { user } = useGoogleAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showReviewInvite, setShowReviewInvite] = useState(false);
-
-  const handleLogin = () => signIn();
 
   // 計算年齡
   const calculateAge = (birthDate: string) => {
@@ -1034,13 +1033,12 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                 為了保護您的個人隱私資料，<br />
                 請先登入會員後再下載分析報告。
               </p>
-              <button
-                onClick={handleLogin}
-                className="inline-flex items-center justify-center px-8 py-3 bg-white border border-gray-300 text-gray-700 rounded-xl font-bold text-lg hover:bg-gray-50 transition-all shadow-md cursor-pointer gap-3 w-full"
-              >
-                <img src="/images/analysis/google-favicon.ico" alt="Google" className="w-5 h-5" />
-                使用 Google 帳號登入
-              </button>
+              {/* 這裡原本是自製按鈕去叫 One Tap（google.accounts.id.prompt()）。
+                  實測未登入時 prompt() 不會有任何回應，畫面上也不會出現任何東西——
+                  等於客戶按了沒反應、報告下載不了。改用 Google 自己畫的按鈕。 */}
+              <div className="flex justify-center">
+                <GoogleSignInButton text="continue_with" />
+              </div>
             </div>
           </div>
         </div>
