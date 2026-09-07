@@ -120,7 +120,7 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream-100">
       <SEO
         title="聯絡我們 - 免費保險諮詢 | 保家佳"
         description="有任何保險問題？歡迎預約免費諮詢。我們的專業團隊將為您提供客觀、專業的保險建議。"
@@ -129,10 +129,10 @@ export default function Contact() {
       />
       <Navigation />
 
-      <section className="bg-gradient-to-r from-teal-600 to-teal-700 py-12 sm:py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">聯絡我們</h1>
-          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto px-4">
+      <section className="border-b border-cream-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+          <h1 className="text-2xl sm:text-3xl font-bold text-cream-900">聯絡我們</h1>
+          <p className="text-sm sm:text-base text-cream-600 mt-2 max-w-2xl">
             有任何問題或需求，歡迎隨時與我們聯繫，我們將竭誠為您服務
           </p>
         </div>

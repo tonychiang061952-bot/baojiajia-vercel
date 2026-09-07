@@ -42,7 +42,7 @@ export default function ServicesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-cream-100">
         <Navigation />
         <div className="py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,7 +58,7 @@ export default function ServicesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-cream-100">
       <SEO
         title="專業保險服務項目 | 保家佳"
         description="提供全方位的專業保險服務，包括保單健診、醫療保障規劃、退休理財方案等，為您的未來提供最完善的保障。"
@@ -67,10 +67,10 @@ export default function ServicesPage() {
       />
       <Navigation />
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-teal-600 to-blue-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-bold mb-6">我們的服務</h1>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto">
+      <div className="border-b border-cream-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+          <h1 className="text-2xl sm:text-3xl font-bold text-cream-900">我們的服務</h1>
+          <p className="text-sm sm:text-base text-cream-600 mt-2 max-w-2xl">
             專業的保險規劃團隊，為您提供全方位的保障服務，從保單健診到退休規劃，讓您的每一分保費都發揮最大效益
           </p>
         </div>

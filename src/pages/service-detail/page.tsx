@@ -116,7 +116,7 @@ export default function ServiceDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-cream-100">
 
       <SEO
         title={`${service.title} | 保家佳專業服務`}

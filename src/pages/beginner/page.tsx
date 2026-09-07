@@ -28,7 +28,7 @@ export default function BeginnerPage() {
   const currentInsurance = insuranceTypes.find(type => type.id === selectedType) || insuranceTypes[0];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream-100">
       <SEO
         title="保險新手村 - 從零開始了解保險 | 保家佳"
         description="專為保險新手設計的入門指南，介紹壽險、醫療險、意外險等六大保障，教您如何規劃最適合自己的保險方案。"
@@ -38,10 +38,10 @@ export default function BeginnerPage() {
       <Navigation />
 
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-teal-600 to-teal-700 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-bold text-white mb-6">保險新手村</h1>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto">
+      <div className="border-b border-cream-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+          <h1 className="text-2xl sm:text-3xl font-bold text-cream-900">保險新手村</h1>
+          <p className="text-sm sm:text-base text-cream-600 mt-2 max-w-2xl">
             從零開始，輕鬆了解保險知識
           </p>
         </div>

@@ -328,7 +328,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
         }
         .ql-image-resize-overlay {
           position: absolute;
-          border: 1px dashed #0f766e;
+          border: 1px dashed #1F3A5F;
           box-sizing: border-box;
           pointer-events: none;
           z-index: 10;
@@ -344,7 +344,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
           width: 12px;
           height: 12px;
           background: #fff;
-          border: 1px solid #0f766e;
+          border: 1px solid #1F3A5F;
           border-radius: 9999px;
           pointer-events: all;
         }

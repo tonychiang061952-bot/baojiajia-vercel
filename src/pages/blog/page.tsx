@@ -130,7 +130,7 @@ export default function Blog() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-cream-100">
         <Navigation />
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
@@ -144,7 +144,7 @@ export default function Blog() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream-100">
       <SEO
         title="保險知識專區 | 保家佳"
         description="最專業的保險知識分享，包含醫療險、意外險、儲蓄險等各類保險理財觀念，讓您輕鬆搞懂保險。"
@@ -153,20 +153,18 @@ export default function Blog() {
       />
       <Navigation />
 
-      <section className="bg-gradient-to-r from-teal-600 to-teal-700 py-8 sm:py-10 md:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2 sm:mb-3">保險知識分享</h1>
-          <p className="text-base sm:text-lg text-white/90 max-w-3xl mx-auto px-4">
-            用淺顯易懂的方式，讓保險不再艱澀難懂
-          </p>
-        </div>
-      </section>
-
       <section className="pt-8 pb-10 sm:pt-10 sm:pb-12 md:pt-12 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
             {/* 左側主要內容區 */}
             <div className="lg:col-span-2">
+              {/* 頁面標題。原本是整條色塊橫幅，改為內文區的一行標題以節省版面，
+                  但仍保留 h1——這是本頁唯一的 h1，拿掉會少一個主題訊號。 */}
+              <div className="mb-5 sm:mb-6">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">保險知識分享</h1>
+                <p className="text-sm sm:text-base text-gray-500 mt-1">用淺顯易懂的方式，讓保險不再艱澀難懂</p>
+              </div>
+
               {/* 搜尋欄位和刷新按鈕 */}
               <div className="mb-4 sm:mb-5">
                 <div className="flex gap-3">
@@ -225,7 +223,7 @@ export default function Blog() {
                           className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
                         />
                         <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
-                          <span className="bg-teal-600 text-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold">
+                          <span className="bg-brandgold text-brandgold-ink px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold">
                             {post.category}
                           </span>
                         </div>

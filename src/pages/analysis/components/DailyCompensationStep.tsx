@@ -120,7 +120,7 @@ export default function DailyCompensationStep({ data, onUpdate, onNext, onBack }
                 onChange={handleSliderChange}
                 className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #0d9488 0%, #0d9488 ${((amount - 100) / 9900) * 100}%, #e5e7eb ${((amount - 100) / 9900) * 100}%, #e5e7eb 100%)`
+                  background: `linear-gradient(to right, #2C5183 0%, #2C5183 ${((amount - 100) / 9900) * 100}%, #e5e7eb ${((amount - 100) / 9900) * 100}%, #e5e7eb 100%)`
                 }}
               />
               <div className="flex justify-between text-sm text-gray-500 mt-2">

@@ -69,7 +69,7 @@ export default function About() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-cream-100">
         <Navigation />
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
@@ -98,7 +98,7 @@ export default function About() {
     : 'https://static.readdy.ai/image/84ccad05498cbded7957a6723736d89e/553b31e20439f8b0fc75c472c1b546a0.png';
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream-100">
       <SEO
         title="關於我們 - 保家佳 | 您的家庭保險顧問"
         description="保家佳致力於創造沒有推銷壓力的保險知識環境。我們提供專業、客觀的保險諮詢，協助您破解保險話術，找到最適合自己的保障。"
@@ -119,10 +119,10 @@ export default function About() {
       />
       <Navigation />
 
-      <section className="bg-gradient-to-r from-teal-600 to-teal-700 py-12 sm:py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">保家佳的命名由來</h1>
-          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto">
+      <section className="border-b border-cream-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+          <h1 className="text-2xl sm:text-3xl font-bold text-cream-900">保家佳的命名由來</h1>
+          <p className="text-sm sm:text-base text-cream-600 mt-2 max-w-2xl">
             我們相信「保險」是保護「家庭」的「最佳」工具！
           </p>
         </div>

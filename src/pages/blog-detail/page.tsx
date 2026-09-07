@@ -173,7 +173,7 @@ export default function BlogDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-cream-100">
         <Navigation />
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
@@ -188,7 +188,7 @@ export default function BlogDetail() {
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-cream-100">
         <Navigation />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
           <div className="w-20 h-20 flex items-center justify-center mx-auto mb-6 text-gray-300">
@@ -210,7 +210,7 @@ export default function BlogDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-cream-100">
       <SEO
         title={`${post.title} | 保家佳保險知識`}
         description={post.meta_description || post.excerpt}
@@ -264,7 +264,7 @@ export default function BlogDetail() {
           {/* 文章標題區 */}
           <header className="mb-8">
             <div className="mb-4">
-              <span className="inline-block bg-teal-100 text-teal-700 px-4 py-1.5 rounded-full text-sm font-semibold">
+              <span className="inline-block bg-brandgold text-brandgold-ink px-4 py-1.5 rounded-full text-sm font-semibold">
                 {post.category}
               </span>
             </div>
