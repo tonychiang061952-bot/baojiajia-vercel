@@ -370,11 +370,8 @@ export default function BlogDetail() {
             </nav>
           )}
 
-          {post.image_url && (
-            <figure className="mt-7">
-              <img src={post.image_url} alt={post.title} className="w-full rounded-md border border-cream-300" />
-            </figure>
-          )}
+          {/* 封面圖不放在文章頁。它只是插圖不是資訊，讀者搜進來要先看到內容；
+              image_url 仍然有用——知識專區列表、首頁最新文章的縮圖與 og:image 都靠它。 */}
 
           <div
             className="article-content prose prose-lg max-w-none mt-7"

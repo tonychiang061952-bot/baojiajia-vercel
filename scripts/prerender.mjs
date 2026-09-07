@@ -440,7 +440,6 @@ for (const post of posts) {
       <article>
         <h1>${escapeHtml(post.title)}</h1>
         <p>作者：${escapeHtml(post.author || '保家佳')}　發布日期：${escapeHtml(String(post.published_at || '').slice(0, 10))}</p>
-        ${post.image_url ? `<img src="${escapeHtml(absoluteUrl(post.image_url))}" alt="${escapeHtml(post.title)}">` : ''}
         ${post.excerpt ? `<p class="seo-static-lead">${escapeHtml(post.excerpt)}</p>` : ''}
         ${post.content}
       </article>`),
