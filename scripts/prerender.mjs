@@ -353,19 +353,34 @@ for (const post of posts) {
     image: post.image_url,
     publishedTime: post.published_at,
     modifiedTime: post.updated_at,
+    // 用 @graph 同時宣告文章與麵包屑。Breadcrumb 是 Google 仍支援的 rich result，
+    // 而預渲染的靜態 HTML 是 Google 先讀到的那一份，所以要在這裡也補上，
+    // 不能只加在 React 元件裡。
     schema: {
       '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: post.title,
-      image: post.image_url ? [absoluteUrl(post.image_url)] : [],
-      datePublished: post.published_at,
-      dateModified: post.updated_at,
-      author: { '@type': 'Organization', name: post.author || '保家佳', url: `${SITE_URL}/about` },
-      publisher: { '@type': 'Organization', name: '保家佳', url: SITE_URL },
-      mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+      '@graph': [
+        {
+          '@type': 'BlogPosting',
+          headline: post.title,
+          image: post.image_url ? [absoluteUrl(post.image_url)] : [],
+          datePublished: post.published_at,
+          dateModified: post.updated_at,
+          author: { '@type': 'Organization', name: post.author || '保家佳', url: `${SITE_URL}/about` },
+          publisher: { '@type': 'Organization', name: '保家佳', url: SITE_URL },
+          mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: '首頁', item: `${SITE_URL}/` },
+            { '@type': 'ListItem', position: 2, name: '知識專區', item: `${SITE_URL}/blog` },
+            { '@type': 'ListItem', position: 3, name: post.category },
+          ],
+        },
+      ],
     },
     snapshot: layout(`
-      <p><a href="/blog">知識專區</a> › ${escapeHtml(post.category)}</p>
+      <p><a href="/">首頁</a> › <a href="/blog">知識專區</a> › ${escapeHtml(post.category)}</p>
       <article>
         <h1>${escapeHtml(post.title)}</h1>
         <p>作者：${escapeHtml(post.author || '保家佳')}　發布日期：${escapeHtml(String(post.published_at || '').slice(0, 10))}</p>

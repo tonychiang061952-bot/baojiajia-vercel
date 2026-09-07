@@ -222,21 +222,36 @@ export default function BlogDetail() {
         publishedTime={post.published_at}
         modifiedTime={post.updated_at}
         schema={{
+          // 用 @graph 把文章與麵包屑放在同一份 JSON-LD。
+          // BreadcrumbList 是 Google 仍支援 rich result 的類型，畫面上本來就有麵包屑，
+          // 這裡只是補上對應的標記。
           "@context": "https://schema.org",
-          "@type": "BlogPosting",
-          "headline": post.title,
-          "image": post.image_url ? [post.image_url] : [],
-          "datePublished": post.published_at,
-          "dateModified": post.updated_at,
-          "author": [{
-            "@type": "Organization",
-            "name": post.author,
-            "url": "https://baojiajia.tw/about"
-          }],
-          "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": `https://baojiajia.tw/blog/${post.slug || post.id}`
-          }
+          "@graph": [
+            {
+              "@type": "BlogPosting",
+              "headline": post.title,
+              "image": post.image_url ? [post.image_url] : [],
+              "datePublished": post.published_at,
+              "dateModified": post.updated_at,
+              "author": [{
+                "@type": "Organization",
+                "name": post.author,
+                "url": "https://baojiajia.tw/about"
+              }],
+              "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `https://baojiajia.tw/blog/${post.slug || post.id}`
+              }
+            },
+            {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://baojiajia.tw/" },
+                { "@type": "ListItem", "position": 2, "name": "知識專區", "item": "https://baojiajia.tw/blog" },
+                { "@type": "ListItem", "position": 3, "name": post.category }
+              ]
+            }
+          ]
         }}
       />
       <Navigation />
@@ -276,7 +291,11 @@ export default function BlogDetail() {
                 <div className="w-10 h-10 flex items-center justify-center bg-teal-100 rounded-full mr-3">
                   <i className="ri-user-line text-teal-600 text-lg"></i>
                 </div>
-                <span className="font-medium">{post.author}</span>
+                {/* 作者署名連到關於我們。保險屬 YMYL，Google 對 E-E-A-T 的權重更高，
+                    而作者可辨識是最基本的信任訊號。 */}
+                <Link to="/about" className="font-medium hover:text-teal-700 underline underline-offset-2 decoration-1">
+                  {post.author}
+                </Link>
               </div>
               <div className="flex items-center">
                 <i className="ri-calendar-line mr-2 text-lg"></i>

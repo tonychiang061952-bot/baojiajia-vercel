@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useGoogleAuth } from '../../../auth/GoogleAuthProvider';
-import html2pdf from 'html2pdf.js';
 import { sendTelegramNotification } from '../../../services/telegramService';
 import { db } from '../../../lib/database';
 
@@ -578,6 +577,9 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
       };
 
       const element = container.querySelector('.pdf-wrapper') as HTMLElement;
+      // html2pdf 有 825KB，靜態 import 會讓它被每一頁 modulepreload。
+      // 改成按下匯出時才載入；產出的 PDF 內容與格式完全不變。
+      const { default: html2pdf } = await import('html2pdf.js');
       await html2pdf().set(opt).from(element).save();
 
       document.body.removeChild(container);

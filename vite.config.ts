@@ -85,7 +85,6 @@ export default defineConfig(({ mode }) => {
         // 手動分割 chunks 優化載入
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-pdf': ['html2pdf.js', 'jspdf'],
           'vendor-ui': ['dompurify', 'i18next', 'react-i18next'],
         },
         // 資源文件命名優化
