@@ -667,23 +667,23 @@ export default function MemberManager() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">載入中...</p>
+          <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-cream-600">載入中...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">下載管理中心</h1>
-              <p className="text-gray-600">查看下載記錄與諮詢表單</p>
+              <h1 className="text-3xl font-bold text-cream-900 mb-2">下載管理中心</h1>
+              <p className="text-cream-600">查看下載記錄與諮詢表單</p>
             </div>
             <div>
               {activeTab === 'downloads' ? (
@@ -692,8 +692,8 @@ export default function MemberManager() {
                   disabled={selectedIds.size === 0}
                   className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors ${
                     selectedIds.size === 0
-                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                      : 'bg-teal-600 text-white hover:bg-teal-700 shadow-sm'
+                      ? 'bg-cream-200 text-cream-500 cursor-not-allowed'
+                      : 'bg-teal-600 text-white hover:bg-teal-700 '
                   }`}
                 >
                   <i className="ri-file-excel-line mr-2"></i>
@@ -705,8 +705,8 @@ export default function MemberManager() {
                   disabled={selectedContactIds.size === 0}
                   className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors ${
                     selectedContactIds.size === 0
-                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                      : 'bg-teal-600 text-white hover:bg-teal-700 shadow-sm'
+                      ? 'bg-cream-200 text-cream-500 cursor-not-allowed'
+                      : 'bg-teal-600 text-white hover:bg-teal-700 '
                   }`}
                 >
                   <i className="ri-file-excel-line mr-2"></i>
@@ -717,13 +717,13 @@ export default function MemberManager() {
           </div>
 
           {/* Tab 切換 */}
-          <div className="flex border-b border-gray-200">
+          <div className="flex border-b border-cream-300">
             <button
               onClick={() => setActiveTab('downloads')}
               className={`px-6 py-3 font-medium transition-colors ${
                 activeTab === 'downloads'
                   ? 'text-teal-600 border-b-2 border-teal-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  : 'text-cream-500 hover:text-cream-800'
               }`}
             >
               <i className="ri-download-line mr-2"></i>
@@ -734,7 +734,7 @@ export default function MemberManager() {
               className={`px-6 py-3 font-medium transition-colors ${
                 activeTab === 'contacts'
                   ? 'text-teal-600 border-b-2 border-teal-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  : 'text-cream-500 hover:text-cream-800'
               }`}
             >
               <i className="ri-customer-service-line mr-2"></i>
@@ -745,50 +745,50 @@ export default function MemberManager() {
 
         {/* 下載記錄 Tab */}
         {activeTab === 'downloads' && (
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-cream-100 border-b border-cream-300">
                 <tr>
                   <th className="px-6 py-4 w-12 text-center">
                     <input
                       type="checkbox"
-                      className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                      className="w-4 h-4 text-teal-600 border-cream-300 rounded focus:ring-teal-600"
                       onChange={handleSelectAll}
                       checked={submissions.length > 0 && selectedIds.size === submissions.length}
                     />
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">姓名</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Email</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">電話</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">居住地</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Line ID</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">下載時間</th>
-                  <th className="px-6 py-4 text-right text-sm font-semibold text-gray-900">操作</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">姓名</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">Email</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">電話</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">居住地</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">Line ID</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">下載時間</th>
+                  <th className="px-6 py-4 text-right text-sm font-semibold text-cream-900">操作</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-cream-300">
                 {submissions.map((submission) => (
                   <tr
                     key={submission.id}
-                    className={`hover:bg-gray-50 transition-colors ${
+                    className={`hover:bg-cream-100 transition-colors ${
                       selectedIds.has(submission.id) ? 'bg-teal-50' : ''
                     }`}
                   >
                     <td className="px-6 py-4 text-center">
                       <input
                         type="checkbox"
-                        className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                        className="w-4 h-4 text-teal-600 border-cream-300 rounded focus:ring-teal-600"
                         checked={selectedIds.has(submission.id)}
                         onChange={(e) => handleSelectOne(submission.id, e.target.checked)}
                       />
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-900">{submission.name || '未填寫'}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{submission.email}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{submission.phone || '-'}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{submission.city || '-'}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{submission.line_id || '-'}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="px-6 py-4 text-sm text-cream-900">{submission.name || '未填寫'}</td>
+                    <td className="px-6 py-4 text-sm text-cream-600">{submission.email}</td>
+                    <td className="px-6 py-4 text-sm text-cream-600">{submission.phone || '-'}</td>
+                    <td className="px-6 py-4 text-sm text-cream-600">{submission.city || '-'}</td>
+                    <td className="px-6 py-4 text-sm text-cream-600">{submission.line_id || '-'}</td>
+                    <td className="px-6 py-4 text-sm text-cream-600">
                       {new Date(submission.created_at).toLocaleString('zh-TW')}
                     </td>
                     <td className="px-6 py-4 text-right space-x-2">
@@ -814,7 +814,7 @@ export default function MemberManager() {
                           </button>
                           <button
                             onClick={() => setShowDeleteConfirm(null)}
-                            className="text-gray-500 hover:text-gray-700"
+                            className="text-cream-500 hover:text-cream-800"
                           >
                             取消
                           </button>
@@ -832,7 +832,7 @@ export default function MemberManager() {
                 ))}
                 {submissions.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={8} className="px-6 py-12 text-center text-cream-500">
                       尚無下載記錄
                     </td>
                   </tr>
@@ -845,56 +845,56 @@ export default function MemberManager() {
 
         {/* 諮詢表單 Tab */}
         {activeTab === 'contacts' && (
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-cream-100 border-b border-cream-300">
                 <tr>
                   <th className="px-6 py-4 w-12 text-center">
                     <input
                       type="checkbox"
-                      className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                      className="w-4 h-4 text-teal-600 border-cream-300 rounded focus:ring-teal-600"
                       onChange={handleSelectAllContacts}
                       checked={contactSubmissions.length > 0 && selectedContactIds.size === contactSubmissions.length}
                     />
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">姓名</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">電話</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Line ID</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">諮詢需求</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">狀態</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">提交時間</th>
-                  <th className="px-6 py-4 text-right text-sm font-semibold text-gray-900">操作</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">姓名</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">電話</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">Line ID</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">諮詢需求</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">狀態</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">提交時間</th>
+                  <th className="px-6 py-4 text-right text-sm font-semibold text-cream-900">操作</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-cream-300">
                 {contactSubmissions.map((contact) => {
                   const statusInfo = getStatusInfo(contact.contact_status);
                   return (
                   <tr
                     key={contact.id}
-                    className={`hover:bg-gray-50 transition-colors ${
+                    className={`hover:bg-cream-100 transition-colors ${
                       selectedContactIds.has(contact.id) ? 'bg-teal-50' : ''
                     }`}
                   >
                     <td className="px-6 py-4 text-center">
                       <input
                         type="checkbox"
-                        className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                        className="w-4 h-4 text-teal-600 border-cream-300 rounded focus:ring-teal-600"
                         checked={selectedContactIds.has(contact.id)}
                         onChange={(e) => handleSelectOneContact(contact.id, e.target.checked)}
                       />
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-900">{contact.name || '未填寫'}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{contact.phone || '-'}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{contact.line_id || '-'}</td>
-                    <td className="px-6 py-4 text-sm text-gray-600 max-w-xs truncate">{contact.consultation_type || '-'}</td>
+                    <td className="px-6 py-4 text-sm text-cream-900">{contact.name || '未填寫'}</td>
+                    <td className="px-6 py-4 text-sm text-cream-600">{contact.phone || '-'}</td>
+                    <td className="px-6 py-4 text-sm text-cream-600">{contact.line_id || '-'}</td>
+                    <td className="px-6 py-4 text-sm text-cream-600 max-w-xs truncate">{contact.consultation_type || '-'}</td>
                     <td className="px-6 py-4">
                       <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusInfo.color}`}>
                         {statusInfo.label}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="px-6 py-4 text-sm text-cream-600">
                       {new Date(contact.created_at).toLocaleString('zh-TW')}
                     </td>
                     <td className="px-6 py-4 text-right space-x-2">
@@ -914,7 +914,7 @@ export default function MemberManager() {
                           </button>
                           <button
                             onClick={() => setShowContactDeleteConfirm(null)}
-                            className="text-gray-500 hover:text-gray-700"
+                            className="text-cream-500 hover:text-cream-800"
                           >
                             取消
                           </button>
@@ -933,7 +933,7 @@ export default function MemberManager() {
                 })}
                 {contactSubmissions.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={8} className="px-6 py-12 text-center text-cream-500">
                       尚無諮詢表單
                     </td>
                   </tr>
@@ -948,15 +948,15 @@ export default function MemberManager() {
       {/* 諮詢表單詳情彈窗 */}
       {selectedContact && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-cream-200">
               <div>
-                <h3 className="text-2xl font-bold text-gray-900">諮詢表單詳情</h3>
-                <p className="text-gray-600 mt-1">{selectedContact.name || '未填寫姓名'}</p>
+                <h3 className="text-2xl font-bold text-cream-900">諮詢表單詳情</h3>
+                <p className="text-cream-600 mt-1">{selectedContact.name || '未填寫姓名'}</p>
               </div>
               <button
                 onClick={() => setSelectedContact(null)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-cream-500 hover:text-cream-600 transition-colors"
               >
                 <i className="ri-close-line text-3xl"></i>
               </button>
@@ -965,7 +965,7 @@ export default function MemberManager() {
             <div className="px-6 py-6 overflow-y-auto max-h-[60vh]">
               {/* 狀態選擇 */}
               <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">聯繫狀態</label>
+                <label className="block text-sm font-semibold text-cream-800 mb-2">聯繫狀態</label>
                 <div className="flex gap-2 flex-wrap">
                   {CONTACT_STATUS_OPTIONS.map(opt => (
                     <button
@@ -973,8 +973,8 @@ export default function MemberManager() {
                       onClick={() => handleUpdateContactStatus(selectedContact.id, opt.value as 'pending' | 'failed' | 'success')}
                       className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                         selectedContact.contact_status === opt.value
-                          ? opt.color + ' ring-2 ring-offset-2 ring-gray-400'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          ? opt.color + ' ring-2 ring-offset-2 ring-cream-400'
+                          : 'bg-cream-200 text-cream-600 hover:bg-cream-300'
                       }`}
                     >
                       {opt.label}
@@ -985,59 +985,59 @@ export default function MemberManager() {
 
               {/* 詳細資料 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-sm text-gray-500 mb-1">姓名</p>
-                  <p className="text-lg font-semibold text-gray-900">{selectedContact.name || '-'}</p>
+                <div className="bg-cream-100 rounded-lg p-4">
+                  <p className="text-sm text-cream-500 mb-1">姓名</p>
+                  <p className="text-lg font-semibold text-cream-900">{selectedContact.name || '-'}</p>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-sm text-gray-500 mb-1">電話</p>
-                  <p className="text-lg font-semibold text-gray-900">{selectedContact.phone || '-'}</p>
+                <div className="bg-cream-100 rounded-lg p-4">
+                  <p className="text-sm text-cream-500 mb-1">電話</p>
+                  <p className="text-lg font-semibold text-cream-900">{selectedContact.phone || '-'}</p>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-sm text-gray-500 mb-1">Line ID</p>
-                  <p className="text-lg font-semibold text-gray-900">{selectedContact.line_id || '-'}</p>
+                <div className="bg-cream-100 rounded-lg p-4">
+                  <p className="text-sm text-cream-500 mb-1">Line ID</p>
+                  <p className="text-lg font-semibold text-cream-900">{selectedContact.line_id || '-'}</p>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-sm text-gray-500 mb-1">性別</p>
-                  <p className="text-lg font-semibold text-gray-900">{selectedContact.gender || '-'}</p>
+                <div className="bg-cream-100 rounded-lg p-4">
+                  <p className="text-sm text-cream-500 mb-1">性別</p>
+                  <p className="text-lg font-semibold text-cream-900">{selectedContact.gender || '-'}</p>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-sm text-gray-500 mb-1">生日</p>
-                  <p className="text-lg font-semibold text-gray-900">{selectedContact.birth_date || '-'}</p>
+                <div className="bg-cream-100 rounded-lg p-4">
+                  <p className="text-sm text-cream-500 mb-1">生日</p>
+                  <p className="text-lg font-semibold text-cream-900">{selectedContact.birth_date || '-'}</p>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-sm text-gray-500 mb-1">職等</p>
-                  <p className="text-lg font-semibold text-gray-900">{selectedContact.occupation || '-'}</p>
+                <div className="bg-cream-100 rounded-lg p-4">
+                  <p className="text-sm text-cream-500 mb-1">職等</p>
+                  <p className="text-lg font-semibold text-cream-900">{selectedContact.occupation || '-'}</p>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-sm text-gray-500 mb-1">年收入</p>
-                  <p className="text-lg font-semibold text-gray-900">{selectedContact.annual_income || '-'}</p>
+                <div className="bg-cream-100 rounded-lg p-4">
+                  <p className="text-sm text-cream-500 mb-1">年收入</p>
+                  <p className="text-lg font-semibold text-cream-900">{selectedContact.annual_income || '-'}</p>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-sm text-gray-500 mb-1">月預算</p>
-                  <p className="text-lg font-semibold text-gray-900">{selectedContact.monthly_budget || '-'}</p>
+                <div className="bg-cream-100 rounded-lg p-4">
+                  <p className="text-sm text-cream-500 mb-1">月預算</p>
+                  <p className="text-lg font-semibold text-cream-900">{selectedContact.monthly_budget || '-'}</p>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4 sm:col-span-2">
-                  <p className="text-sm text-gray-500 mb-1">諮詢需求</p>
-                  <p className="text-lg font-semibold text-gray-900">{selectedContact.consultation_type || '-'}</p>
+                <div className="bg-cream-100 rounded-lg p-4 sm:col-span-2">
+                  <p className="text-sm text-cream-500 mb-1">諮詢需求</p>
+                  <p className="text-lg font-semibold text-cream-900">{selectedContact.consultation_type || '-'}</p>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4 sm:col-span-2">
-                  <p className="text-sm text-gray-500 mb-1">補充說明</p>
-                  <p className="text-lg font-semibold text-gray-900 whitespace-pre-wrap">{selectedContact.additional_message || '-'}</p>
+                <div className="bg-cream-100 rounded-lg p-4 sm:col-span-2">
+                  <p className="text-sm text-cream-500 mb-1">補充說明</p>
+                  <p className="text-lg font-semibold text-cream-900 whitespace-pre-wrap">{selectedContact.additional_message || '-'}</p>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4 sm:col-span-2">
-                  <p className="text-sm text-gray-500 mb-1">提交時間</p>
-                  <p className="text-lg font-semibold text-gray-900">
+                <div className="bg-cream-100 rounded-lg p-4 sm:col-span-2">
+                  <p className="text-sm text-cream-500 mb-1">提交時間</p>
+                  <p className="text-lg font-semibold text-cream-900">
                     {new Date(selectedContact.created_at).toLocaleString('zh-TW')}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="sticky bottom-0 bg-white border-t border-gray-100 p-6 flex justify-end">
+            <div className="sticky bottom-0 bg-white border-t border-cream-200 p-6 flex justify-end">
               <button
                 onClick={() => setSelectedContact(null)}
-                className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors cursor-pointer"
+                className="px-6 py-3 bg-cream-200 text-cream-800 rounded-lg font-semibold hover:bg-cream-300 transition-colors cursor-pointer"
               >
                 關閉
               </button>
@@ -1049,16 +1049,16 @@ export default function MemberManager() {
       {/* 下載限制設定彈窗 */}
       {editingLimit && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <div className="bg-white rounded-lg w-full max-w-lg">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-cream-200">
               <div>
-                <p className="text-sm text-gray-500">{editingLimit.email}</p>
-                <h3 className="text-2xl font-bold text-gray-900">設定下載限制</h3>
-                <p className="text-gray-600 mt-1">{editingLimit.name || '未填寫姓名'}</p>
+                <p className="text-sm text-cream-500">{editingLimit.email}</p>
+                <h3 className="text-2xl font-bold text-cream-900">設定下載限制</h3>
+                <p className="text-cream-600 mt-1">{editingLimit.name || '未填寫姓名'}</p>
               </div>
               <button
                 onClick={() => setEditingLimit(null)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-cream-500 hover:text-cream-600 transition-colors"
                 type="button"
               >
                 <i className="ri-close-line text-3xl"></i>
@@ -1067,20 +1067,20 @@ export default function MemberManager() {
 
             <form onSubmit={handleSaveLimit} className="px-6 py-6 space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-sm text-gray-500 mb-1">已下載次數</p>
-                  <p className="text-3xl font-bold text-gray-900">{editingLimit.downloadCount}</p>
+                <div className="bg-cream-100 rounded-lg p-4">
+                  <p className="text-sm text-cream-500 mb-1">已下載次數</p>
+                  <p className="text-3xl font-bold text-cream-900">{editingLimit.downloadCount}</p>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4">
-                  <p className="text-sm text-gray-500 mb-1">目前限制</p>
-                  <p className="text-3xl font-bold text-gray-900">
+                <div className="bg-cream-100 rounded-lg p-4">
+                  <p className="text-sm text-cream-500 mb-1">目前限制</p>
+                  <p className="text-3xl font-bold text-cream-900">
                     {editingLimit.limit === -1 ? '無限制' : `${editingLimit.limit} 次`}
                   </p>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-cream-800 mb-2">
                   下載次數限制 (輸入 -1 代表無限制)
                 </label>
                 <div className="flex flex-col sm:flex-row gap-3">
@@ -1096,13 +1096,13 @@ export default function MemberManager() {
                       } : prev);
                     }}
                     disabled={isSavingLimit}
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 disabled:bg-gray-100"
+                    className="flex-1 px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600 disabled:bg-cream-200"
                   />
                   <button
                     type="button"
                     onClick={() => setEditingLimit((prev) => prev ? { ...prev, limit: -1 } : prev)}
                     disabled={isSavingLimit}
-                    className="px-4 py-3 border border-teal-200 text-teal-600 rounded-xl hover:bg-teal-50 transition-colors disabled:opacity-50"
+                    className="px-4 py-3 border border-teal-200 text-teal-600 rounded-lg hover:bg-teal-50 transition-colors disabled:opacity-50"
                   >
                     設為無限制
                   </button>
@@ -1113,14 +1113,14 @@ export default function MemberManager() {
                 <button
                   type="button"
                   onClick={() => setEditingLimit(null)}
-                  className="px-5 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-colors"
+                  className="px-5 py-3 bg-cream-200 text-cream-800 rounded-lg hover:bg-cream-300 transition-colors"
                 >
                   取消
                 </button>
                 <button
                   type="submit"
                   disabled={isSavingLimit}
-                  className="px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white rounded-xl font-semibold hover:from-teal-600 hover:to-emerald-600 transition-all disabled:opacity-50"
+                  className="px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white rounded-lg font-semibold hover:from-teal-600 hover:to-emerald-600 transition-all disabled:opacity-50"
                 >
                   {isSavingLimit ? '儲存中...' : '儲存設定'}
                 </button>
@@ -1133,14 +1133,14 @@ export default function MemberManager() {
       {/* 詳細資料彈窗 */}
       {selectedMember && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-100 px-8 py-6 flex items-center justify-between z-10">
-              <h3 className="text-2xl font-bold text-gray-900">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-cream-200 px-8 py-6 flex items-center justify-between z-10">
+              <h3 className="text-2xl font-bold text-cream-900">
                 {selectedMember.name} 的保障分析報告
               </h3>
               <button
                 onClick={() => setSelectedMember(null)}
-                className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+                className="text-cream-500 hover:text-cream-600 transition-colors cursor-pointer"
               >
                 <i className="ri-close-line text-3xl"></i>
               </button>
@@ -1148,48 +1148,48 @@ export default function MemberManager() {
             
             <div className="p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h4 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">基本資料</h4>
+                <div className="bg-cream-100 rounded-lg p-6">
+                  <h4 className="text-lg font-bold text-cream-900 mb-4 border-b border-cream-300 pb-2">基本資料</h4>
                   <div className="space-y-3">
-                    <p className="flex justify-between"><span className="text-gray-500">姓名：</span> <span className="font-medium">{selectedMember.name}</span></p>
-                    <p className="flex justify-between"><span className="text-gray-500">電話：</span> <span className="font-medium">{selectedMember.phone}</span></p>
-                    <p className="flex justify-between"><span className="text-gray-500">Email：</span> <span className="font-medium">{selectedMember.email}</span></p>
-                    <p className="flex justify-between"><span className="text-gray-500">居住地：</span> <span className="font-medium">{selectedMember.city}</span></p>
-                    <p className="flex justify-between"><span className="text-gray-500">Line ID：</span> <span className="font-medium">{selectedMember.line_id}</span></p>
-                    <p className="flex justify-between"><span className="text-gray-500">提交時間：</span> <span className="font-medium">{new Date(selectedMember.created_at).toLocaleString('zh-TW')}</span></p>
+                    <p className="flex justify-between"><span className="text-cream-500">姓名：</span> <span className="font-medium">{selectedMember.name}</span></p>
+                    <p className="flex justify-between"><span className="text-cream-500">電話：</span> <span className="font-medium">{selectedMember.phone}</span></p>
+                    <p className="flex justify-between"><span className="text-cream-500">Email：</span> <span className="font-medium">{selectedMember.email}</span></p>
+                    <p className="flex justify-between"><span className="text-cream-500">居住地：</span> <span className="font-medium">{selectedMember.city}</span></p>
+                    <p className="flex justify-between"><span className="text-cream-500">Line ID：</span> <span className="font-medium">{selectedMember.line_id}</span></p>
+                    <p className="flex justify-between"><span className="text-cream-500">提交時間：</span> <span className="font-medium">{new Date(selectedMember.created_at).toLocaleString('zh-TW')}</span></p>
                   </div>
                 </div>
                 
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h4 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">個人背景</h4>
+                <div className="bg-cream-100 rounded-lg p-6">
+                  <h4 className="text-lg font-bold text-cream-900 mb-4 border-b border-cream-300 pb-2">個人背景</h4>
                   <div className="space-y-3">
-                    <p className="flex justify-between"><span className="text-gray-500">性別：</span> <span className="font-medium">{safeGet(selectedMember.questionnaire_data, 'gender') === 'male' ? '男' : safeGet(selectedMember.questionnaire_data, 'gender') === 'female' ? '女' : '-'}</span></p>
-                    <p className="flex justify-between"><span className="text-gray-500">出生日期：</span> <span className="font-medium">{safeGet(selectedMember.questionnaire_data, 'birthDate')}</span></p>
-                    <p className="flex justify-between"><span className="text-gray-500">職業等級：</span> <span className="font-medium">{safeGet(selectedMember.questionnaire_data, 'occupation')}</span></p>
-                    <p className="flex justify-between"><span className="text-gray-500">規劃對象：</span> <span className="font-medium">{safeGet(selectedMember.questionnaire_data, 'planType') === 'self' ? '本人' : safeGet(selectedMember.questionnaire_data, 'planType') === 'child' ? '子女' : '-'}</span></p>
+                    <p className="flex justify-between"><span className="text-cream-500">性別：</span> <span className="font-medium">{safeGet(selectedMember.questionnaire_data, 'gender') === 'male' ? '男' : safeGet(selectedMember.questionnaire_data, 'gender') === 'female' ? '女' : '-'}</span></p>
+                    <p className="flex justify-between"><span className="text-cream-500">出生日期：</span> <span className="font-medium">{safeGet(selectedMember.questionnaire_data, 'birthDate')}</span></p>
+                    <p className="flex justify-between"><span className="text-cream-500">職業等級：</span> <span className="font-medium">{safeGet(selectedMember.questionnaire_data, 'occupation')}</span></p>
+                    <p className="flex justify-between"><span className="text-cream-500">規劃對象：</span> <span className="font-medium">{safeGet(selectedMember.questionnaire_data, 'planType') === 'self' ? '本人' : safeGet(selectedMember.questionnaire_data, 'planType') === 'child' ? '子女' : '-'}</span></p>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-6">
-                <h4 className="text-xl font-bold text-gray-900">問卷詳細內容</h4>
+                <h4 className="text-xl font-bold text-cream-900">問卷詳細內容</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">期望病房類型</div>
+                  <div className="border border-cream-300 rounded-lg p-4">
+                    <div className="text-sm text-cream-500 mb-1">期望病房類型</div>
                     <div className="font-medium text-lg">
                       {safeGet(selectedMember.questionnaire_data, 'roomType') === 'single' ? '單人房' :
                        safeGet(selectedMember.questionnaire_data, 'roomType') === 'double' ? '雙人房' :
                        safeGet(selectedMember.questionnaire_data, 'roomType') === 'health-insurance' ? '健保房' : '-'}
                     </div>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">期望住院日額</div>
+                  <div className="border border-cream-300 rounded-lg p-4">
+                    <div className="text-sm text-cream-500 mb-1">期望住院日額</div>
                     <div className="font-medium text-lg text-teal-600">
                       {formatNumber(safeGet(selectedMember.questionnaire_data, 'hospitalDaily', 0))} 元/日
                     </div>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">手術醫療補貼</div>
+                  <div className="border border-cream-300 rounded-lg p-4">
+                    <div className="text-sm text-cream-500 mb-1">手術醫療補貼</div>
                     <div className="font-medium text-lg">
                       {(() => {
                         const value = safeGet(selectedMember.questionnaire_data, 'surgerySubsidy');
@@ -1200,44 +1200,44 @@ export default function MemberManager() {
                       })()}
                     </div>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">薪資損失補償（萬/月）</div>
+                  <div className="border border-cream-300 rounded-lg p-4">
+                    <div className="text-sm text-cream-500 mb-1">薪資損失補償（萬/月）</div>
                     <div className="font-medium text-lg text-teal-600">
                       {Math.round(safeGet(selectedMember.questionnaire_data, 'salaryLoss', 0) / 10000)} 萬/月
                     </div>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">每月生活開銷（萬/年）</div>
+                  <div className="border border-cream-300 rounded-lg p-4">
+                    <div className="text-sm text-cream-500 mb-1">每月生活開銷（萬/年）</div>
                     <div className="font-medium text-lg text-teal-600">
                       {Math.round(safeGet(selectedMember.questionnaire_data, 'livingExpense', 0) * 12 / 10000)} 萬/年
                     </div>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">治療費用補償（萬）</div>
+                  <div className="border border-cream-300 rounded-lg p-4">
+                    <div className="text-sm text-cream-500 mb-1">治療費用補償（萬）</div>
                     <div className="font-medium text-lg text-teal-600">
                       {Math.round(safeGet(selectedMember.questionnaire_data, 'treatmentCost', 0) / 10000)} 萬
                     </div>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">長照費用需求（萬/月）</div>
+                  <div className="border border-cream-300 rounded-lg p-4">
+                    <div className="text-sm text-cream-500 mb-1">長照費用需求（萬/月）</div>
                     <div className="font-medium text-lg text-teal-600">
                       {Math.round(safeGet(selectedMember.questionnaire_data, 'longTermCare', 0) / 10000)} 萬/月
                     </div>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">家人照顧金</div>
+                  <div className="border border-cream-300 rounded-lg p-4">
+                    <div className="text-sm text-cream-500 mb-1">家人照顧金</div>
                     <div className="font-medium text-lg text-teal-600">
                       {formatNumber(safeGet(selectedMember.questionnaire_data, 'familyCare', 0))} 元
                     </div>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">個人負債</div>
+                  <div className="border border-cream-300 rounded-lg p-4">
+                    <div className="text-sm text-cream-500 mb-1">個人負債</div>
                     <div className="font-medium text-lg text-teal-600">
                       {formatNumber(safeGet(selectedMember.questionnaire_data, 'personalDebt', 0))} 元
                     </div>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="text-sm text-gray-500 mb-1">月收入（萬）</div>
+                  <div className="border border-cream-300 rounded-lg p-4">
+                    <div className="text-sm text-cream-500 mb-1">月收入（萬）</div>
                     <div className="font-medium text-lg text-teal-600">
                       {Math.round(safeGet(selectedMember.questionnaire_data, 'monthlyIncome', 0) / 10000)} 萬/月
                     </div>
@@ -1246,25 +1246,25 @@ export default function MemberManager() {
               </div>
               
               <div className="mt-8 space-y-6">
-                <h4 className="text-xl font-bold text-gray-900">其他需求評估</h4>
+                <h4 className="text-xl font-bold text-cream-900">其他需求評估</h4>
                 <div className="grid grid-cols-1 gap-6">
-                  <div className="border border-gray-200 rounded-lg p-4 bg-purple-50">
-                    <div className="text-sm text-gray-500 mb-1">保險了解程度</div>
+                  <div className="border border-cream-300 rounded-lg p-4 bg-purple-50">
+                    <div className="text-sm text-cream-500 mb-1">保險了解程度</div>
                     <div className="font-medium text-lg text-purple-700">
                       {OPTIONS_MAP.insuranceKnowledge[safeGet(selectedMember.questionnaire_data, 'insuranceKnowledge')] || safeGet(selectedMember.questionnaire_data, 'insuranceKnowledge')}
                     </div>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4 bg-emerald-50">
-                    <div className="text-sm text-gray-500 mb-1">保單健診期望</div>
+                  <div className="border border-cream-300 rounded-lg p-4 bg-emerald-50">
+                    <div className="text-sm text-cream-500 mb-1">保單健診期望</div>
                     <div className="font-medium text-lg text-emerald-700">
                       {(safeGet(selectedMember.questionnaire_data, 'policyCheckExpectations', []) as string[])
                         .map(val => OPTIONS_MAP.policyCheckExpectations[val] || val)
                         .join('、') || '-'}
                     </div>
                   </div>
-                  <div className="border border-gray-200 rounded-lg p-4 bg-blue-50">
-                    <div className="text-sm text-gray-500 mb-1">每月預算</div>
-                    <div className="font-medium text-lg text-blue-700">
+                  <div className="border border-cream-300 rounded-lg p-4 bg-cream-100">
+                    <div className="text-sm text-cream-500 mb-1">每月預算</div>
+                    <div className="font-medium text-lg text-teal-700">
                       {OPTIONS_MAP.monthlyBudget[safeGet(selectedMember.questionnaire_data, 'monthlyBudget')] || safeGet(selectedMember.questionnaire_data, 'monthlyBudget')}
                     </div>
                   </div>
@@ -1279,7 +1279,7 @@ export default function MemberManager() {
                   <span className="text-sm font-medium text-teal-600">正在生成報告...</span>
                   <span className="text-sm font-medium text-teal-600">{Math.round(pdfProgress)}%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                <div className="w-full bg-cream-300 rounded-full h-3 overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 rounded-full transition-all duration-300 ease-out"
                     style={{ width: `${pdfProgress}%` }}
@@ -1288,12 +1288,12 @@ export default function MemberManager() {
               </div>
             )}
 
-            <div className="sticky bottom-0 bg-white border-t border-gray-100 p-6 flex justify-end">
+            <div className="sticky bottom-0 bg-white border-t border-cream-200 p-6 flex justify-end">
               <div className="flex gap-3">
                 <button
                   onClick={() => handleDownloadPDF(selectedMember)}
                   disabled={isGeneratingPDF}
-                  className="px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white rounded-xl font-semibold hover:from-teal-600 hover:to-emerald-600 transition-all cursor-pointer disabled:opacity-50 shadow-lg"
+                  className="px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white rounded-lg font-semibold hover:from-teal-600 hover:to-emerald-600 transition-all cursor-pointer disabled:opacity-50"
                 >
                   {isGeneratingPDF ? (
                     <>
@@ -1309,7 +1309,7 @@ export default function MemberManager() {
                 </button>
                 <button
                   onClick={() => setSelectedMember(null)}
-                  className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors cursor-pointer"
+                  className="px-6 py-3 bg-cream-200 text-cream-800 rounded-lg font-semibold hover:bg-cream-300 transition-colors cursor-pointer"
                 >
                   關閉
                 </button>

@@ -288,8 +288,8 @@ export default function PdfTemplateEditor({ onBack }: Props) {
   if (!currentTemplate && !loading) {
     return (
       <div className="text-center py-12">
-        <i className="ri-file-warning-line text-4xl text-gray-400 mb-4"></i>
-        <p className="text-gray-500">找不到模板，請確認數據庫已正確設置</p>
+        <i className="ri-file-warning-line text-4xl text-cream-500 mb-4"></i>
+        <p className="text-cream-500">找不到模板，請確認數據庫已正確設置</p>
       </div>
     );
   }
@@ -297,11 +297,11 @@ export default function PdfTemplateEditor({ onBack }: Props) {
   return (
     <div className="space-y-6 h-[calc(100vh-100px)] flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between bg-white p-4 rounded-xl shadow-sm">
+      <div className="flex items-center justify-between bg-white p-4 rounded-lg">
         <div className="flex items-center gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">PDF 報告模板</h1>
-            <p className="text-gray-500 text-sm">編輯保障需求分析報告的 PDF 模板</p>
+            <h1 className="text-2xl font-bold text-cream-900">PDF 報告模板</h1>
+            <p className="text-cream-500 text-sm">編輯保障需求分析報告的 PDF 模板</p>
           </div>
         </div>
 
@@ -310,7 +310,7 @@ export default function PdfTemplateEditor({ onBack }: Props) {
           <select
             value={currentTemplateId || ''}
             onChange={(e) => setCurrentTemplateId(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent min-w-[200px]"
+            className="px-4 py-2 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent min-w-[200px]"
           >
             {templates.map(t => (
               <option key={t.id} value={t.id}>{t.name} ({t.description})</option>
@@ -334,7 +334,7 @@ export default function PdfTemplateEditor({ onBack }: Props) {
             className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-colors ${
               viewMode === 'code' 
                 ? 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200' 
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                : 'bg-cream-200 text-cream-800 hover:bg-cream-300'
             }`}
           >
             <i className={`ri-${viewMode === 'code' ? 'eye-line' : 'code-line'}`}></i>
@@ -343,7 +343,7 @@ export default function PdfTemplateEditor({ onBack }: Props) {
           
           <button
             onClick={generatePreview}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 flex items-center gap-2"
+            className="px-4 py-2 bg-cream-200 text-cream-800 rounded-lg hover:bg-cream-300 flex items-center gap-2"
           >
             <i className="ri-eye-line"></i>
             預覽
@@ -361,26 +361,26 @@ export default function PdfTemplateEditor({ onBack }: Props) {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-white rounded-xl shadow-sm overflow-hidden flex flex-col">
+      <div className="flex-1 bg-white rounded-lg overflow-hidden flex flex-col">
         {viewMode === 'code' ? (
           <div className="flex-1 overflow-auto p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
               <div className="md:col-span-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">模板名稱</label>
+                <label className="block text-sm font-medium text-cream-800 mb-1">模板名稱</label>
                 <input
                   type="text"
                   value={currentTemplate?.name || ''}
                   onChange={(e) => handleFieldChange('name', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">模板說明</label>
+                <label className="block text-sm font-medium text-cream-800 mb-1">模板說明</label>
                 <input
                   type="text"
                   value={currentTemplate?.description || ''}
                   onChange={(e) => handleFieldChange('description', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 />
               </div>
             </div>
@@ -390,32 +390,32 @@ export default function PdfTemplateEditor({ onBack }: Props) {
                 <div className="flex-1 flex flex-col">
                   <div className="flex items-center gap-2 mb-2">
                     <i className="ri-code-line text-xl text-teal-600"></i>
-                    <h3 className="font-bold text-gray-800 text-lg">CSS 樣式</h3>
+                    <h3 className="font-bold text-cream-900 text-lg">CSS 樣式</h3>
                   </div>
                   <textarea
                     value={currentTemplate?.styles || ''}
                     onChange={(e) => handleFieldChange('styles', e.target.value)}
-                    className="w-full flex-1 px-4 py-3 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-gray-50"
+                    className="w-full flex-1 px-4 py-3 border border-cream-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-teal-600 focus:border-transparent bg-cream-100"
                   />
                 </div>
 
                 <div className="flex-[2] flex flex-col">
                   <div className="flex items-center gap-2 mb-2">
                     <i className="ri-file-code-line text-xl text-teal-600"></i>
-                    <h3 className="font-bold text-gray-800 text-lg">HTML 內容</h3>
+                    <h3 className="font-bold text-cream-900 text-lg">HTML 內容</h3>
                   </div>
                   <textarea
                     value={currentTemplate?.html_content || ''}
                     onChange={(e) => handleFieldChange('html_content', e.target.value)}
-                    className="w-full flex-1 px-4 py-3 border border-gray-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    className="w-full flex-1 px-4 py-3 border border-cream-300 rounded-lg font-mono text-sm focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                   />
                 </div>
               </div>
 
               <div className="lg:col-span-1 h-full overflow-hidden flex flex-col">
-                <div className="bg-gray-50 rounded-xl p-4 h-full overflow-y-auto">
+                <div className="bg-cream-100 rounded-lg p-4 h-full overflow-y-auto">
                   <div className="flex justify-between items-center mb-3">
-                    <h3 className="font-semibold text-gray-700 flex items-center gap-2">
+                    <h3 className="font-semibold text-cream-800 flex items-center gap-2">
                       <i className="ri-code-s-slash-line"></i>
                       可用變數
                     </h3>
@@ -431,7 +431,7 @@ export default function PdfTemplateEditor({ onBack }: Props) {
                     {availableVariables.map((v) => (
                       <div
                         key={v.var}
-                        className="group p-3 bg-white border border-gray-200 rounded-lg cursor-pointer hover:border-teal-500 transition-all"
+                        className="group p-3 bg-white border border-cream-300 rounded-lg cursor-pointer hover:border-teal-600 transition-all"
                       >
                         <div 
                           className="flex justify-between items-start mb-1"
@@ -450,10 +450,10 @@ export default function PdfTemplateEditor({ onBack }: Props) {
                                 }}
                               ></i>
                             )}
-                            <i className="ri-file-copy-line text-gray-400 group-hover:text-teal-500 text-xs"></i>
+                            <i className="ri-file-copy-line text-cream-500 group-hover:text-teal-600 text-xs"></i>
                           </div>
                         </div>
-                        <p className="text-xs text-gray-600">{v.desc}</p>
+                        <p className="text-xs text-cream-600">{v.desc}</p>
                       </div>
                     ))}
                   </div>
@@ -483,17 +483,17 @@ export default function PdfTemplateEditor({ onBack }: Props) {
       {/* Preview Modal */}
       {showPreview && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl w-[95vw] max-w-[900px] max-h-[90vh] overflow-hidden flex flex-col">
+          <div className="bg-white rounded-lg w-[95vw] max-w-[900px] max-h-[90vh] overflow-hidden flex flex-col">
             <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="font-semibold text-gray-800">模板預覽（共 16 頁）</h3>
+              <h3 className="font-semibold text-cream-900">模板預覽（共 16 頁）</h3>
               <button
                 onClick={() => setShowPreview(false)}
-                className="p-2 hover:bg-gray-100 rounded-lg"
+                className="p-2 hover:bg-cream-200 rounded-lg"
               >
                 <i className="ri-close-line text-xl"></i>
               </button>
             </div>
-            <div className="flex-1 overflow-auto bg-gray-200">
+            <div className="flex-1 overflow-auto bg-cream-300">
               <div
                 className="mx-auto"
                 style={{
@@ -511,11 +511,11 @@ export default function PdfTemplateEditor({ onBack }: Props) {
       {/* Add Variable Modal */}
       {showVarModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl w-full max-w-md p-6">
+          <div className="bg-white rounded-lg w-full max-w-md p-6">
             <h3 className="text-xl font-bold mb-4">新增自定義固定變數</h3>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">變數名稱 (例如: companyName)</label>
+                <label className="block text-sm font-medium text-cream-800 mb-1">變數名稱 (例如: companyName)</label>
                 <input
                   type="text"
                   value={newVar.key}
@@ -523,10 +523,10 @@ export default function PdfTemplateEditor({ onBack }: Props) {
                   placeholder="companyName"
                   className="w-full px-3 py-2 border rounded-lg"
                 />
-                <p className="text-xs text-gray-500 mt-1">系統將自動加上 {'{{ }}'}</p>
+                <p className="text-xs text-cream-500 mt-1">系統將自動加上 {'{{ }}'}</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">描述</label>
+                <label className="block text-sm font-medium text-cream-800 mb-1">描述</label>
                 <input
                   type="text"
                   value={newVar.desc}
@@ -536,7 +536,7 @@ export default function PdfTemplateEditor({ onBack }: Props) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">固定數值</label>
+                <label className="block text-sm font-medium text-cream-800 mb-1">固定數值</label>
                 <input
                   type="text"
                   value={newVar.value}
@@ -549,7 +549,7 @@ export default function PdfTemplateEditor({ onBack }: Props) {
             <div className="flex justify-end gap-3 mt-6">
               <button
                 onClick={() => setShowVarModal(false)}
-                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                className="px-4 py-2 text-cream-600 hover:bg-cream-200 rounded-lg"
               >
                 取消
               </button>
@@ -778,18 +778,18 @@ function VisualEditor({ htmlContent, styles, availableVariables, onSave }: {
   return (
     <div className="flex-1 flex overflow-hidden relative">
       {/* Zoom Controls (Overlay) */}
-      <div className="absolute top-4 left-4 z-30 flex items-center gap-2 bg-white rounded-lg shadow-md p-1 border border-gray-200">
+      <div className="absolute top-4 left-4 z-30 flex items-center gap-2 bg-white rounded-lg p-1 border border-cream-300">
         <button 
           onClick={() => setScale(s => Math.max(0.5, s - 0.1))}
-          className="p-1.5 hover:bg-gray-100 rounded text-gray-600"
+          className="p-1.5 hover:bg-cream-200 rounded text-cream-600"
           title="縮小"
         >
           <i className="ri-subtract-line"></i>
         </button>
-        <span className="text-sm font-mono w-12 text-center text-gray-700">{Math.round(scale * 100)}%</span>
+        <span className="text-sm font-mono w-12 text-center text-cream-800">{Math.round(scale * 100)}%</span>
         <button 
           onClick={() => setScale(s => Math.min(2, s + 0.1))}
-          className="p-1.5 hover:bg-gray-100 rounded text-gray-600"
+          className="p-1.5 hover:bg-cream-200 rounded text-cream-600"
           title="放大"
         >
           <i className="ri-add-line"></i>
@@ -798,7 +798,7 @@ function VisualEditor({ htmlContent, styles, availableVariables, onSave }: {
 
       {/* Canvas Area */}
       <div 
-        className="flex-1 overflow-auto p-8 relative bg-gray-100" 
+        className="flex-1 overflow-auto p-8 relative bg-cream-200" 
         onMouseDown={handleMouseDown}
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
@@ -818,12 +818,12 @@ function VisualEditor({ htmlContent, styles, availableVariables, onSave }: {
       </div>
 
       {/* Variables Sidebar */}
-      <div className="w-80 bg-white border-l shadow-lg overflow-y-auto z-20 flex flex-col">
-        <div className="p-4 border-b bg-gray-50">
-          <h4 className="font-bold text-gray-700 flex items-center gap-2">
+      <div className="w-80 bg-white border-l overflow-y-auto z-20 flex flex-col">
+        <div className="p-4 border-b bg-cream-100">
+          <h4 className="font-bold text-cream-800 flex items-center gap-2">
             <i className="ri-list-settings-line"></i> 可用變數
           </h4>
-          <p className="text-xs text-gray-500 mt-1">拖曳變數到左側畫布即可添加</p>
+          <p className="text-xs text-cream-500 mt-1">拖曳變數到左側畫布即可添加</p>
         </div>
         
         <div className="flex-1 p-4 space-y-2">
@@ -832,15 +832,15 @@ function VisualEditor({ htmlContent, styles, availableVariables, onSave }: {
               key={v.var}
               draggable
               onDragStart={(e) => handleDragStart(e, v.var)}
-              className="group p-3 bg-white border border-gray-200 rounded-lg cursor-grab hover:border-teal-500 hover:shadow-md transition-all active:cursor-grabbing"
+              className="group p-3 bg-white border border-cream-300 rounded-lg cursor-grab hover:border-teal-600 transition-all active:cursor-grabbing"
             >
               <div className="flex justify-between items-start mb-1">
                 <code className="text-teal-700 font-mono text-xs font-bold bg-teal-50 px-1.5 py-0.5 rounded">
                   {v.var}
                 </code>
-                <i className="ri-drag-move-line text-gray-300 group-hover:text-teal-500"></i>
+                <i className="ri-drag-move-line text-cream-400 group-hover:text-teal-600"></i>
               </div>
-              <p className="text-xs text-gray-600">{v.desc}</p>
+              <p className="text-xs text-cream-600">{v.desc}</p>
             </div>
           ))}
         </div>
@@ -861,7 +861,7 @@ function VisualEditor({ htmlContent, styles, availableVariables, onSave }: {
                 <i className="ri-delete-bin-line text-lg"></i>
               </button>
             </div>
-            <div className="text-xs text-gray-600 truncate bg-white p-2 rounded border border-red-100">
+            <div className="text-xs text-cream-600 truncate bg-white p-2 rounded border border-red-100">
               {selectedElement.innerText}
             </div>
           </div>

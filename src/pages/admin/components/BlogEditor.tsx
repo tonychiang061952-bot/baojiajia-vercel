@@ -356,10 +356,10 @@ export default function BlogEditor({ onBack }: Props) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">載入中...</p>
+          <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-cream-600">載入中...</p>
         </div>
       </div>
     );
@@ -367,49 +367,49 @@ export default function BlogEditor({ onBack }: Props) {
 
   if (editingPost) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-cream-100 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <div className="bg-white rounded-lg p-6 mb-6">
+            <h2 className="text-2xl font-bold text-cream-900 mb-6">
               {isNewPost ? '新增文章' : '編輯文章'}
             </h2>
 
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-cream-800 mb-2">
                   文章標題
                 </label>
                 <input
                   type="text"
                   value={editingPost.title}
                   onChange={(e) => setEditingPost({ ...editingPost, title: e.target.value })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                   placeholder="輸入文章標題"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-cream-800 mb-2">
                   文章摘要
                 </label>
                 <textarea
                   value={editingPost.excerpt}
                   onChange={(e) => setEditingPost({ ...editingPost, excerpt: e.target.value })}
                   rows={3}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
+                  className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent resize-none"
                   placeholder="輸入文章摘要（顯示在列表頁）"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-cream-800 mb-2">
                     分類
                   </label>
                   <select
                     value={editingPost.category}
                     onChange={(e) => setEditingPost({ ...editingPost, category: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent pr-8 cursor-pointer"
+                    className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent pr-8 cursor-pointer"
                   >
                     {categories.map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -418,20 +418,20 @@ export default function BlogEditor({ onBack }: Props) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-cream-800 mb-2">
                     作者
                   </label>
                   <input
                     type="text"
                     value={editingPost.author}
                     onChange={(e) => setEditingPost({ ...editingPost, author: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                     placeholder="作者名稱"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-cream-800 mb-2">
                     閱讀時間 (分鐘)
                   </label>
                   <div className="relative">
@@ -439,17 +439,17 @@ export default function BlogEditor({ onBack }: Props) {
                       type="number"
                       value={editingPost.read_time.replace(/[^0-9]/g, '')}
                       onChange={(e) => setEditingPost({ ...editingPost, read_time: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent pr-12"
+                      className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent pr-12"
                       placeholder="8"
                     />
-                    <span className="absolute right-4 top-3.5 text-gray-500 text-sm">分鐘</span>
+                    <span className="absolute right-4 top-3.5 text-cream-500 text-sm">分鐘</span>
                   </div>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-cream-800 mb-2">
                     發布設定
                   </label>
                   <div className="flex flex-col gap-3">
@@ -487,12 +487,12 @@ export default function BlogEditor({ onBack }: Props) {
                         value={editingPost.published_at}
                         min={new Date().toISOString().split('T')[0]}
                         onChange={(e) => setEditingPost({ ...editingPost, published_at: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                       />
                     )}
 
                     {!isNewPost && (
-                      <div className="mt-1 rounded-lg border border-gray-200 bg-gray-50 p-3">
+                      <div className="mt-1 rounded-lg border border-cream-300 bg-cream-100 p-3">
                         <label className="inline-flex items-start cursor-pointer">
                           <input
                             type="checkbox"
@@ -501,13 +501,13 @@ export default function BlogEditor({ onBack }: Props) {
                             onChange={(e) => setMarkAsUpdated(e.target.checked)}
                           />
                           <span className="ml-2 text-sm">
-                            <span className="font-semibold text-gray-800">這次是內容的實質更新</span>
-                            <span className="block text-xs text-gray-500 mt-1 leading-relaxed">
+                            <span className="font-semibold text-cream-900">這次是內容的實質更新</span>
+                            <span className="block text-xs text-cream-500 mt-1 leading-relaxed">
                               勾了才會更新對外顯示的「更新日期」，也才會告訴 Google 這篇有實質改動。
                               只是改錯字、調格式請不要勾——日期訊號要準確，Google 才會採用。
                             </span>
                             {editingPost.content_updated_at && (
-                              <span className="block text-xs text-gray-400 mt-1">
+                              <span className="block text-xs text-cream-500 mt-1">
                                 目前的實質更新日：{new Date(editingPost.content_updated_at).toLocaleDateString('zh-TW')}
                               </span>
                             )}
@@ -528,17 +528,17 @@ export default function BlogEditor({ onBack }: Props) {
               {/* Rich Text Editor */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-semibold text-gray-700">
+                  <label className="block text-sm font-semibold text-cream-800">
                     文章內容
                   </label>
-                  <div className="flex bg-gray-100 rounded-lg p-1">
+                  <div className="flex bg-cream-200 rounded-lg p-1">
                     <button
                       type="button"
                       onClick={() => setViewMode('editor')}
                       className={`px-3 py-1 text-sm font-medium rounded-md transition-all cursor-pointer ${
                         viewMode === 'editor'
-                          ? 'bg-white text-teal-600 shadow-sm'
-                          : 'text-gray-500 hover:text-gray-700'
+                          ? 'bg-white text-teal-600 '
+                          : 'text-cream-500 hover:text-cream-800'
                       }`}
                     >
                       <i className="ri-edit-line mr-1"></i>
@@ -549,8 +549,8 @@ export default function BlogEditor({ onBack }: Props) {
                       onClick={() => setViewMode('html')}
                       className={`px-3 py-1 text-sm font-medium rounded-md transition-all cursor-pointer ${
                         viewMode === 'html'
-                          ? 'bg-white text-teal-600 shadow-sm'
-                          : 'text-gray-500 hover:text-gray-700'
+                          ? 'bg-white text-teal-600 '
+                          : 'text-cream-500 hover:text-cream-800'
                       }`}
                     >
                       <i className="ri-code-line mr-1"></i>
@@ -561,8 +561,8 @@ export default function BlogEditor({ onBack }: Props) {
                       onClick={() => setViewMode('preview')}
                       className={`px-3 py-1 text-sm font-medium rounded-md transition-all cursor-pointer ${
                         viewMode === 'preview'
-                          ? 'bg-white text-teal-600 shadow-sm'
-                          : 'text-gray-500 hover:text-gray-700'
+                          ? 'bg-white text-teal-600 '
+                          : 'text-cream-500 hover:text-cream-800'
                       }`}
                     >
                       <i className="ri-eye-line mr-1"></i>
@@ -593,13 +593,13 @@ export default function BlogEditor({ onBack }: Props) {
                     <textarea
                       value={editingPost.content}
                       onChange={(e) => setEditingPost({ ...editingPost, content: e.target.value })}
-                      className="w-full h-[500px] p-4 font-mono text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-gray-50"
+                      className="w-full h-[500px] p-4 font-mono text-sm border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent bg-cream-100"
                       placeholder="<html>...</html>"
                     />
                   )}
 
                   {viewMode === 'preview' && (
-                    <div className="border border-gray-300 rounded-lg p-8 bg-white overflow-y-auto max-h-[600px]">
+                    <div className="border border-cream-300 rounded-lg p-8 bg-white overflow-y-auto max-h-[600px]">
                       <article className="prose prose-lg max-w-none prose-teal">
                         <div dangerouslySetInnerHTML={{ __html: editingPost.content }} />
                       </article>
@@ -609,9 +609,9 @@ export default function BlogEditor({ onBack }: Props) {
               </div>
 
               {/* SEO Settings & Analysis Section */}
-              <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+              <div className="bg-cream-100 rounded-lg p-6 border border-cream-300">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-bold text-gray-900 flex items-center">
+                  <h3 className="text-lg font-bold text-cream-900 flex items-center">
                     <i className="ri-seo-line mr-2 text-teal-600"></i>
                     SEO 設定與分析
                   </h3>
@@ -619,7 +619,7 @@ export default function BlogEditor({ onBack }: Props) {
                     <button
                       type="button"
                       onClick={() => setShowSeoHelp((v) => !v)}
-                      className="px-4 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 text-gray-700 transition-colors"
+                      className="px-4 py-2 text-sm bg-white border border-cream-300 rounded-lg hover:bg-cream-100 text-cream-800 transition-colors"
                     >
                       <i className="ri-question-line mr-1"></i>
                       說明
@@ -627,7 +627,7 @@ export default function BlogEditor({ onBack }: Props) {
                     <button
                       type="button"
                       onClick={autoFillSeo}
-                      className="px-4 py-2 text-sm bg-white border border-gray-300 rounded-lg hover:bg-gray-50 text-gray-700 transition-colors"
+                      className="px-4 py-2 text-sm bg-white border border-cream-300 rounded-lg hover:bg-cream-100 text-cream-800 transition-colors"
                     >
                       <i className="ri-magic-line mr-1"></i>
                       自動填入
@@ -637,7 +637,7 @@ export default function BlogEditor({ onBack }: Props) {
                       onClick={startSeoAnalysis}
                       disabled={isAnalyzing}
                       className={`px-4 py-2 text-sm rounded-lg text-white transition-colors ${
-                        isAnalyzing ? 'bg-gray-400 cursor-not-allowed' : 'bg-teal-600 hover:bg-teal-700'
+                        isAnalyzing ? 'bg-cream-400 cursor-not-allowed' : 'bg-teal-600 hover:bg-teal-700'
                       }`}
                     >
                       {isAnalyzing ? '分析中...' : '開始分析'}
@@ -648,11 +648,11 @@ export default function BlogEditor({ onBack }: Props) {
                 {/* Analysis Progress Bar */}
                 {isAnalyzing && (
                   <div className="mb-6">
-                    <div className="flex justify-between text-xs text-gray-600 mb-1">
+                    <div className="flex justify-between text-xs text-cream-600 mb-1">
                       <span>正在分析文章結構與關鍵字密度...</span>
                       <span>{Math.round(analysisProgress)}%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                    <div className="w-full bg-cream-300 rounded-full h-2.5">
                       <div 
                         className="bg-teal-600 h-2.5 rounded-full transition-all duration-300 ease-out"
                         style={{ width: `${analysisProgress}%` }}
@@ -662,24 +662,24 @@ export default function BlogEditor({ onBack }: Props) {
                 )}
 
                 {showSeoHelp && (
-                  <div className="mb-6 p-4 bg-white rounded-lg border border-gray-200">
-                    <h4 className="font-bold text-gray-900 mb-2">常見檢測失敗原因與解法</h4>
-                    <div className="text-sm text-gray-700 space-y-2">
+                  <div className="mb-6 p-4 bg-white rounded-lg border border-cream-300">
+                    <h4 className="font-bold text-cream-900 mb-2">常見檢測失敗原因與解法</h4>
+                    <div className="text-sm text-cream-800 space-y-2">
                       <div>
                         <div className="font-semibold">1) 逗號格式</div>
-                        <div className="text-gray-600">請用逗號分隔關鍵字，半形「,」或全形「，」都可。例如：保險, 新生兒保險, 新生兒保險規劃</div>
+                        <div className="text-cream-600">請用逗號分隔關鍵字，半形「,」或全形「，」都可。例如：保險, 新生兒保險, 新生兒保險規劃</div>
                       </div>
                       <div>
                         <div className="font-semibold">2) 英文大小寫</div>
-                        <div className="text-gray-600">系統會以不分大小寫比對，但建議你輸入與文章一致的寫法（例如：Insurance / insurance）。</div>
+                        <div className="text-cream-600">系統會以不分大小寫比對，但建議你輸入與文章一致的寫法（例如：Insurance / insurance）。</div>
                       </div>
                       <div>
                         <div className="font-semibold">3) 內文含 HTML 空白或多餘空白</div>
-                        <div className="text-gray-600">若你從外部貼上內容，可能有 &nbsp; 或連續空白，導致字串不連續。建議在標題/摘要放入完整關鍵字，並在正文至少出現一次。</div>
+                        <div className="text-cream-600">若你從外部貼上內容，可能有 &nbsp; 或連續空白，導致字串不連續。建議在標題/摘要放入完整關鍵字，並在正文至少出現一次。</div>
                       </div>
                       <div>
                         <div className="font-semibold">4) 如何讓檢測通過（最快）</div>
-                        <div className="text-gray-600">把其中一個關鍵字完整放進「Meta 標題」與「Meta 描述」，再確保正文有出現一次即可。</div>
+                        <div className="text-cream-600">把其中一個關鍵字完整放進「Meta 標題」與「Meta 描述」，再確保正文有出現一次即可。</div>
                       </div>
                     </div>
                   </div>
@@ -687,13 +687,13 @@ export default function BlogEditor({ onBack }: Props) {
 
                 {/* SEO Score Display (Only show after analysis) */}
                 {hasAnalyzed && !isAnalyzing && (
-                  <div className="mb-8 p-4 bg-white rounded-lg border border-gray-200 shadow-sm flex items-center justify-between">
+                  <div className="mb-8 p-4 bg-white rounded-lg border border-cream-300 flex items-center justify-between">
                     <div>
-                      <h4 className="font-bold text-gray-900">SEO 分析結果</h4>
-                      <p className="text-sm text-gray-500">根據最新的 Google 排名因素分析</p>
+                      <h4 className="font-bold text-cream-900">SEO 分析結果</h4>
+                      <p className="text-sm text-cream-500">根據最新的 Google 排名因素分析</p>
                     </div>
                     <div className="flex items-center">
-                      <span className="text-sm text-gray-600 mr-2">總分：</span>
+                      <span className="text-sm text-cream-600 mr-2">總分：</span>
                       <div className={`text-3xl font-bold ${
                         seoResult.score >= 80 ? 'text-green-600' :
                         seoResult.score >= 50 ? 'text-yellow-600' : 'text-red-600'
@@ -707,9 +707,9 @@ export default function BlogEditor({ onBack }: Props) {
                 {/* Database SEO Fields */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-cream-800 mb-2">
                       Meta 標題 (Title)
-                      <span className="ml-2 text-xs text-gray-500 font-normal">
+                      <span className="ml-2 text-xs text-cream-500 font-normal">
                         (建議 30-60 字，若空白將使用文章標題)
                       </span>
                     </label>
@@ -717,15 +717,15 @@ export default function BlogEditor({ onBack }: Props) {
                       type="text"
                       value={editingPost.meta_title || ''}
                       onChange={(e) => setEditingPost({ ...editingPost, meta_title: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                       placeholder="例如：新生兒保險懶人包｜2024最新規劃攻略"
                     />
                   </div>
 
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-cream-800 mb-2">
                       Meta 描述 (Description)
-                      <span className="ml-2 text-xs text-gray-500 font-normal">
+                      <span className="ml-2 text-xs text-cream-500 font-normal">
                         (建議 120-160 字，若空白將使用文章摘要)
                       </span>
                     </label>
@@ -733,15 +733,15 @@ export default function BlogEditor({ onBack }: Props) {
                       value={editingPost.meta_description || ''}
                       onChange={(e) => setEditingPost({ ...editingPost, meta_description: e.target.value })}
                       rows={3}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
+                      className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent resize-none"
                       placeholder="簡短描述這篇文章的內容，這段文字會出現在搜尋結果中..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-cream-800 mb-2">
                       自訂網址 (Slug)
-                      <span className="ml-2 text-xs text-gray-500 font-normal">
+                      <span className="ml-2 text-xs text-cream-500 font-normal">
                         (建議使用英文與連字符，例如：newborn-insurance-guide)
                       </span>
                     </label>
@@ -749,15 +749,15 @@ export default function BlogEditor({ onBack }: Props) {
                       type="text"
                       value={editingPost.slug || ''}
                       onChange={(e) => setEditingPost({ ...editingPost, slug: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                       placeholder="newborn-insurance-guide"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-cream-800 mb-2">
                       Meta 關鍵字 (Keywords)
-                      <span className="ml-2 text-xs text-gray-500 font-normal">
+                      <span className="ml-2 text-xs text-cream-500 font-normal">
                         (以逗號分隔)
                       </span>
                     </label>
@@ -765,18 +765,18 @@ export default function BlogEditor({ onBack }: Props) {
                       type="text"
                       value={editingPost.meta_keywords || ''}
                       onChange={(e) => setEditingPost({ ...editingPost, meta_keywords: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                       placeholder="保險, 新生兒, 醫療險"
                     />
                   </div>
                 </div>
 
                 {hasAnalyzed && !isAnalyzing && (
-                  <div className="border-t border-gray-200 pt-6">
+                  <div className="border-t border-cream-300 pt-6">
                     <div className="mb-4">
-                       <label className="block text-sm font-semibold text-gray-700 mb-2">
+                       <label className="block text-sm font-semibold text-cream-800 mb-2">
                         分析用關鍵字 (Keywords)
-                        <span className="ml-2 text-xs text-gray-500 font-normal">
+                        <span className="ml-2 text-xs text-cream-500 font-normal">
                           (用於 SEO 分析，可填多組並以逗號分隔，建議與 Meta 關鍵字一致)
                         </span>
                       </label>
@@ -784,7 +784,7 @@ export default function BlogEditor({ onBack }: Props) {
                         type="text"
                         value={focusKeyword}
                         onChange={(e) => setFocusKeyword(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                        className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                         placeholder="例如：保險, 新生兒保險, 新生兒保險規劃"
                       />
                     </div>
@@ -803,11 +803,11 @@ export default function BlogEditor({ onBack }: Props) {
                           </div>
                           <div>
                             <p className={`text-sm font-medium ${
-                               check.status === 'pass' ? 'text-gray-900' : 'text-gray-700'
+                               check.status === 'pass' ? 'text-cream-900' : 'text-cream-800'
                             }`}>
                               {check.label}
                             </p>
-                            <p className="text-xs text-gray-500 mt-0.5">
+                            <p className="text-xs text-cream-500 mt-0.5">
                               {check.message}
                             </p>
                           </div>
@@ -825,9 +825,9 @@ export default function BlogEditor({ onBack }: Props) {
                     id="is_featured"
                     checked={editingPost.is_featured}
                     onChange={(e) => setEditingPost({ ...editingPost, is_featured: e.target.checked })}
-                    className="w-5 h-5 text-teal-600 border-gray-300 rounded focus:ring-teal-500 cursor-pointer"
+                    className="w-5 h-5 text-teal-600 border-cream-300 rounded focus:ring-teal-600 cursor-pointer"
                   />
-                  <label htmlFor="is_featured" className="ml-3 text-sm font-semibold text-gray-700 cursor-pointer">
+                  <label htmlFor="is_featured" className="ml-3 text-sm font-semibold text-cream-800 cursor-pointer">
                     設為精選文章
                   </label>
                 </div>
@@ -838,9 +838,9 @@ export default function BlogEditor({ onBack }: Props) {
                     id="is_active"
                     checked={editingPost.is_active}
                     onChange={(e) => setEditingPost({ ...editingPost, is_active: e.target.checked })}
-                    className="w-5 h-5 text-teal-600 border-gray-300 rounded focus:ring-teal-500 cursor-pointer"
+                    className="w-5 h-5 text-teal-600 border-cream-300 rounded focus:ring-teal-600 cursor-pointer"
                   />
-                  <label htmlFor="is_active" className="ml-3 text-sm font-semibold text-gray-700 cursor-pointer">
+                  <label htmlFor="is_active" className="ml-3 text-sm font-semibold text-cream-800 cursor-pointer">
                     發布文章
                   </label>
                 </div>
@@ -851,7 +851,7 @@ export default function BlogEditor({ onBack }: Props) {
               <button
                 type="button"
                 onClick={handleCancel}
-                className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors cursor-pointer whitespace-nowrap"
+                className="px-6 py-3 bg-cream-1000 text-white rounded-lg hover:bg-cream-700 transition-colors cursor-pointer whitespace-nowrap"
               >
                 <i className="ri-arrow-left-line mr-2"></i>
                 返回文章列表
@@ -860,7 +860,7 @@ export default function BlogEditor({ onBack }: Props) {
                 type="button"
                 onClick={handleSave}
                 disabled={saving}
-                className="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
+                className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors disabled:bg-cream-400 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
               >
                 {saving ? '儲存中...' : '儲存變更'}
               </button>
@@ -872,17 +872,17 @@ export default function BlogEditor({ onBack }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">知識專區管理</h1>
-              <p className="text-gray-600">管理部落格文章內容</p>
+              <h1 className="text-3xl font-bold text-cream-900 mb-2">知識專區管理</h1>
+              <p className="text-cream-600">管理部落格文章內容</p>
             </div>
             <button
               onClick={handleCreateNew}
-              className="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors cursor-pointer whitespace-nowrap"
+              className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap"
             >
               <i className="ri-add-line mr-2"></i>
               新增文章
@@ -890,33 +890,33 @@ export default function BlogEditor({ onBack }: Props) {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-cream-100 border-b border-cream-300">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">文章標題</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">分類</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">作者</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">精選</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">狀態</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">操作</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">刪除</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">文章標題</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">分類</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">作者</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-cream-900">精選</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-cream-900">狀態</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-cream-900">操作</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-cream-900">刪除</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-cream-300">
                 {posts.map((post) => (
-                  <tr key={post.id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={post.id} className="hover:bg-cream-100 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900 line-clamp-2 max-w-md">{post.title}</div>
-                      <div className="text-sm text-gray-500 mt-1">{post.published_at}</div>
+                      <div className="font-medium text-cream-900 line-clamp-2 max-w-md">{post.title}</div>
+                      <div className="text-sm text-cream-500 mt-1">{post.published_at}</div>
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm font-medium whitespace-nowrap">
                         {post.category}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">{post.author}</td>
+                    <td className="px-6 py-4 text-sm text-cream-600">{post.author}</td>
                     <td className="px-6 py-4 text-center">
                       {post.is_featured && (
                         <i className="ri-star-fill text-yellow-400 text-xl"></i>
@@ -933,7 +933,7 @@ export default function BlogEditor({ onBack }: Props) {
                             已發布
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1 px-3 py-1 bg-cream-200 text-cream-600 rounded-full text-sm font-medium whitespace-nowrap">
                             <i className="ri-close-circle-fill"></i>
                             草稿
                           </span>
@@ -943,7 +943,7 @@ export default function BlogEditor({ onBack }: Props) {
                     <td className="px-6 py-4 text-center">
                       <button
                         onClick={() => handleEdit(post)}
-                        className="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors cursor-pointer whitespace-nowrap"
+                        className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap"
                       >
                         <i className="ri-edit-line mr-1"></i>
                         編輯

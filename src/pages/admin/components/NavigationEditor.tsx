@@ -145,75 +145,75 @@ export default function NavigationEditor({ onBack }: Props) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">載入中...</p>
+          <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-cream-600">載入中...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">導航選單管理</h1>
-              <p className="text-gray-600">管理網站頂部導航選單的項目和順序</p>
+              <h1 className="text-3xl font-bold text-cream-900 mb-2">導航選單管理</h1>
+              <p className="text-cream-600">管理網站頂部導航選單的項目和順序</p>
             </div>
           </div>
 
           <button
             onClick={handleAddNew}
-            className="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors cursor-pointer whitespace-nowrap mb-6"
+            className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap mb-6"
           >
             <i className="ri-add-line mr-2"></i>
             新增導航項目
           </button>
 
           {editingItem && (
-            <div className="bg-gray-50 rounded-xl p-6 mb-6">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">
+            <div className="bg-cream-100 rounded-lg p-6 mb-6">
+              <h3 className="text-xl font-bold text-cream-900 mb-4">
                 {isAdding ? '新增導航項目' : '編輯導航項目'}
               </h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-cream-800 mb-2">
                     顯示文字
                   </label>
                   <input
                     type="text"
                     value={editingItem.label}
                     onChange={(e) => setEditingItem({ ...editingItem, label: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                     placeholder="例如：首頁"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-cream-800 mb-2">
                     連結路徑
                   </label>
                   <input
                     type="text"
                     value={editingItem.path}
                     onChange={(e) => setEditingItem({ ...editingItem, path: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                     placeholder="例如：/"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-cream-800 mb-2">
                     顯示順序
                   </label>
                   <input
                     type="number"
                     value={editingItem.display_order}
                     onChange={(e) => setEditingItem({ ...editingItem, display_order: parseInt(e.target.value) })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                   />
                 </div>
 
@@ -223,9 +223,9 @@ export default function NavigationEditor({ onBack }: Props) {
                     id="is_active"
                     checked={editingItem.is_active}
                     onChange={(e) => setEditingItem({ ...editingItem, is_active: e.target.checked })}
-                    className="w-5 h-5 text-teal-600 rounded focus:ring-teal-500"
+                    className="w-5 h-5 text-teal-600 rounded focus:ring-teal-600"
                   />
-                  <label htmlFor="is_active" className="text-sm font-medium text-gray-700">
+                  <label htmlFor="is_active" className="text-sm font-medium text-cream-800">
                     啟用此導航項目
                   </label>
                 </div>
@@ -234,7 +234,7 @@ export default function NavigationEditor({ onBack }: Props) {
                   <button
                     onClick={handleSave}
                     disabled={saving}
-                    className="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors disabled:opacity-50 cursor-pointer whitespace-nowrap"
+                    className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors disabled:opacity-50 cursor-pointer whitespace-nowrap"
                   >
                     {saving ? '儲存中...' : '儲存'}
                   </button>
@@ -243,7 +243,7 @@ export default function NavigationEditor({ onBack }: Props) {
                       setEditingItem(null);
                       setIsAdding(false);
                     }}
-                    className="px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors cursor-pointer whitespace-nowrap"
+                    className="px-6 py-3 bg-cream-300 text-cream-800 rounded-lg hover:bg-cream-400 transition-colors cursor-pointer whitespace-nowrap"
                   >
                     <i className="ri-arrow-left-line mr-2"></i>
                     返回導航選單列表
@@ -253,20 +253,20 @@ export default function NavigationEditor({ onBack }: Props) {
             </div>
           )}
 
-          <div className="bg-white rounded-xl overflow-hidden border border-gray-200">
+          <div className="bg-white rounded-lg overflow-hidden border border-cream-300">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-cream-100">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">順序</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">顯示文字</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">連結路徑</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">狀態</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">操作</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">順序</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">顯示文字</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">連結路徑</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-cream-900">狀態</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-cream-900">操作</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-cream-300">
                 {items.map((item, index) => (
-                  <tr key={item.id} className="hover:bg-gray-50">
+                  <tr key={item.id} className="hover:bg-cream-100">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <span className="font-medium">{item.display_order}</span>
@@ -274,14 +274,14 @@ export default function NavigationEditor({ onBack }: Props) {
                           <button
                             onClick={() => handleReorder(item.id, 'up')}
                             disabled={index === 0}
-                            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-teal-600 disabled:opacity-30 cursor-pointer"
+                            className="w-6 h-6 flex items-center justify-center text-cream-500 hover:text-teal-600 disabled:opacity-30 cursor-pointer"
                           >
                             <i className="ri-arrow-up-s-line"></i>
                           </button>
                           <button
                             onClick={() => handleReorder(item.id, 'down')}
                             disabled={index === items.length - 1}
-                            className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-teal-600 disabled:opacity-30 cursor-pointer"
+                            className="w-6 h-6 flex items-center justify-center text-cream-500 hover:text-teal-600 disabled:opacity-30 cursor-pointer"
                           >
                             <i className="ri-arrow-down-s-line"></i>
                           </button>
@@ -289,7 +289,7 @@ export default function NavigationEditor({ onBack }: Props) {
                       </div>
                     </td>
                     <td className="px-6 py-4 font-medium">{item.label}</td>
-                    <td className="px-6 py-4 text-gray-600">{item.path}</td>
+                    <td className="px-6 py-4 text-cream-600">{item.path}</td>
                     <td className="px-6 py-4 text-center">
                       <button
                         onClick={() => handleToggleActive(item.id, item.is_active)}
@@ -301,7 +301,7 @@ export default function NavigationEditor({ onBack }: Props) {
                             已啟用
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1 px-3 py-1 bg-cream-200 text-cream-600 rounded-full text-sm font-medium whitespace-nowrap">
                             <i className="ri-close-circle-fill"></i>
                             已停用
                           </span>
@@ -315,7 +315,7 @@ export default function NavigationEditor({ onBack }: Props) {
                             setEditingItem(item);
                             setIsAdding(false);
                           }}
-                          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors cursor-pointer whitespace-nowrap"
+                          className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap"
                         >
                           <i className="ri-edit-line mr-1"></i>
                           編輯

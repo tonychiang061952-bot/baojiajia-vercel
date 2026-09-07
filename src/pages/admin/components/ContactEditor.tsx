@@ -69,10 +69,10 @@ export default function ContactEditor({ onBack }: Props) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">載入中...</p>
+          <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-cream-600">載入中...</p>
         </div>
       </div>
     );
@@ -80,12 +80,12 @@ export default function ContactEditor({ onBack }: Props) {
 
   if (!contactInfo) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="text-center">
-          <p className="text-gray-600">無法載入聯絡資訊</p>
+          <p className="text-cream-600">無法載入聯絡資訊</p>
           <button
             onClick={onBack}
-            className="mt-4 px-6 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors cursor-pointer whitespace-nowrap"
+            className="mt-4 px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap"
           >
             返回
           </button>
@@ -95,17 +95,17 @@ export default function ContactEditor({ onBack }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">聯絡資訊編輯</h1>
-              <p className="text-gray-600">更新聯絡方式和地址資訊</p>
+              <h1 className="text-3xl font-bold text-cream-900 mb-2">聯絡資訊編輯</h1>
+              <p className="text-cream-600">更新聯絡方式和地址資訊</p>
             </div>
             <button
               onClick={onBack}
-              className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors cursor-pointer whitespace-nowrap"
+              className="px-6 py-3 bg-cream-1000 text-white rounded-lg hover:bg-cream-700 transition-colors cursor-pointer whitespace-nowrap"
             >
               <i className="ri-arrow-left-line mr-2"></i>
               返回
@@ -113,10 +113,10 @@ export default function ContactEditor({ onBack }: Props) {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-md p-6">
+        <div className="bg-white rounded-lg p-6">
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-cream-800 mb-2">
                 <i className="ri-map-pin-line text-teal-600 mr-2"></i>
                 辦公地址
               </label>
@@ -124,13 +124,13 @@ export default function ContactEditor({ onBack }: Props) {
                 type="text"
                 value={contactInfo.address}
                 onChange={(e) => setContactInfo({ ...contactInfo, address: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 placeholder="台北市信義區信義路五段7號"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-cream-800 mb-2">
                 <i className="ri-phone-line text-teal-600 mr-2"></i>
                 聯絡電話
               </label>
@@ -138,13 +138,13 @@ export default function ContactEditor({ onBack }: Props) {
                 type="text"
                 value={contactInfo.phone}
                 onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 placeholder="+886-2-1234-5678"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-cream-800 mb-2">
                 <i className="ri-mail-line text-teal-600 mr-2"></i>
                 電子郵件
               </label>
@@ -152,13 +152,13 @@ export default function ContactEditor({ onBack }: Props) {
                 type="email"
                 value={contactInfo.email}
                 onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 placeholder="info@insurance.com"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-cream-800 mb-2">
                 <i className="ri-time-line text-teal-600 mr-2"></i>
                 營業時間
               </label>
@@ -166,14 +166,14 @@ export default function ContactEditor({ onBack }: Props) {
                 value={contactInfo.business_hours}
                 onChange={(e) => setContactInfo({ ...contactInfo, business_hours: e.target.value })}
                 rows={4}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent resize-none"
                 placeholder="週一至週五 9:00-18:00&#10;週六 9:00-12:00&#10;週日及國定假日休息"
               />
-              <p className="text-xs text-gray-500 mt-1">使用換行符號分隔不同時段</p>
+              <p className="text-xs text-cream-500 mt-1">使用換行符號分隔不同時段</p>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-cream-800 mb-2">
                 <i className="ri-map-2-line text-teal-600 mr-2"></i>
                 Google 地圖嵌入網址
               </label>
@@ -181,10 +181,10 @@ export default function ContactEditor({ onBack }: Props) {
                 type="text"
                 value={contactInfo.map_embed_url}
                 onChange={(e) => setContactInfo({ ...contactInfo, map_embed_url: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 placeholder="https://www.google.com/maps/embed?pb=..."
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-cream-500 mt-1">
                 前往 Google Maps，點擊「分享」→「嵌入地圖」，複製 iframe 中的 src 網址
               </p>
             </div>
@@ -193,14 +193,14 @@ export default function ContactEditor({ onBack }: Props) {
           <div className="flex justify-end gap-4 mt-8">
             <button
               onClick={onBack}
-              className="px-8 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors cursor-pointer whitespace-nowrap"
+              className="px-8 py-3 bg-cream-1000 text-white rounded-lg hover:bg-cream-700 transition-colors cursor-pointer whitespace-nowrap"
             >
               取消
             </button>
             <button
               onClick={handleSave}
               disabled={saving}
-              className="px-8 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
+              className="px-8 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors disabled:bg-cream-400 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
             >
               {saving ? '儲存中...' : '儲存變更'}
             </button>

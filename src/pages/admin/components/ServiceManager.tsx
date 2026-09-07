@@ -91,8 +91,8 @@ export default function ServiceManager({ onEditItem, onEditDetail }: ServiceMana
     return (
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
-          <div className="w-10 h-10 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">載入中...</p>
+          <div className="w-10 h-10 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-cream-600">載入中...</p>
         </div>
       </div>
     );
@@ -100,41 +100,41 @@ export default function ServiceManager({ onEditItem, onEditDetail }: ServiceMana
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">服務項目管理</h2>
-        <p className="text-gray-600">管理服務項目的內容、順序和顯示狀態</p>
+      <div className="bg-white rounded-lg p-6">
+        <h2 className="text-2xl font-bold text-cream-900 mb-2">服務項目管理</h2>
+        <p className="text-cream-600">管理服務項目的內容、順序和顯示狀態</p>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-white rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-cream-100 border-b border-cream-300">
               <tr>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">順序</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">服務項目</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">描述</th>
-                <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">狀態</th>
-                <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">操作</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">順序</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">服務項目</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">描述</th>
+                <th className="px-6 py-4 text-center text-sm font-semibold text-cream-900">狀態</th>
+                <th className="px-6 py-4 text-center text-sm font-semibold text-cream-900">操作</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-cream-300">
               {services.map((service, index) => (
-                <tr key={service.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={service.id} className="hover:bg-cream-100 transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <span className="text-gray-900 font-medium">{service.display_order}</span>
+                      <span className="text-cream-900 font-medium">{service.display_order}</span>
                       <div className="flex flex-col gap-1">
                         <button
                           onClick={() => handleReorder(service.id, 'up')}
                           disabled={index === 0}
-                          className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-teal-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                          className="w-6 h-6 flex items-center justify-center text-cream-500 hover:text-teal-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
                         >
                           <i className="ri-arrow-up-s-line text-lg"></i>
                         </button>
                         <button
                           onClick={() => handleReorder(service.id, 'down')}
                           disabled={index === services.length - 1}
-                          className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-teal-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                          className="w-6 h-6 flex items-center justify-center text-cream-500 hover:text-teal-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
                         >
                           <i className="ri-arrow-down-s-line text-lg"></i>
                         </button>
@@ -143,14 +143,14 @@ export default function ServiceManager({ onEditItem, onEditDetail }: ServiceMana
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center flex-shrink-0">
                         <i className={`${service.icon} text-lg text-white`}></i>
                       </div>
-                      <span className="font-medium text-gray-900">{service.title}</span>
+                      <span className="font-medium text-cream-900">{service.title}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="text-sm text-gray-600 line-clamp-2 max-w-md">{service.description}</p>
+                    <p className="text-sm text-cream-600 line-clamp-2 max-w-md">{service.description}</p>
                   </td>
                   <td className="px-6 py-4 text-center">
                     <button
@@ -164,7 +164,7 @@ export default function ServiceManager({ onEditItem, onEditDetail }: ServiceMana
                           已啟用
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-cream-200 text-cream-600 rounded-full text-sm font-medium whitespace-nowrap">
                           <i className="ri-close-circle-fill"></i>
                           已停用
                         </span>
@@ -175,14 +175,14 @@ export default function ServiceManager({ onEditItem, onEditDetail }: ServiceMana
                     <div className="flex items-center justify-center gap-2">
                       <button
                         onClick={() => onEditItem(service)}
-                        className="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors text-sm font-medium cursor-pointer whitespace-nowrap"
+                        className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors text-sm font-medium cursor-pointer whitespace-nowrap"
                       >
                         <i className="ri-edit-line mr-1"></i>
                         編輯項目
                       </button>
                       <button
                         onClick={() => onEditDetail(service)}
-                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium cursor-pointer whitespace-nowrap"
+                        className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors text-sm font-medium cursor-pointer whitespace-nowrap"
                       >
                         <i className="ri-file-text-line mr-1"></i>
                         編輯內容

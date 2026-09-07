@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleAuth } from '../../auth/GoogleAuthProvider';
+import Dashboard from './components/Dashboard';
 import ServiceItemEditor from './components/ServiceItemEditor';
 import ServiceDetailEditor from './components/ServiceDetailEditor';
 import HomepageEditor from './components/HomepageEditor';
@@ -30,12 +31,12 @@ interface ServiceItem {
   is_active: boolean;
 }
 
-type EditMode = 'list' | 'service-item' | 'service-detail' | 'homepage' | 'features' | 'customer-reviews' | 'blog' | 'about' | 'member-manager' | 'navigation' | 'site-settings' | 'system-settings' | 'statistics' | 'blog-categories' | 'pdf-template';
+type EditMode = 'dashboard' | 'list' | 'service-item' | 'service-detail' | 'homepage' | 'features' | 'customer-reviews' | 'blog' | 'about' | 'member-manager' | 'navigation' | 'site-settings' | 'system-settings' | 'statistics' | 'blog-categories' | 'pdf-template';
 
 export default function AdminPage() {
   const navigate = useNavigate();
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
-  const [editMode, setEditMode] = useState<EditMode>('list');
+  const [editMode, setEditMode] = useState<EditMode>('dashboard');
   const { signOut } = useGoogleAuth();
 
   const handleEditItem = (service: ServiceItem) => {
@@ -68,6 +69,12 @@ export default function AdminPage() {
     group: string;
     items: { id: EditMode; label: string; icon: string; affects?: string; to?: string }[];
   }[] = [
+    {
+      group: '總覽',
+      items: [
+        { id: 'dashboard', label: '儀表板', icon: 'ri-dashboard-line' },
+      ],
+    },
     {
       group: '網站內容',
       items: [
@@ -107,6 +114,10 @@ export default function AdminPage() {
   const current = allItems.find((item) =>
     item.id === editMode || (item.id === 'list' && (editMode === 'service-item' || editMode === 'service-detail')));
 
+  const heading = editMode === 'service-item' ? '編輯服務項目'
+    : editMode === 'service-detail' ? '編輯服務內容'
+    : current?.label ?? '後台';
+
   const renderContent = () => {
     switch (editMode) {
       case 'service-item':
@@ -138,8 +149,10 @@ export default function AdminPage() {
       case 'pdf-template':
         return <PdfTemplateEditor onBack={handleBack} />;
       case 'list':
-      default:
         return <ServiceManager onEditItem={handleEditItem} onEditDetail={handleEditDetail} />;
+      case 'dashboard':
+      default:
+        return <Dashboard onGo={(id) => setEditMode(id as EditMode)} />;
     }
   };
 
@@ -195,6 +208,20 @@ export default function AdminPage() {
       </aside>
 
       <main className="min-w-0 px-5 py-6 sm:px-8 sm:py-7">
+        {/* 每一頁上方都有同一條標題列，才知道自己現在在後台的哪裡。 */}
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-4">
+          <h1 className="font-serif text-[1.45rem] font-bold text-cream-900">{heading}</h1>
+          <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border border-cream-300 bg-white px-3.5 py-2 text-[0.82rem] font-semibold text-teal-600 hover:border-teal-600"
+          >
+            <i className="ri-external-link-line" />
+            開啟網站前台
+          </a>
+        </div>
+
         {current?.affects && (
           <div className="mb-5 grid grid-cols-1 items-center gap-3.5 rounded-lg border border-brandgold-edge bg-brandgold-panel px-5 py-3.5 sm:grid-cols-[auto_minmax(0,1fr)_auto]">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brandgold text-brandgold-ink">

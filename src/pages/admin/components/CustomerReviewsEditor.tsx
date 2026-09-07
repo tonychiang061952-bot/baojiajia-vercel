@@ -187,23 +187,23 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">載入中...</p>
+          <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-cream-600">載入中...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">客戶評價（真實評價系統）</h1>
-              <p className="text-gray-600">審核後才會在首頁公開顯示</p>
+              <h1 className="text-3xl font-bold text-cream-900 mb-2">客戶評價（真實評價系統）</h1>
+              <p className="text-cream-600">審核後才會在首頁公開顯示</p>
             </div>
 
             <div className="flex flex-wrap gap-3">
@@ -217,7 +217,7 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
               </button>
               <button
                 onClick={copyInviteLink}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors whitespace-nowrap"
+                className="px-4 py-2 bg-white border border-cream-300 rounded-lg hover:bg-cream-100 transition-colors whitespace-nowrap"
               >
                 <i className={`${copiedLink ? 'ri-check-line' : 'ri-link'} mr-2`}></i>
                 {copiedLink ? '已複製！' : '複製邀請連結'}
@@ -225,7 +225,7 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
               <button
                 onClick={bulkReorder}
                 disabled={saving}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 whitespace-nowrap"
+                className="px-4 py-2 bg-white border border-cream-300 rounded-lg hover:bg-cream-100 transition-colors disabled:opacity-50 whitespace-nowrap"
               >
                 <i className="ri-sort-asc mr-2"></i>
                 重新排序
@@ -233,14 +233,14 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
               <button
                 onClick={fetchReviews}
                 disabled={saving}
-                className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 whitespace-nowrap"
+                className="px-4 py-2 bg-white border border-cream-300 rounded-lg hover:bg-cream-100 transition-colors disabled:opacity-50 whitespace-nowrap"
               >
                 <i className="ri-refresh-line mr-2"></i>
                 刷新
               </button>
               <button
                 onClick={onBack}
-                className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors whitespace-nowrap"
+                className="px-4 py-2 bg-cream-700 text-white rounded-lg hover:bg-cream-800 transition-colors whitespace-nowrap"
               >
                 返回
               </button>
@@ -253,14 +253,14 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="搜尋姓名、Email、內容..."
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {filteredReviews.map((r) => (
-            <div key={r.id} className="bg-white rounded-xl shadow-md p-6">
+            <div key={r.id} className="bg-white rounded-lg p-6">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <img
@@ -269,9 +269,9 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
                     className="w-12 h-12 rounded-full object-cover object-top"
                   />
                   <div>
-                    <div className="font-bold text-gray-900">{r.user_name || '匿名'}</div>
-                    <div className="text-xs text-gray-500">{r.user_email || ''}</div>
-                    <div className="text-xs text-gray-500">{r.role || ''}</div>
+                    <div className="font-bold text-cream-900">{r.user_name || '匿名'}</div>
+                    <div className="text-xs text-cream-500">{r.user_email || ''}</div>
+                    <div className="text-xs text-cream-500">{r.role || ''}</div>
                   </div>
                 </div>
 
@@ -280,13 +280,13 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
                     <span className="text-xs px-2 py-1 rounded-full bg-purple-100 text-purple-700 whitespace-nowrap">種子資料</span>
                   )}
                   {r.source === 'admin' && (
-                    <span className="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-700 whitespace-nowrap">管理員建立</span>
+                    <span className="text-xs px-2 py-1 rounded-full bg-cream-100 text-teal-700 whitespace-nowrap">管理員建立</span>
                   )}
                   {r.source === 'site' && (
-                    <span className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700 whitespace-nowrap">用戶提交</span>
+                    <span className="text-xs px-2 py-1 rounded-full bg-cream-200 text-cream-800 whitespace-nowrap">用戶提交</span>
                   )}
                   {r.source !== 'seed' && r.source !== 'admin' && r.source !== 'site' && (
-                    <span className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700 whitespace-nowrap">{r.source}</span>
+                    <span className="text-xs px-2 py-1 rounded-full bg-cream-200 text-cream-800 whitespace-nowrap">{r.source}</span>
                   )}
                   {r.is_approved ? (
                     <span className="text-xs px-2 py-1 rounded-full bg-green-100 text-green-700 whitespace-nowrap">已審核</span>
@@ -296,7 +296,7 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
                   {r.is_active ? (
                     <span className="text-xs px-2 py-1 rounded-full bg-teal-100 text-teal-700 whitespace-nowrap">公開</span>
                   ) : (
-                    <span className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600 whitespace-nowrap">不公開</span>
+                    <span className="text-xs px-2 py-1 rounded-full bg-cream-200 text-cream-600 whitespace-nowrap">不公開</span>
                   )}
                 </div>
               </div>
@@ -307,34 +307,34 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
                     <i key={i} className="ri-star-fill text-yellow-400"></i>
                   ))}
                 </div>
-                <div className="text-xs text-gray-500">{new Date(r.created_at).toLocaleString()}</div>
+                <div className="text-xs text-cream-500">{new Date(r.created_at).toLocaleString()}</div>
               </div>
 
               {editingId === r.id ? (
                 <div className="mt-4 space-y-3">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">姓名</label>
-                      <input type="text" value={editForm.user_name ?? ''} onChange={(e) => setEditForm({ ...editForm, user_name: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
+                      <label className="block text-xs font-medium text-cream-600 mb-1">姓名</label>
+                      <input type="text" value={editForm.user_name ?? ''} onChange={(e) => setEditForm({ ...editForm, user_name: e.target.value })} className="w-full px-3 py-2 border border-cream-300 rounded-lg text-sm" />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-gray-600 mb-1">身份/職業</label>
-                      <input type="text" value={editForm.role ?? ''} onChange={(e) => setEditForm({ ...editForm, role: e.target.value })} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
+                      <label className="block text-xs font-medium text-cream-600 mb-1">身份/職業</label>
+                      <input type="text" value={editForm.role ?? ''} onChange={(e) => setEditForm({ ...editForm, role: e.target.value })} className="w-full px-3 py-2 border border-cream-300 rounded-lg text-sm" />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">評分</label>
+                    <label className="block text-xs font-medium text-cream-600 mb-1">評分</label>
                     <div className="flex items-center gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button key={star} type="button" onClick={() => setEditForm({ ...editForm, rating: star })} className="cursor-pointer">
-                          <i className={`${star <= (editForm.rating ?? 5) ? 'ri-star-fill text-yellow-400' : 'ri-star-line text-gray-300'} text-xl`}></i>
+                          <i className={`${star <= (editForm.rating ?? 5) ? 'ri-star-fill text-yellow-400' : 'ri-star-line text-cream-400'} text-xl`}></i>
                         </button>
                       ))}
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">評價內容</label>
-                    <textarea value={editForm.content ?? ''} onChange={(e) => setEditForm({ ...editForm, content: e.target.value })} rows={3} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm resize-none" />
+                    <label className="block text-xs font-medium text-cream-600 mb-1">評價內容</label>
+                    <textarea value={editForm.content ?? ''} onChange={(e) => setEditForm({ ...editForm, content: e.target.value })} rows={3} className="w-full px-3 py-2 border border-cream-300 rounded-lg text-sm resize-none" />
                   </div>
                   <div>
                     <ImageUpload
@@ -348,22 +348,22 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
                   </div>
                   <div className="flex gap-3">
                     <button type="button" onClick={() => saveEdit(r.id)} disabled={saving} className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 whitespace-nowrap">儲存</button>
-                    <button type="button" onClick={cancelEdit} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 whitespace-nowrap">取消</button>
+                    <button type="button" onClick={cancelEdit} className="px-4 py-2 bg-cream-200 text-cream-800 rounded-lg hover:bg-cream-300 whitespace-nowrap">取消</button>
                   </div>
                 </div>
               ) : (
                 <>
-                  <div className="mt-4 text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">{r.content}</div>
+                  <div className="mt-4 text-sm text-cream-800 leading-relaxed whitespace-pre-wrap">{r.content}</div>
 
-                  <div className="mt-5 pt-5 border-t border-gray-100 flex flex-col gap-3">
+                  <div className="mt-5 pt-5 border-t border-cream-200 flex flex-col gap-3">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-1">排序（公開用）</label>
+                        <label className="block text-xs font-medium text-cream-600 mb-1">排序（公開用）</label>
                         <input
                           type="number"
                           value={r.display_order}
                           onChange={(e) => updateReview(r.id, { display_order: Number(e.target.value) || 0 })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                          className="w-full px-3 py-2 border border-cream-300 rounded-lg text-sm"
                           disabled={saving}
                         />
                       </div>
@@ -372,7 +372,7 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
                           type="button"
                           onClick={() => startEdit(r)}
                           disabled={saving}
-                          className="flex-1 px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors disabled:opacity-50 whitespace-nowrap"
+                          className="flex-1 px-4 py-2 rounded-lg border border-cream-300 hover:bg-cream-100 transition-colors disabled:opacity-50 whitespace-nowrap"
                         >
                           <i className="ri-edit-line mr-1"></i>編輯
                         </button>
@@ -380,7 +380,7 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
                           type="button"
                           onClick={() => updateReview(r.id, { is_approved: !r.is_approved, is_active: r.is_approved ? r.is_active : false })}
                           disabled={saving}
-                          className="flex-1 px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors disabled:opacity-50 whitespace-nowrap"
+                          className="flex-1 px-4 py-2 rounded-lg border border-cream-300 hover:bg-cream-100 transition-colors disabled:opacity-50 whitespace-nowrap"
                         >
                           {r.is_approved ? '取消審核' : '通過審核'}
                         </button>

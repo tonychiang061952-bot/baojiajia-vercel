@@ -189,26 +189,26 @@ export default function SystemSettingsEditor({ onBack }: Props) {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">系統設定</h1>
+        <h1 className="text-2xl font-bold text-cream-900">系統設定</h1>
         <button
           onClick={onBack}
-          className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors whitespace-nowrap"
+          className="px-4 py-2 bg-cream-700 text-white rounded-lg hover:bg-cream-800 transition-colors whitespace-nowrap"
         >
           返回
         </button>
       </div>
 
       {/* Customer Reviews Section */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+      <div className="bg-white rounded-lg border border-cream-300 p-6">
+        <h2 className="text-lg font-semibold text-cream-900 mb-4 flex items-center">
           <span className="mr-2">⭐</span>
           客戶真實評價設定
         </h2>
 
-        <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+        <div className="flex items-center justify-between p-4 bg-cream-100 rounded-lg">
           <div>
-            <h3 className="font-medium text-gray-900">開放送出評價</h3>
-            <p className="text-sm text-gray-600">啟用後，前台會顯示「留下評價」，且使用者必須登入後才能送出（避免垃圾評價）</p>
+            <h3 className="font-medium text-cream-900">開放送出評價</h3>
+            <p className="text-sm text-cream-600">啟用後，前台會顯示「留下評價」，且使用者必須登入後才能送出（避免垃圾評價）</p>
           </div>
           <label className="relative inline-flex items-center cursor-pointer">
             <input
@@ -217,7 +217,7 @@ export default function SystemSettingsEditor({ onBack }: Props) {
               onChange={(e) => setReviewsSubmissionEnabled(e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div>
+            <div className="w-11 h-6 bg-cream-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-cream-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div>
           </label>
         </div>
 
@@ -225,7 +225,7 @@ export default function SystemSettingsEditor({ onBack }: Props) {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+            className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:bg-cream-400 disabled:cursor-not-allowed transition-colors"
           >
             {saving ? '儲存中...' : '💾 儲存設定'}
           </button>
@@ -233,8 +233,8 @@ export default function SystemSettingsEditor({ onBack }: Props) {
       </div>
 
       {/* Analysis Icons Section */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+      <div className="bg-white rounded-lg border border-cream-300 p-6">
+        <h2 className="text-lg font-semibold text-cream-900 mb-4 flex items-center">
           <span className="mr-2">🎨</span>
           分析頁面圖示設定
         </h2>
@@ -242,13 +242,13 @@ export default function SystemSettingsEditor({ onBack }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Adult Icon */}
           <div className="space-y-3">
-            <label className="block text-sm font-medium text-gray-700">成人保險規劃圖示</label>
+            <label className="block text-sm font-medium text-cream-800">成人保險規劃圖示</label>
             <div className="flex items-center gap-4">
-              <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border border-gray-200">
+              <div className="w-24 h-24 rounded-full bg-cream-200 flex items-center justify-center overflow-hidden border border-cream-300">
                 {adultIcon ? (
                   <img src={adultIcon} alt="Adult Icon" className="w-full h-full object-cover" />
                 ) : (
-                  <i className="ri-user-line text-4xl text-gray-400"></i>
+                  <i className="ri-user-line text-4xl text-cream-500"></i>
                 )}
               </div>
               <div className="flex-1">
@@ -256,7 +256,7 @@ export default function SystemSettingsEditor({ onBack }: Props) {
                   type="text"
                   value={adultIcon}
                   onChange={(e) => setAdultIcon(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm mb-2"
+                  className="w-full px-3 py-2 border border-cream-300 rounded-lg text-sm mb-2"
                   placeholder="輸入圖片 URL"
                 />
                 <div className="relative">
@@ -269,7 +269,7 @@ export default function SystemSettingsEditor({ onBack }: Props) {
                   />
                   <button
                     type="button"
-                    className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium text-gray-700 transition-colors disabled:opacity-50"
+                    className="w-full px-4 py-2 bg-white border border-cream-300 rounded-lg hover:bg-cream-100 text-sm font-medium text-cream-800 transition-colors disabled:opacity-50"
                     disabled={uploadingIcon}
                   >
                     {uploadingIcon ? '上傳中...' : '上傳圖片'}
@@ -281,13 +281,13 @@ export default function SystemSettingsEditor({ onBack }: Props) {
 
           {/* Child Icon */}
           <div className="space-y-3">
-            <label className="block text-sm font-medium text-gray-700">幼兒保險規劃圖示</label>
+            <label className="block text-sm font-medium text-cream-800">幼兒保險規劃圖示</label>
             <div className="flex items-center gap-4">
-              <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border border-gray-200">
+              <div className="w-24 h-24 rounded-full bg-cream-200 flex items-center justify-center overflow-hidden border border-cream-300">
                 {childIcon ? (
                   <img src={childIcon} alt="Child Icon" className="w-full h-full object-cover" />
                 ) : (
-                  <i className="ri-parent-line text-4xl text-gray-400"></i>
+                  <i className="ri-parent-line text-4xl text-cream-500"></i>
                 )}
               </div>
               <div className="flex-1">
@@ -295,7 +295,7 @@ export default function SystemSettingsEditor({ onBack }: Props) {
                   type="text"
                   value={childIcon}
                   onChange={(e) => setChildIcon(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm mb-2"
+                  className="w-full px-3 py-2 border border-cream-300 rounded-lg text-sm mb-2"
                   placeholder="輸入圖片 URL"
                 />
                 <div className="relative">
@@ -308,7 +308,7 @@ export default function SystemSettingsEditor({ onBack }: Props) {
                   />
                   <button
                     type="button"
-                    className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 text-sm font-medium text-gray-700 transition-colors disabled:opacity-50"
+                    className="w-full px-4 py-2 bg-white border border-cream-300 rounded-lg hover:bg-cream-100 text-sm font-medium text-cream-800 transition-colors disabled:opacity-50"
                     disabled={uploadingIcon}
                   >
                     {uploadingIcon ? '上傳中...' : '上傳圖片'}
@@ -321,18 +321,18 @@ export default function SystemSettingsEditor({ onBack }: Props) {
       </div>
 
       {/* Telegram Section */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+      <div className="bg-white rounded-lg border border-cream-300 p-6">
+        <h2 className="text-lg font-semibold text-cream-900 mb-4 flex items-center">
           <span className="mr-2">📱</span>
           Telegram 通知設定
         </h2>
         
         <div className="space-y-6">
           {/* 啟用通知開關 */}
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-cream-100 rounded-lg">
             <div>
-              <h3 className="font-medium text-gray-900">啟用 Telegram 通知</h3>
-              <p className="text-sm text-gray-600">會員填寫問卷或下載報告時發送通知</p>
+              <h3 className="font-medium text-cream-900">啟用 Telegram 通知</h3>
+              <p className="text-sm text-cream-600">會員填寫問卷或下載報告時發送通知</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -341,13 +341,13 @@ export default function SystemSettingsEditor({ onBack }: Props) {
                 onChange={(e) => setNotificationsEnabled(e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div>
+              <div className="w-11 h-6 bg-cream-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-cream-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-600"></div>
             </label>
           </div>
 
           {/* Bot Token 設定 */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-cream-800 mb-2">
               Telegram Bot Token <span className="text-red-500">*</span>
             </label>
             <input
@@ -355,16 +355,16 @@ export default function SystemSettingsEditor({ onBack }: Props) {
               value={telegramBotToken}
               onChange={(e) => setTelegramBotToken(e.target.value)}
               placeholder="請輸入 Bot Token (例: 123456789:ABCdefGHIjklMNOpqrsTUVwxyz)"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600"
             />
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-cream-500">
               從 @BotFather 獲取的 Bot Token
             </p>
           </div>
 
           {/* Chat ID 設定 */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-cream-800 mb-2">
               Telegram Chat ID <span className="text-red-500">*</span>
             </label>
             <input
@@ -372,17 +372,17 @@ export default function SystemSettingsEditor({ onBack }: Props) {
               value={telegramChatId}
               onChange={(e) => setTelegramChatId(e.target.value)}
               placeholder="請輸入 Chat ID (例: -1001234567890 或 123456789)"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600"
             />
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-cream-500">
               個人聊天 ID 或群組 Chat ID（群組 ID 以 - 開頭）
             </p>
           </div>
 
           {/* 設定說明 */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h4 className="font-medium text-blue-900 mb-2">📋 設定步驟：</h4>
-            <ol className="text-sm text-blue-800 space-y-1 list-decimal list-inside">
+          <div className="bg-cream-100 border border-blue-200 rounded-lg p-4">
+            <h4 className="font-medium text-teal-700 mb-2">📋 設定步驟：</h4>
+            <ol className="text-sm text-teal-700 space-y-1 list-decimal list-inside">
               <li>與 @BotFather 對話創建新的 Bot，獲取 Bot Token</li>
               <li>將 Bot 加入您的群組或與 Bot 私聊</li>
               <li>使用 @userinfobot 獲取您的 Chat ID</li>
@@ -395,7 +395,7 @@ export default function SystemSettingsEditor({ onBack }: Props) {
             <button
               onClick={testTelegramBot}
               disabled={testingBot || !telegramBotToken || !telegramChatId}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:bg-cream-400 disabled:cursor-not-allowed transition-colors"
             >
               {testingBot ? '測試中...' : '🧪 測試連接'}
             </button>
@@ -403,7 +403,7 @@ export default function SystemSettingsEditor({ onBack }: Props) {
             <button
               onClick={handleSave}
               disabled={saving}
-              className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:bg-cream-400 disabled:cursor-not-allowed transition-colors"
             >
               {saving ? '儲存中...' : '💾 儲存設定'}
             </button>

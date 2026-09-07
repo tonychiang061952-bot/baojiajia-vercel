@@ -171,10 +171,10 @@ export default function CategoryManager({ onBack }: Props) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">載入中...</p>
+          <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-cream-600">載入中...</p>
         </div>
       </div>
     );
@@ -182,38 +182,38 @@ export default function CategoryManager({ onBack }: Props) {
 
   if (editingCategory) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-cream-100 py-8">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          <div className="bg-white rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-cream-900 mb-6">
               {isNewCategory ? '新增分類' : '編輯分類'}
             </h2>
 
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-cream-800 mb-2">
                 分類名稱
               </label>
                   <input
                 type="text"
                 value={formData.name}
                 onChange={(e) => handleNameChange(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 placeholder="輸入分類名稱"
               />
             </div>
 
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-semibold text-gray-700">
+                <label className="block text-sm font-semibold text-cream-800">
                   URL 代稱 (Slug)
                 </label>
-                <span className="text-xs text-gray-500">僅限英數、中文與連字號</span>
+                <span className="text-xs text-cream-500">僅限英數、中文與連字號</span>
               </div>
               <input
                 type="text"
                 value={formData.slug}
                 onChange={(e) => handleSlugChange(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 placeholder="例如：insurance-basics"
               />
             </div>
@@ -225,7 +225,7 @@ export default function CategoryManager({ onBack }: Props) {
                   setEditingCategory(null);
                   setIsNewCategory(false);
                 }}
-                className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors cursor-pointer whitespace-nowrap"
+                className="px-6 py-3 bg-cream-1000 text-white rounded-lg hover:bg-cream-700 transition-colors cursor-pointer whitespace-nowrap"
               >
                 <i className="ri-arrow-left-line mr-2"></i>
                 返回文章分類列表
@@ -234,7 +234,7 @@ export default function CategoryManager({ onBack }: Props) {
                 type="button"
                 onClick={handleSave}
                 disabled={saving}
-                className="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
+                className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors disabled:bg-cream-400 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
               >
                 {saving ? '儲存中...' : '儲存'}
               </button>
@@ -246,17 +246,17 @@ export default function CategoryManager({ onBack }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">文章分類管理</h1>
-              <p className="text-gray-600">管理知識專區的文章分類</p>
+              <h1 className="text-3xl font-bold text-cream-900 mb-2">文章分類管理</h1>
+              <p className="text-cream-600">管理知識專區的文章分類</p>
             </div>
             <button
               onClick={handleCreateNew}
-              className="px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors cursor-pointer whitespace-nowrap"
+              className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap"
             >
               <i className="ri-add-line mr-2"></i>
               新增分類
@@ -264,28 +264,28 @@ export default function CategoryManager({ onBack }: Props) {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <div className="bg-white rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-cream-100 border-b border-cream-300">
                 <tr>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">分類名稱</th>
-                  <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Slug</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">排序</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">狀態</th>
-                  <th className="px-6 py-4 text-center text-sm font-semibold text-gray-900">操作</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">分類名稱</th>
+                  <th className="px-6 py-4 text-left text-sm font-semibold text-cream-900">Slug</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-cream-900">排序</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-cream-900">狀態</th>
+                  <th className="px-6 py-4 text-center text-sm font-semibold text-cream-900">操作</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-cream-300">
                 {categories.map((category) => (
-                  <tr key={category.id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={category.id} className="hover:bg-cream-100 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900">{category.name}</div>
+                      <div className="font-medium text-cream-900">{category.name}</div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
-                      <code className="px-2 py-1 bg-gray-100 rounded-md">{category.slug}</code>
+                    <td className="px-6 py-4 text-sm text-cream-600">
+                      <code className="px-2 py-1 bg-cream-200 rounded-md">{category.slug}</code>
                     </td>
-                    <td className="px-6 py-4 text-center text-sm text-gray-600">
+                    <td className="px-6 py-4 text-center text-sm text-cream-600">
                       {category.display_order}
                     </td>
                     <td className="px-6 py-4 text-center">
@@ -299,7 +299,7 @@ export default function CategoryManager({ onBack }: Props) {
                             啟用
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
+                          <span className="inline-flex items-center gap-1 px-3 py-1 bg-cream-200 text-cream-600 rounded-full text-sm font-medium whitespace-nowrap">
                             <i className="ri-close-circle-fill"></i>
                             停用
                           </span>
@@ -310,7 +310,7 @@ export default function CategoryManager({ onBack }: Props) {
                       <div className="flex items-center justify-center gap-2">
                         <button
                           onClick={() => handleEdit(category)}
-                          className="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors cursor-pointer whitespace-nowrap"
+                          className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap"
                         >
                           <i className="ri-edit-line mr-1"></i>
                           編輯

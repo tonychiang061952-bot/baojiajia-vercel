@@ -101,43 +101,43 @@ export default function StatisticsEditor({ onBack }: Props) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">載入中...</p>
+          <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-cream-600">載入中...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">統計數據管理</h1>
-              <p className="text-gray-600">管理「關於我們」頁面顯示的統計數字</p>
+              <h1 className="text-3xl font-bold text-cream-900 mb-2">統計數據管理</h1>
+              <p className="text-cream-600">管理「關於我們」頁面顯示的統計數字</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {statistics.map((stat, index) => (
-              <div key={stat.id} className="bg-gray-50 rounded-xl p-6 border-2 border-gray-200">
+              <div key={stat.id} className="bg-cream-100 rounded-lg p-6 border-2 border-cream-300">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-gray-900">統計項目 {stat.display_order}</h3>
+                  <h3 className="text-lg font-semibold text-cream-900">統計項目 {stat.display_order}</h3>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleReorder(stat.id, 'up')}
                       disabled={index === 0}
-                      className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-teal-600 disabled:opacity-30 cursor-pointer"
+                      className="w-8 h-8 flex items-center justify-center text-cream-500 hover:text-teal-600 disabled:opacity-30 cursor-pointer"
                     >
                       <i className="ri-arrow-up-s-line text-xl"></i>
                     </button>
                     <button
                       onClick={() => handleReorder(stat.id, 'down')}
                       disabled={index === statistics.length - 1}
-                      className="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-teal-600 disabled:opacity-30 cursor-pointer"
+                      className="w-8 h-8 flex items-center justify-center text-cream-500 hover:text-teal-600 disabled:opacity-30 cursor-pointer"
                     >
                       <i className="ri-arrow-down-s-line text-xl"></i>
                     </button>
@@ -146,27 +146,27 @@ export default function StatisticsEditor({ onBack }: Props) {
 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-cream-800 mb-2">
                       數值
                     </label>
                     <input
                       type="text"
                       value={stat.value}
                       onChange={(e) => handleChange(stat.id, 'value', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-2xl font-bold text-teal-600"
+                      className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent text-2xl font-bold text-teal-600"
                       placeholder="例如：15.7K+"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-cream-800 mb-2">
                       說明文字
                     </label>
                     <input
                       type="text"
                       value={stat.label}
                       onChange={(e) => handleChange(stat.id, 'label', e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                       placeholder="例如：Instagram 粉絲"
                     />
                   </div>
@@ -177,42 +177,42 @@ export default function StatisticsEditor({ onBack }: Props) {
                       id={`active_${stat.id}`}
                       checked={stat.is_active}
                       onChange={(e) => handleChange(stat.id, 'is_active', e.target.checked)}
-                      className="w-5 h-5 text-teal-600 rounded focus:ring-teal-500"
+                      className="w-5 h-5 text-teal-600 rounded focus:ring-teal-600"
                     />
-                    <label htmlFor={`active_${stat.id}`} className="text-sm font-medium text-gray-700">
+                    <label htmlFor={`active_${stat.id}`} className="text-sm font-medium text-cream-800">
                       在頁面上顯示
                     </label>
                   </div>
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-gray-300">
-                  <p className="text-xs text-gray-500 mb-2">預覽效果：</p>
+                <div className="mt-4 pt-4 border-t border-cream-300">
+                  <p className="text-xs text-cream-500 mb-2">預覽效果：</p>
                   <div className="text-center bg-white p-4 rounded-lg">
                     <div className="text-3xl font-bold text-teal-600 mb-1">{stat.value}</div>
-                    <div className="text-sm text-gray-600">{stat.label}</div>
+                    <div className="text-sm text-cream-600">{stat.label}</div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="pt-6 border-t border-gray-200">
+          <div className="pt-6 border-t border-cream-300">
             <button
               onClick={handleSave}
               disabled={saving}
-              className="w-full px-6 py-4 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors disabled:opacity-50 text-lg font-semibold cursor-pointer whitespace-nowrap"
+              className="w-full px-6 py-4 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors disabled:opacity-50 text-lg font-semibold cursor-pointer whitespace-nowrap"
             >
               {saving ? '儲存中...' : '儲存所有統計數據'}
             </button>
           </div>
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+        <div className="bg-cream-100 border border-blue-200 rounded-lg p-6">
           <div className="flex items-start gap-3">
-            <i className="ri-lightbulb-line text-2xl text-blue-600 flex-shrink-0"></i>
+            <i className="ri-lightbulb-line text-2xl text-teal-600 flex-shrink-0"></i>
             <div>
-              <h3 className="font-semibold text-blue-900 mb-2">數值格式建議</h3>
-              <ul className="text-sm text-blue-800 space-y-1">
+              <h3 className="font-semibold text-teal-700 mb-2">數值格式建議</h3>
+              <ul className="text-sm text-teal-700 space-y-1">
                 <li>• 大數字可以使用 K（千）或 M（百萬）簡化，例如：15.7K+</li>
                 <li>• 百分比記得加上 % 符號，例如：99%</li>
                 <li>• 可以在數字後加上 + 號表示「以上」，例如：5K+</li>

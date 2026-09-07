@@ -70,23 +70,23 @@ export default function ServiceItemEditor({ service, onBack }: Props) {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-white rounded-lg p-6 mb-8">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-teal-600 mb-4 transition-colors cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center gap-2 text-cream-600 hover:text-teal-600 mb-4 transition-colors cursor-pointer whitespace-nowrap"
           >
             <i className="ri-arrow-left-line"></i>
             返回列表
           </button>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">編輯服務項目</h1>
-          <p className="text-gray-600">修改服務項目的基本資訊</p>
+          <h1 className="text-3xl font-bold text-cream-900 mb-2">編輯服務項目</h1>
+          <p className="text-cream-600">修改服務項目的基本資訊</p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-md p-8">
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg p-8">
           {/* Message */}
           {message && (
             <div className={`mb-6 p-4 rounded-lg ${
@@ -101,14 +101,14 @@ export default function ServiceItemEditor({ service, onBack }: Props) {
 
           {/* Title */}
           <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-cream-900 mb-2">
               服務項目名稱 <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm"
+              className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent text-sm"
               placeholder="例如：保單健診"
               required
             />
@@ -116,24 +116,24 @@ export default function ServiceItemEditor({ service, onBack }: Props) {
 
           {/* Description - Simple Textarea */}
           <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-cream-900 mb-2">
               服務描述 <span className="text-red-500">*</span>
             </label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full min-h-[300px] px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm resize-y"
+              className="w-full min-h-[300px] px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent text-sm resize-y"
               placeholder="輸入服務描述內容..."
               dir="ltr"
               style={{ textAlign: 'left', direction: 'ltr' }}
               required
             />
-            <p className="text-xs text-gray-500 mt-1">請輸入服務的詳細描述</p>
+            <p className="text-xs text-cream-500 mt-1">請輸入服務的詳細描述</p>
           </div>
 
           {/* Icon */}
           <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
+            <label className="block text-sm font-semibold text-cream-900 mb-2">
               圖示 <span className="text-red-500">*</span>
             </label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -144,23 +144,23 @@ export default function ServiceItemEditor({ service, onBack }: Props) {
                   onClick={() => setFormData({ ...formData, icon: option.value })}
                   className={`p-4 border-2 rounded-lg transition-all cursor-pointer ${
                     formData.icon === option.value
-                      ? 'border-teal-500 bg-teal-50'
-                      : 'border-gray-200 hover:border-teal-300'
+                      ? 'border-teal-600 bg-teal-50'
+                      : 'border-cream-300 hover:border-teal-300'
                   }`}
                 >
-                  <div className="w-10 h-10 mx-auto bg-teal-500 rounded-lg flex items-center justify-center mb-2">
+                  <div className="w-10 h-10 mx-auto bg-teal-600 rounded-lg flex items-center justify-center mb-2">
                     <i className={`${option.value} text-xl text-white`}></i>
                   </div>
-                  <p className="text-xs text-gray-600 text-center">{option.label}</p>
+                  <p className="text-xs text-cream-600 text-center">{option.label}</p>
                 </button>
               ))}
             </div>
-            <p className="text-xs text-gray-500 mt-2">或輸入自訂圖示類別名稱（Remix Icon）</p>
+            <p className="text-xs text-cream-500 mt-2">或輸入自訂圖示類別名稱（Remix Icon）</p>
             <input
               type="text"
               value={formData.icon}
               onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm mt-2"
+              className="w-full px-4 py-2 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent text-sm mt-2"
               placeholder="例如：ri-health-book-line"
             />
           </div>
@@ -178,7 +178,7 @@ export default function ServiceItemEditor({ service, onBack }: Props) {
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium cursor-pointer whitespace-nowrap"
+              className="flex-1 px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:bg-cream-300 disabled:cursor-not-allowed transition-colors font-medium cursor-pointer whitespace-nowrap"
             >
               {saving ? (
                 <span className="flex items-center justify-center gap-2">
@@ -195,7 +195,7 @@ export default function ServiceItemEditor({ service, onBack }: Props) {
             <button
               type="button"
               onClick={onBack}
-              className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium cursor-pointer whitespace-nowrap"
+              className="px-6 py-3 bg-cream-300 text-cream-800 rounded-lg hover:bg-cream-300 transition-colors font-medium cursor-pointer whitespace-nowrap"
             >
               取消
             </button>

@@ -101,13 +101,13 @@ export default function DownloadLimitManager() {
     };
 
     return (
-        <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">會員下載次數限制管理</h2>
+        <div className="bg-white rounded-lg p-6">
+            <h2 className="text-2xl font-bold text-cream-900 mb-6">會員下載次數限制管理</h2>
 
-            <form onSubmit={handleSubmit} className="mb-8 bg-gray-50 p-6 rounded-xl">
+            <form onSubmit={handleSubmit} className="mb-8 bg-cream-100 p-6 rounded-lg">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-cream-800 mb-2">
                             會員 Email
                         </label>
                         <input
@@ -115,12 +115,12 @@ export default function DownloadLimitManager() {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            className="w-full px-4 py-2 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600"
                             placeholder="user@example.com"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        <label className="block text-sm font-semibold text-cream-800 mb-2">
                             下載次數限制 (預設 -1 為無限制)
                         </label>
                         <input
@@ -128,7 +128,7 @@ export default function DownloadLimitManager() {
                             required
                             value={limit}
                             onChange={(e) => setLimit(parseInt(e.target.value))}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                            className="w-full px-4 py-2 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600"
                         />
                     </div>
                     <button
@@ -143,33 +143,33 @@ export default function DownloadLimitManager() {
 
             <div className="overflow-x-auto">
                 <table className="w-full">
-                    <thead className="bg-gray-50 border-b border-gray-200">
+                    <thead className="bg-cream-100 border-b border-cream-300">
                         <tr>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Email</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">限制次數</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">已下載次數</th>
-                            <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">最後更新</th>
-                            <th className="px-6 py-3 text-right text-sm font-semibold text-gray-900">操作</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold text-cream-900">Email</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold text-cream-900">限制次數</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold text-cream-900">已下載次數</th>
+                            <th className="px-6 py-3 text-left text-sm font-semibold text-cream-900">最後更新</th>
+                            <th className="px-6 py-3 text-right text-sm font-semibold text-cream-900">操作</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
+                    <tbody className="divide-y divide-cream-300">
                         {loading ? (
                             <tr>
-                                <td colSpan={5} className="px-6 py-8 text-center text-gray-500">載入中...</td>
+                                <td colSpan={5} className="px-6 py-8 text-center text-cream-500">載入中...</td>
                             </tr>
                         ) : limits.length === 0 ? (
                             <tr>
-                                <td colSpan={5} className="px-6 py-8 text-center text-gray-500">尚無設定記錄</td>
+                                <td colSpan={5} className="px-6 py-8 text-center text-cream-500">尚無設定記錄</td>
                             </tr>
                         ) : (
                             limits.map((item) => (
-                                <tr key={item.email} className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 text-sm text-gray-900">{item.email}</td>
-                                    <td className="px-6 py-4 text-sm text-gray-900">
+                                <tr key={item.email} className="hover:bg-cream-100">
+                                    <td className="px-6 py-4 text-sm text-cream-900">{item.email}</td>
+                                    <td className="px-6 py-4 text-sm text-cream-900">
                                         {item.download_limit === -1 ? '無限制' : item.download_limit}
                                     </td>
-                                    <td className="px-6 py-4 text-sm text-gray-900">{item.download_count}</td>
-                                    <td className="px-6 py-4 text-sm text-gray-500">
+                                    <td className="px-6 py-4 text-sm text-cream-900">{item.download_count}</td>
+                                    <td className="px-6 py-4 text-sm text-cream-500">
                                         {new Date(item.updated_at).toLocaleString('zh-TW')}
                                     </td>
                                     <td className="px-6 py-4 text-right">

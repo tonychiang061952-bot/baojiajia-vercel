@@ -66,23 +66,23 @@ export default function SiteSettingsEditor({ onBack }: Props) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">載入中...</p>
+          <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-cream-600">載入中...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">網站設定</h1>
-              <p className="text-gray-600">管理網站 Logo 和社群媒體連結</p>
+              <h1 className="text-3xl font-bold text-cream-900 mb-2">網站設定</h1>
+              <p className="text-cream-600">管理網站 Logo 和社群媒體連結</p>
             </div>
           </div>
 
@@ -97,14 +97,14 @@ export default function SiteSettingsEditor({ onBack }: Props) {
                   />
                 ) : (
                   <>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-cream-800 mb-2">
                       {setting.setting_label}
                     </label>
                     <input
                       type="url"
                       value={setting.setting_value}
                       onChange={(e) => handleChange(setting.id, e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                       placeholder={`輸入 ${setting.setting_label}`}
                     />
                   </>
@@ -112,11 +112,11 @@ export default function SiteSettingsEditor({ onBack }: Props) {
               </div>
             ))}
 
-            <div className="pt-6 border-t border-gray-200">
+            <div className="pt-6 border-t border-cream-300">
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="w-full px-6 py-4 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors disabled:opacity-50 text-lg font-semibold cursor-pointer whitespace-nowrap"
+                className="w-full px-6 py-4 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors disabled:opacity-50 text-lg font-semibold cursor-pointer whitespace-nowrap"
               >
                 {saving ? '儲存中...' : '儲存所有設定'}
               </button>
@@ -124,12 +124,12 @@ export default function SiteSettingsEditor({ onBack }: Props) {
           </div>
         </div>
 
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+        <div className="bg-cream-100 border border-blue-200 rounded-lg p-6">
           <div className="flex items-start gap-3">
-            <i className="ri-information-line text-2xl text-blue-600 flex-shrink-0"></i>
+            <i className="ri-information-line text-2xl text-teal-600 flex-shrink-0"></i>
             <div>
-              <h3 className="font-semibold text-blue-900 mb-2">使用說明</h3>
-              <ul className="text-sm text-blue-800 space-y-1">
+              <h3 className="font-semibold text-teal-700 mb-2">使用說明</h3>
+              <ul className="text-sm text-teal-700 space-y-1">
                 <li>• Logo 圖片建議使用透明背景的 PNG 格式</li>
                 <li>• 建議 Logo 高度為 200-300px，系統會自動調整顯示大小</li>
                 <li>• 社群媒體連結請輸入完整網址（包含 https://）</li>

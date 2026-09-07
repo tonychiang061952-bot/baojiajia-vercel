@@ -49,7 +49,7 @@ export default function ImageUpload({
 
   return (
     <div className={className}>
-      <label className="block text-sm font-semibold text-gray-900 mb-2">
+      <label className="block text-sm font-semibold text-cream-900 mb-2">
         {label} <span className="text-red-500">*</span>
       </label>
       
@@ -59,7 +59,7 @@ export default function ImageUpload({
                 type="url"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm"
+                className="flex-1 px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent text-sm"
                 placeholder="輸入圖片網址或上傳檔案"
                 required={required}
             />
@@ -73,7 +73,7 @@ export default function ImageUpload({
                 />
                 <button
                     type="button"
-                    className="px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium cursor-pointer whitespace-nowrap border border-gray-300 h-full flex items-center"
+                    className="px-4 py-3 bg-cream-200 text-cream-800 rounded-lg hover:bg-cream-300 transition-colors text-sm font-medium cursor-pointer whitespace-nowrap border border-cream-300 h-full flex items-center"
                     disabled={uploading}
                 >
                     {uploading ? (
@@ -92,7 +92,7 @@ export default function ImageUpload({
         </div>
 
         {value && (
-            <div className="rounded-lg overflow-hidden border border-gray-200 bg-gray-50 max-w-md">
+            <div className="rounded-lg overflow-hidden border border-cream-300 bg-cream-100 max-w-md">
                 {isVideo(value) ? (
                     <video
                         src={value}

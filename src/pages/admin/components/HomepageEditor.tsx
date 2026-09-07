@@ -130,10 +130,10 @@ export default function HomepageEditor({ onBack }: Props) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">載入中...</p>
+          <div className="w-16 h-16 border-4 border-teal-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-cream-600">載入中...</p>
         </div>
       </div>
     );
@@ -141,12 +141,12 @@ export default function HomepageEditor({ onBack }: Props) {
 
   if (!content) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-cream-100">
         <div className="text-center">
-          <p className="text-gray-600">無法載入內容</p>
+          <p className="text-cream-600">無法載入內容</p>
           <button
             onClick={onBack}
-            className="mt-4 px-6 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors cursor-pointer whitespace-nowrap"
+            className="mt-4 px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap"
           >
             返回
           </button>
@@ -156,93 +156,93 @@ export default function HomepageEditor({ onBack }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">首頁內容編輯</h1>
-              <p className="text-gray-600">編輯首頁 Hero 區塊和行動呼籲內容</p>
+              <h1 className="text-3xl font-bold text-cream-900 mb-2">首頁內容編輯</h1>
+              <p className="text-cream-600">編輯首頁 Hero 區塊和行動呼籲內容</p>
             </div>
           </div>
         </div>
 
         {/* 首頁最上方的區塊。改版後不再用輪播圖，改成文字式，
             所以這幾個欄位是有效的；hero_image_url 已不再使用，故未列出。 */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
+        <div className="bg-white rounded-lg p-6 mb-6">
+          <h2 className="text-2xl font-bold text-cream-900 mb-2 flex items-center">
             <i className="ri-home-4-line text-purple-600 mr-3"></i>
             首頁最上方
           </h2>
-          <p className="text-sm text-gray-500 mb-6">首頁一打開看到的標題、說明與兩顆按鈕。</p>
+          <p className="text-sm text-cream-500 mb-6">首頁一打開看到的標題、說明與兩顆按鈕。</p>
 
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">主標題</label>
+              <label className="block text-sm font-semibold text-cream-800 mb-2">主標題</label>
               <input
                 type="text"
                 value={content.hero_title}
                 onChange={(e) => handleChange('hero_title', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">副標題</label>
+              <label className="block text-sm font-semibold text-cream-800 mb-2">副標題</label>
               <input
                 type="text"
                 value={content.hero_subtitle}
                 onChange={(e) => handleChange('hero_subtitle', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">說明文字</label>
+              <label className="block text-sm font-semibold text-cream-800 mb-2">說明文字</label>
               <textarea
                 rows={3}
                 value={content.hero_description}
                 onChange={(e) => handleChange('hero_description', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">按鈕一 文字</label>
+                <label className="block text-sm font-semibold text-cream-800 mb-2">按鈕一 文字</label>
                 <input
                   type="text"
                   value={content.hero_button1_text}
                   onChange={(e) => handleChange('hero_button1_text', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">按鈕一 連結</label>
+                <label className="block text-sm font-semibold text-cream-800 mb-2">按鈕一 連結</label>
                 <input
                   type="text"
                   value={content.hero_button1_link}
                   onChange={(e) => handleChange('hero_button1_link', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">按鈕二 文字</label>
+                <label className="block text-sm font-semibold text-cream-800 mb-2">按鈕二 文字</label>
                 <input
                   type="text"
                   value={content.hero_button2_text}
                   onChange={(e) => handleChange('hero_button2_text', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">按鈕二 連結</label>
+                <label className="block text-sm font-semibold text-cream-800 mb-2">按鈕二 連結</label>
                 <input
                   type="text"
                   value={content.hero_button2_link}
                   onChange={(e) => handleChange('hero_button2_link', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 />
               </div>
             </div>
@@ -259,7 +259,7 @@ export default function HomepageEditor({ onBack }: Props) {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-8 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
+            className="px-8 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors disabled:bg-cream-400 disabled:cursor-not-allowed cursor-pointer whitespace-nowrap"
           >
             {saving ? '儲存中...' : '儲存變更'}
           </button>
