@@ -136,8 +136,7 @@ export default function ServiceDetailEditor({ service, onBack }: Props) {
             <i className="ri-arrow-left-line"></i>
             返回列表
           </button>
-          <h1 className="text-3xl font-bold text-cream-900 mb-2">編輯內容：{service.title}</h1>
-          <p className="text-cream-600">編輯服務項目的詳細內容</p>
+          <p className="text-[0.88rem] text-cream-600">正在編輯：<b className="text-cream-900">{service.title}</b></p>
         </div>
 
         <div className="bg-white rounded-lg p-6 space-y-6">

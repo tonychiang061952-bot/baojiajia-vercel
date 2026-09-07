@@ -79,13 +79,6 @@ export default function SiteSettingsEditor({ onBack }: Props) {
     <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg p-6 mb-8">
-          <div className="flex items-center mb-6">
-            <div>
-              <h1 className="text-3xl font-bold text-cream-900 mb-2">網站設定</h1>
-              <p className="text-cream-600">管理網站 Logo 和社群媒體連結</p>
-            </div>
-          </div>
-
           <div className="space-y-6">
             {settings.map((setting) => (
               <div key={setting.id}>

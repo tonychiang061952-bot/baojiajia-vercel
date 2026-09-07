@@ -682,10 +682,6 @@ export default function MemberManager() {
         <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex justify-between items-center mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-cream-900 mb-2">下載管理中心</h1>
-              <p className="text-cream-600">查看下載記錄與諮詢表單</p>
-            </div>
-            <div>
               {activeTab === 'downloads' ? (
                 <button
                   onClick={handleExportCSV}

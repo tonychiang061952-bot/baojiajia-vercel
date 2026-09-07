@@ -100,11 +100,6 @@ export default function ServiceManager({ onEditItem, onEditDetail }: ServiceMana
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg p-6">
-        <h2 className="text-2xl font-bold text-cream-900 mb-2">服務項目管理</h2>
-        <p className="text-cream-600">管理服務項目的內容、順序和顯示狀態</p>
-      </div>
-
       <div className="bg-white rounded-lg overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">

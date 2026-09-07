@@ -81,8 +81,6 @@ export default function ServiceItemEditor({ service, onBack }: Props) {
             <i className="ri-arrow-left-line"></i>
             返回列表
           </button>
-          <h1 className="text-3xl font-bold text-cream-900 mb-2">編輯服務項目</h1>
-          <p className="text-cream-600">修改服務項目的基本資訊</p>
         </div>
 
         {/* Form */}

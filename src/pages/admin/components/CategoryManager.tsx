@@ -249,11 +249,7 @@ export default function CategoryManager({ onBack }: Props) {
     <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg p-6 mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-cream-900 mb-2">文章分類管理</h1>
-              <p className="text-cream-600">管理知識專區的文章分類</p>
-            </div>
+          <div className="flex items-center justify-end">
             <button
               onClick={handleCreateNew}
               className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap"

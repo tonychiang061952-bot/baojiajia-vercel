@@ -181,15 +181,6 @@ export default function FeaturesEditor({ onBack }: Props) {
   return (
     <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-lg p-6 mb-8">
-          <div className="flex items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-cream-900 mb-2">為什麼選擇我們</h1>
-              <p className="text-cream-600">管理首頁特色項目內容</p>
-            </div>
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature) => (
             <div key={feature.id} className="bg-white rounded-lg p-6">

@@ -158,13 +158,6 @@ export default function NavigationEditor({ onBack }: Props) {
     <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg p-6 mb-8">
-          <div className="flex items-center mb-6">
-            <div>
-              <h1 className="text-3xl font-bold text-cream-900 mb-2">導航選單管理</h1>
-              <p className="text-cream-600">管理網站頂部導航選單的項目和順序</p>
-            </div>
-          </div>
-
           <button
             onClick={handleAddNew}
             className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap mb-6"

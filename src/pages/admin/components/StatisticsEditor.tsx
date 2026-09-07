@@ -114,13 +114,6 @@ export default function StatisticsEditor({ onBack }: Props) {
     <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg p-6 mb-8">
-          <div className="flex items-center mb-6">
-            <div>
-              <h1 className="text-3xl font-bold text-cream-900 mb-2">統計數據管理</h1>
-              <p className="text-cream-600">管理「關於我們」頁面顯示的統計數字</p>
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {statistics.map((stat, index) => (
               <div key={stat.id} className="bg-cream-100 rounded-lg p-6 border-2 border-cream-300">

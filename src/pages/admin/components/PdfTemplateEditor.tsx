@@ -298,12 +298,7 @@ export default function PdfTemplateEditor({ onBack }: Props) {
     <div className="space-y-6 h-[calc(100vh-100px)] flex flex-col">
       {/* Header */}
       <div className="flex items-center justify-between bg-white p-4 rounded-lg">
-        <div className="flex items-center gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-cream-900">PDF 報告模板</h1>
-            <p className="text-cream-500 text-sm">編輯保障需求分析報告的 PDF 模板</p>
-          </div>
-        </div>
+        <p className="text-[0.86rem] text-cream-600">編輯保障需求分析報告的 PDF 模板</p>
 
         {/* Template Selector */}
         <div className="flex gap-2">

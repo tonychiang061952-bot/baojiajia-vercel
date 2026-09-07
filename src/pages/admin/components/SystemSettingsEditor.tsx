@@ -189,7 +189,7 @@ export default function SystemSettingsEditor({ onBack }: Props) {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-bold text-cream-900">系統設定</h1>
+        <span />
         <button
           onClick={onBack}
           className="px-4 py-2 bg-cream-700 text-white rounded-lg hover:bg-cream-800 transition-colors whitespace-nowrap"

@@ -201,11 +201,6 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg p-6 mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-bold text-cream-900 mb-2">客戶評價（真實評價系統）</h1>
-              <p className="text-cream-600">審核後才會在首頁公開顯示</p>
-            </div>
-
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={addNewReview}

@@ -158,16 +158,6 @@ export default function HomepageEditor({ onBack }: Props) {
   return (
     <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="bg-white rounded-lg p-6 mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-cream-900 mb-2">首頁內容編輯</h1>
-              <p className="text-cream-600">編輯首頁 Hero 區塊和行動呼籲內容</p>
-            </div>
-          </div>
-        </div>
-
         {/* 首頁最上方的區塊。改版後不再用輪播圖，改成文字式，
             所以這幾個欄位是有效的；hero_image_url 已不再使用，故未列出。 */}
         <div className="bg-white rounded-lg p-6 mb-6">
