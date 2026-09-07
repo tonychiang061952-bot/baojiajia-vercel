@@ -134,7 +134,7 @@ export default function About() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <header className="py-11 border-b border-cream-300">
           <h1 className="font-serif text-[1.8rem] sm:text-4xl font-bold text-cream-900 leading-[1.4]">關於保家佳</h1>
-          <p className="mt-4 text-base leading-[1.9] text-cream-600 max-w-[54ch]">
+          <p className="mt-4 text-base leading-[1.9] text-cream-600 max-w-[40rem]">
             我們相信「保險」是保護「家庭」的「最佳」工具。名字就是這樣來的。
           </p>
         </header>
@@ -146,7 +146,9 @@ export default function About() {
             </h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_272px] gap-9 lg:gap-12 items-center">
-              <div className="max-w-[500px]">
+              {/* 這裡不要再加寬度上限。格線已經算好剩下多少空間，
+                  再壓一層 max-width 只會讓文字擠成一長條、右邊空一大片。 */}
+              <div>
                 {story.map((paragraph) => (
                   <p key={paragraph.slice(0, 14)} className="mb-4 last:mb-0 text-[1.06rem] leading-[1.95] text-cream-900">
                     {withEmphasis(paragraph)}
