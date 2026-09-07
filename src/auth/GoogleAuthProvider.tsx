@@ -12,6 +12,8 @@ type AuthContextValue = {
   user: GoogleUser | null;
   loading: boolean;
   configured: boolean;
+  /** Google 的 initialize() 跑完了沒。沒跑完就 renderButton，按鈕會整顆不出現。 */
+  gisReady: boolean;
   signIn: () => void;
   signOut: () => Promise<void>;
 };
@@ -60,7 +62,7 @@ export function GoogleAuthProvider({ children }: { children: React.ReactNode }) 
     let attempts = 0;
     const maxAttempts = 100;
     const waitForGoogle = window.setInterval(() => {
-      if (!window.google?.accounts.id) {
+      if (!window.google?.accounts?.id) {
         attempts += 1;
         if (attempts >= maxAttempts) window.clearInterval(waitForGoogle);
         return;
@@ -83,7 +85,7 @@ export function GoogleAuthProvider({ children }: { children: React.ReactNode }) 
       alert('Google OAuth 尚未設定。');
       return;
     }
-    if (!gisReady || !window.google?.accounts.id) {
+    if (!gisReady || !window.google?.accounts?.id) {
       alert('Google 登入元件載入中，請稍後再試。');
       return;
     }
@@ -92,7 +94,7 @@ export function GoogleAuthProvider({ children }: { children: React.ReactNode }) 
 
   const signOut = useCallback(async () => {
     await requestSession('DELETE');
-    window.google?.accounts.id.disableAutoSelect();
+    window.google?.accounts?.id.disableAutoSelect();
     setUser(null);
   }, []);
 
@@ -100,9 +102,10 @@ export function GoogleAuthProvider({ children }: { children: React.ReactNode }) 
     user,
     loading,
     configured,
+    gisReady,
     signIn,
     signOut,
-  }), [configured, loading, signIn, signOut, user]);
+  }), [configured, gisReady, loading, signIn, signOut, user]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
