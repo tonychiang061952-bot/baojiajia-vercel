@@ -31,6 +31,14 @@ interface Props {
   onBack: () => void;
 }
 
+/** 後台列表只要看得懂日期就好，不用秒數與時區。 */
+function listDate(iso?: string | null) {
+  if (!iso) return '未設定';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return String(iso).slice(0, 10);
+  return d.toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' });
+}
+
 export default function BlogEditor({ onBack }: Props) {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
@@ -874,16 +882,14 @@ export default function BlogEditor({ onBack }: Props) {
   return (
     <div className="min-h-screen bg-cream-100 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-lg p-6 mb-8">
-          <div className="flex items-center justify-end">
-            <button
-              onClick={handleCreateNew}
-              className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap"
-            >
-              <i className="ri-add-line mr-2"></i>
-              新增文章
-            </button>
-          </div>
+        <div className="flex items-center justify-end mb-4">
+          <button
+            onClick={handleCreateNew}
+            className="px-5 py-2.5 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap text-[0.88rem] font-semibold"
+          >
+            <i className="ri-add-line mr-2"></i>
+            新增文章
+          </button>
         </div>
 
         <div className="bg-white rounded-lg overflow-hidden">
@@ -905,7 +911,7 @@ export default function BlogEditor({ onBack }: Props) {
                   <tr key={post.id} className="hover:bg-cream-100 transition-colors">
                     <td className="px-6 py-4">
                       <div className="font-medium text-cream-900 line-clamp-2 max-w-md">{post.title}</div>
-                      <div className="text-sm text-cream-500 mt-1">{post.published_at}</div>
+                      <div className="text-[0.78rem] text-cream-500 mt-1 tabular-nums">{listDate(post.published_at)}</div>
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-sm font-medium whitespace-nowrap">
