@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
 import { db } from '../../lib/database';
@@ -27,7 +27,15 @@ const listDate = (post: { content_updated_at?: string | null; published_at: stri
   post.content_updated_at || post.published_at;
 
 export default function Blog() {
-  const [selectedCategory, setSelectedCategory] = useState('全部');
+  // 分類放在網址上，這樣側欄與文章頁的分類連結才有作用，也才能分享。
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selectedCategory = searchParams.get('category') || '全部';
+  const setSelectedCategory = (category: string) => {
+    const next = new URLSearchParams(searchParams);
+    if (category === '全部') next.delete('category');
+    else next.set('category', category);
+    setSearchParams(next, { replace: true });
+  };
   const [searchKeyword, setSearchKeyword] = useState('');
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<string[]>(['全部']);

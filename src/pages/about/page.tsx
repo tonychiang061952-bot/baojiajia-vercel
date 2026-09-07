@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
@@ -54,16 +54,22 @@ const EMPHASIS = [
 ];
 
 function withEmphasis(text: string) {
-  const hit = EMPHASIS.find((phrase) => text.includes(phrase));
-  if (!hit) return text;
-  const [before, after] = text.split(hit);
-  return (
-    <>
-      {before}
-      <em className="not-italic font-bold text-teal-600">{hit}</em>
-      {after}
-    </>
-  );
+  // 同一段裡可能有兩句要標（「沒有推銷壓力的知識環境」和「唯有真正了解保險…」
+  // 就在同一段），所以要全部掃過，不能只找第一個。
+  const parts: (string | React.ReactElement)[] = [text];
+  EMPHASIS.forEach((phrase, pi) => {
+    for (let i = parts.length - 1; i >= 0; i--) {
+      const chunk = parts[i];
+      if (typeof chunk !== 'string' || !chunk.includes(phrase)) continue;
+      const [before, ...rest] = chunk.split(phrase);
+      parts.splice(i, 1,
+        before,
+        <em key={`em-${pi}`} className="not-italic font-bold text-teal-600">{phrase}</em>,
+        rest.join(phrase),
+      );
+    }
+  });
+  return <>{parts.map((part, i) => <Fragment key={i}>{part}</Fragment>)}</>;
 }
 
 export default function About() {

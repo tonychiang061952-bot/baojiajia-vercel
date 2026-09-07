@@ -264,7 +264,7 @@ export default function Beginner() {
         </section>
 
         <div className="py-14">
-          <ResourceCta heading="看完六大保障之後" intro={[
+          <ResourceCta heading="我想提供給你的資源：" intro={[
             '如果想知道自己現在缺的是哪一塊，下面兩個入口都不用先聯絡任何人。',
           ]} />
         </div>

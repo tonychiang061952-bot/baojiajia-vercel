@@ -93,6 +93,7 @@ export default function BlogDetail() {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [latestPosts, setLatestPosts] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<{ name: string; count: number }[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -151,7 +152,7 @@ export default function BlogDetail() {
     }
   };
 
-  // 側欄的最新文章：不分類別，讓讀者看完這篇還有別的路可以走
+  // 側欄的最新文章與分類：讓讀者看完這篇還有別的路可以走
   useEffect(() => {
     let alive = true;
     (async () => {
@@ -159,9 +160,17 @@ export default function BlogDetail() {
         const { data } = await supabase.from('blog_posts').select('*')
           .eq('is_active', true).order('published_at', { ascending: false });
         if (!alive || !data) return;
-        setLatestPosts((data as BlogPost[])
-          .filter((p) => p.id !== post?.id)
-          .slice(0, 5));
+        const rows = data as BlogPost[];
+        setLatestPosts(rows.filter((p) => p.id !== post?.id).slice(0, 5));
+
+        // 只列出真的有文章的分類，空分類點進去是空的，不如不顯示
+        const counts = new Map<string, number>();
+        rows.forEach((p) => {
+          if (p.category) counts.set(p.category, (counts.get(p.category) ?? 0) + 1);
+        });
+        setCategories([...counts.entries()]
+          .map(([name, count]) => ({ name, count }))
+          .sort((a, b) => b.count - a.count));
       } catch (error) {
         console.error('Latest posts failed to load:', error);
       }
@@ -189,12 +198,20 @@ export default function BlogDetail() {
     }
   };
 
+  // 「延伸閱讀」這類小節是導覽不是內容，不列進目錄。
+  const TOC_SKIP = /^(延伸閱讀|參考資料|相關文章|你可能也想知道)/;
+
   const headings = post?.content
     ? [...post.content.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/gi)].map((m, idx) => ({
         id: `sec-${idx + 1}`,
         text: m[1].replace(/<[^>]+>/g, '').trim(),
-      })).filter((h) => h.text)
+      })).filter((h) => h.text && !TOC_SKIP.test(h.text))
     : [];
+
+  // 作者自己在標題裡編了號（「1.小心主約被灌水」），
+  // 這時候再讓 <ol> 自動編號就會變成「1. 1.小心主約被灌水」。
+  const selfNumbered = headings.length > 0
+    && headings.filter((h) => /^\d+[.、）)]/.test(h.text)).length >= headings.length / 2;
 
   const isNewborn = /新生兒|嬰兒|寶寶|幼兒/.test(`${post?.title ?? ''}${post?.category ?? ''}`);
 
@@ -321,8 +338,8 @@ export default function BlogDetail() {
 
           {headings.length > 1 && (
             <nav className="mt-7 rounded-md border border-cream-300 bg-white px-5 py-5">
-              <h2 className="mb-3 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-cream-600">本篇重點</h2>
-              <ol className="list-decimal pl-5 text-[0.9rem] text-cream-900">
+              <h2 className="mb-3 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-cream-600">這篇文章會談什麼</h2>
+              <ol className={`text-[0.9rem] text-cream-900 ${selfNumbered ? 'list-none pl-0' : 'list-decimal pl-5'}`}>
                 {headings.map((h) => (
                   <li key={h.id} className="mb-1.5 last:mb-0">
                     <a href={`#${h.id}`} className="hover:text-teal-600 hover:underline underline-offset-[3px]">{h.text}</a>
@@ -399,11 +416,31 @@ export default function BlogDetail() {
                   <Link to={item.slug ? `/blog/${item.slug}` : `/blog/id/${item.id}`}
                         className="block text-[0.85rem] font-semibold leading-[1.55] text-cream-900 hover:text-teal-600 transition-colors">
                     {item.title}
+                    <time className="mt-1 block text-[0.7rem] font-normal tabular-nums text-cream-500">
+                      {(item.content_updated_at || item.published_at || '').slice(0, 10)}
+                    </time>
                   </Link>
                 </li>
               ))}
             </ul>
           </section>
+
+          {categories.length > 0 && (
+            <section className="mb-8">
+              <h2 className="mb-3 border-b border-cream-300 pb-2 text-[0.72rem] font-bold tracking-[0.14em] text-cream-600">分類</h2>
+              <ul className="flex flex-col gap-2.5">
+                {categories.map((c) => (
+                  <li key={c.name} className="flex items-center justify-between gap-2">
+                    <Link to={`/blog?category=${encodeURIComponent(c.name)}`}
+                          className="text-[0.84rem] text-cream-600 hover:text-teal-600 transition-colors">
+                      {c.name}
+                    </Link>
+                    <b className="text-[0.74rem] font-normal tabular-nums text-cream-500">{c.count}</b>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           <div className="rounded-b-md border-t-[3px] border-brandgold-edge bg-brandgold-panel px-4 py-4">
             <p className="mb-3 text-[0.83rem] leading-[1.75] text-cream-900">
