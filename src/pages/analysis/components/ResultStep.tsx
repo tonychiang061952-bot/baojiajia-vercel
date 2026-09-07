@@ -618,67 +618,68 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
     <div className="max-w-5xl mx-auto space-y-12">
       {/* 恭喜完成區塊 */}
       <div className="text-center space-y-4">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full mb-4">
+        <div className="inline-flex items-center justify-center w-20 h-20 bg-teal-600 rounded-full mb-4">
           <i className="ri-checkbox-circle-line text-4xl text-white"></i>
         </div>
-        <h1 className="text-3xl font-bold text-gray-900">恭喜！您已完成了最關鍵的第一步</h1>
+        {/* 頁面的 h1 是「保險需求分析 DIY」，這裡降成 h2，一頁只留一個 h1。 */}
+        <h2 className="text-3xl font-bold text-cream-900">恭喜！您已完成了最關鍵的第一步</h2>
         <p className="text-xl text-teal-600 font-semibold">了解需求</p>
       </div>
 
       {/* 三大難題標題 */}
       <div className="text-center space-y-3">
-        <p className="text-lg text-gray-600">但在真正「獲得保障」之前，</p>
-        <h2 className="text-3xl font-bold text-gray-900">90% 的人會卡在接下來的三個現實難題</h2>
+        <p className="text-lg text-cream-600">但在真正「獲得保障」之前，</p>
+        <h2 className="text-3xl font-bold text-cream-900">90% 的人會卡在接下來的三個現實難題</h2>
       </div>
 
       {/* 三大難題 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* 難題 1 */}
         <div className="group relative h-full">
-          <div className="absolute inset-0 bg-gradient-to-br from-rose-100 to-pink-100 rounded-2xl transform group-hover:scale-105 transition-transform duration-300"></div>
-          <div className="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col">
-            <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-rose-500 to-pink-500 rounded-xl mb-6 mx-auto">
+          <div className="absolute inset-0 bg-brandgold-panel rounded-lg transform group-hover:scale-105 transition-transform duration-300"></div>
+          <div className="relative bg-white rounded-lg p-8 transition-shadow h-full flex flex-col">
+            <div className="flex items-center justify-center w-16 h-16 bg-teal-600 rounded-lg mb-6 mx-auto">
               <i className="ri-question-line text-3xl text-white"></i>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">商品選擇障礙</h3>
-            <p className="text-gray-700 leading-relaxed flex-1">
-              透過需求分析，我們已經知道需要哪些保障，也知道應該規劃多少額度，但市面上這麼多家保險公司，成千上萬種商品，<span className="font-semibold text-gray-900">該從何開始比較？哪一家條款對我最好？哪一張 CP 值最高？</span>
+            <h3 className="text-2xl font-bold text-cream-900 mb-4 text-center">商品選擇障礙</h3>
+            <p className="text-cream-800 leading-relaxed flex-1">
+              透過需求分析，我們已經知道需要哪些保障，也知道應該規劃多少額度，但市面上這麼多家保險公司，成千上萬種商品，<span className="font-semibold text-cream-900">該從何開始比較？哪一家條款對我最好？哪一張 CP 值最高？</span>
             </p>
           </div>
         </div>
 
         {/* 難題 2 */}
         <div className="group relative h-full">
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-100 to-orange-100 rounded-2xl transform group-hover:scale-105 transition-transform duration-300"></div>
-          <div className="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col">
-            <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl mb-6 mx-auto">
+          <div className="absolute inset-0 bg-brandgold-panel rounded-lg transform group-hover:scale-105 transition-transform duration-300"></div>
+          <div className="relative bg-white rounded-lg p-8 transition-shadow h-full flex flex-col">
+            <div className="flex items-center justify-center w-16 h-16 bg-teal-600 rounded-lg mb-6 mx-auto">
               <i className="ri-file-list-3-line text-3xl text-white"></i>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">新舊保單打架</h3>
-            <p className="text-gray-700 leading-relaxed flex-1">
-              許多人在出社會前，父母可能已經幫忙買過保險，但這些「傳家寶」往往躺在家裡的某個角落，內容成謎。如果您不知道這些舊保單的內容，會很難判斷現在該怎麼幫自己規劃！<span className="font-semibold text-gray-900">最怕的是買了重複的保險（例如買了一堆功能重複的終身醫療險），不僅浪費預算；更怕的是會讓我們以為自己有保障，結果最後才發現保障不如自己的想像。</span>
+            <h3 className="text-2xl font-bold text-cream-900 mb-4 text-center">新舊保單打架</h3>
+            <p className="text-cream-800 leading-relaxed flex-1">
+              許多人在出社會前，父母可能已經幫忙買過保險，但這些「傳家寶」往往躺在家裡的某個角落，內容成謎。如果您不知道這些舊保單的內容，會很難判斷現在該怎麼幫自己規劃！<span className="font-semibold text-cream-900">最怕的是買了重複的保險（例如買了一堆功能重複的終身醫療險），不僅浪費預算；更怕的是會讓我們以為自己有保障，結果最後才發現保障不如自己的想像。</span>
             </p>
           </div>
         </div>
 
         {/* 難題 3 */}
         <div className="group relative h-full">
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl transform group-hover:scale-105 transition-transform duration-300"></div>
-          <div className="relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow h-full flex flex-col">
-            <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl mb-6 mx-auto">
+          <div className="absolute inset-0 bg-brandgold-panel rounded-lg transform group-hover:scale-105 transition-transform duration-300"></div>
+          <div className="relative bg-white rounded-lg p-8 transition-shadow h-full flex flex-col">
+            <div className="flex items-center justify-center w-16 h-16 bg-teal-600 rounded-lg mb-6 mx-auto">
               <i className="ri-emotion-unhappy-line text-3xl text-white"></i>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">人情保單壓力</h3>
-            <p className="text-gray-700 leading-relaxed flex-1">
-              在台灣，保險往往不是「買來的」，而是「被推銷來的」。當業務員是親戚、老同學或長輩的朋友時，保險就變質了。<span className="font-semibold text-gray-900">想問問題又怕問了不買不好意思，或是明知保費太貴或不符合需求，卻又因為人情不好拒絕。最後不僅荷包大失血，未來發現保障不足時，還可能會傷了彼此的感情！</span>
+            <h3 className="text-2xl font-bold text-cream-900 mb-4 text-center">人情保單壓力</h3>
+            <p className="text-cream-800 leading-relaxed flex-1">
+              在台灣，保險往往不是「買來的」，而是「被推銷來的」。當業務員是親戚、老同學或長輩的朋友時，保險就變質了。<span className="font-semibold text-cream-900">想問問題又怕問了不買不好意思，或是明知保費太貴或不符合需求，卻又因為人情不好拒絕。最後不僅荷包大失血，未來發現保障不足時，還可能會傷了彼此的感情！</span>
             </p>
           </div>
         </div>
       </div>
 
       {/* 解決方案標題 */}
-      <div className="relative overflow-hidden rounded-2xl">
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-500 via-emerald-500 to-teal-600"></div>
+      <div className="relative overflow-hidden rounded-lg">
+        <div className="absolute inset-0 bg-teal-600"></div>
         <div className="relative px-8 py-10 text-center">
           <h2 className="text-3xl font-bold text-white">我們將透過簡單 3 步驟幫您解決上述煩惱</h2>
         </div>
@@ -688,21 +689,21 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
       <div className="space-y-6">
         {/* Step 1 */}
         <div className="group relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-teal-50 to-emerald-50 rounded-2xl transform group-hover:translate-x-2 transition-transform duration-300"></div>
-          <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-teal-100">
+          <div className="absolute inset-0 bg-cream-100 rounded-lg transform group-hover:translate-x-2 transition-transform duration-300"></div>
+          <div className="relative bg-white rounded-lg overflow-hidden border-2 border-teal-100">
             <div className="flex items-start p-8 gap-6">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-teal-500 to-emerald-500 text-white rounded-xl shadow-lg">
+                <div className="flex items-center justify-center w-14 h-14 bg-teal-600 text-white rounded-lg">
                   <span className="text-2xl font-bold">1</span>
                 </div>
               </div>
               <div className="flex-1 space-y-3">
                 <div className="flex items-center gap-3">
-                  <h3 className="text-2xl font-bold text-gray-900">舊保單的健診</h3>
-                  <span className="inline-flex items-center px-3 py-1 bg-amber-400 text-gray-900 rounded-full text-sm font-bold">免費</span>
+                  <h3 className="text-2xl font-bold text-cream-900">舊保單的健診</h3>
+                  <span className="inline-flex items-center px-3 py-1 bg-amber-400 text-cream-900 rounded-full text-sm font-bold">免費</span>
                 </div>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  我們會協助您清楚了解過去規劃的保障內容，也在商品條款上替您把關，<span className="font-semibold text-gray-900">排除掉所有不利於您的地雷保單！也避免你重複或過度投保到相同功能的保險商品！把每一分保費都花在刀口上！</span>
+                <p className="text-cream-800 leading-relaxed text-lg">
+                  我們會協助您清楚了解過去規劃的保障內容，也在商品條款上替您把關，<span className="font-semibold text-cream-900">排除掉所有不利於您的地雷保單！也避免你重複或過度投保到相同功能的保險商品！把每一分保費都花在刀口上！</span>
                 </p>
               </div>
             </div>
@@ -711,18 +712,18 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
 
         {/* Step 2 */}
         <div className="group relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-sky-50 to-blue-50 rounded-2xl transform group-hover:translate-x-2 transition-transform duration-300"></div>
-          <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-sky-100">
+          <div className="absolute inset-0 bg-cream-100 rounded-lg transform group-hover:translate-x-2 transition-transform duration-300"></div>
+          <div className="relative bg-white rounded-lg overflow-hidden border-2 border-cream-300">
             <div className="flex items-start p-8 gap-6">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-sky-500 to-blue-500 text-white rounded-xl shadow-lg">
+                <div className="flex items-center justify-center w-14 h-14 bg-teal-600 text-white rounded-lg">
                   <span className="text-2xl font-bold">2</span>
                 </div>
               </div>
               <div className="flex-1 space-y-3">
-                <h3 className="text-2xl font-bold text-gray-900">1對1專業諮詢</h3>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  保險業務這麼多，總是各說各的好，甚至只講優點不說缺點！<span className="font-semibold text-gray-900">但在保家佳，我們會協助你看懂保險，破解這些討人厭的話術，讓您能真正安心的幫自己或家人規劃好保障！</span>
+                <h3 className="text-2xl font-bold text-cream-900">1對1專業諮詢</h3>
+                <p className="text-cream-800 leading-relaxed text-lg">
+                  保險業務這麼多，總是各說各的好，甚至只講優點不說缺點！<span className="font-semibold text-cream-900">但在保家佳，我們會協助你看懂保險，破解這些討人厭的話術，讓您能真正安心的幫自己或家人規劃好保障！</span>
                 </p>
               </div>
             </div>
@@ -731,18 +732,18 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
 
         {/* Step 3 */}
         <div className="group relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-50 to-violet-50 rounded-2xl transform group-hover:translate-x-2 transition-transform duration-300"></div>
-          <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-indigo-100">
+          <div className="absolute inset-0 bg-cream-100 rounded-lg transform group-hover:translate-x-2 transition-transform duration-300"></div>
+          <div className="relative bg-white rounded-lg overflow-hidden border-2 border-cream-300">
             <div className="flex items-start p-8 gap-6">
               <div className="flex-shrink-0">
-                <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-indigo-500 to-violet-500 text-white rounded-xl shadow-lg">
+                <div className="flex items-center justify-center w-14 h-14 bg-teal-600 text-white rounded-lg">
                   <span className="text-2xl font-bold">3</span>
                 </div>
               </div>
               <div className="flex-1 space-y-3">
-                <h3 className="text-2xl font-bold text-gray-900">客製化保障規劃</h3>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  我們會依據您的需求在各家保險公司之間找尋最適合您的優勢商品，<span className="font-semibold text-gray-900">杜絕條款陷阱、高保費低保障、功能過時的地雷保單！替您把關並找出最適合您的規劃方式！</span>
+                <h3 className="text-2xl font-bold text-cream-900">客製化保障規劃</h3>
+                <p className="text-cream-800 leading-relaxed text-lg">
+                  我們會依據您的需求在各家保險公司之間找尋最適合您的優勢商品，<span className="font-semibold text-cream-900">杜絕條款陷阱、高保費低保障、功能過時的地雷保單！替您把關並找出最適合您的規劃方式！</span>
                 </p>
               </div>
             </div>
@@ -751,11 +752,11 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
       </div>
 
       {/* 行動按鈕區塊 */}
-      <div className="bg-gradient-to-b from-gray-50 to-white rounded-2xl p-8 shadow-lg">
+      <div className="bg-cream-100 rounded-lg p-8">
         <div className="flex gap-4">
           <button
             onClick={() => setShowContactForm(true)}
-            className="flex-1 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:from-teal-600 hover:to-emerald-600 transition-all hover:-translate-y-0.5 shadow-lg cursor-pointer whitespace-nowrap"
+            className="flex-1 bg-teal-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-teal-600 hover:to-emerald-600 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
           >
             <i className="ri-calendar-check-line mr-2"></i>
             預約專業諮詢
@@ -763,7 +764,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
           <button
             onClick={handleDownloadReport}
             disabled={isGeneratingPDF}
-            className="flex-1 bg-white text-gray-700 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-50 transition-all shadow-md cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 bg-white text-cream-800 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-cream-100 transition-all cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isGeneratingPDF ? (
               <>
@@ -781,7 +782,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
         <div className="mt-6 text-center">
           <button
             onClick={onBack}
-            className="text-gray-500 hover:text-teal-600 transition-colors text-sm cursor-pointer"
+            className="text-cream-500 hover:text-teal-600 transition-colors text-sm cursor-pointer"
           >
             <i className="ri-arrow-left-line mr-1"></i>
             重新開始分析
@@ -792,41 +793,41 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
       {/* 下載報告表單彈窗 */}
       {showDownloadForm && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 transform transition-all">
+          <div className="bg-white rounded-lg max-w-md w-full p-8 transform transition-all">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-gray-900">下載完整分析報告</h3>
+              <h3 className="text-2xl font-bold text-cream-900">下載完整分析報告</h3>
               <button
                 onClick={() => setShowDownloadForm(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+                className="text-cream-500 hover:text-cream-600 transition-colors cursor-pointer"
                 disabled={isGeneratingPDF}
               >
                 <i className="ri-close-line text-3xl"></i>
               </button>
             </div>
 
-            <p className="text-gray-600 mb-4">
+            <p className="text-cream-600 mb-4">
               請填寫以下資料，我們將為您生成專屬的保障分析報告
             </p>
 
             {/* 報告特色說明 */}
-            <div className="bg-gray-50 rounded-xl p-4 mb-6 space-y-2">
-              <div className="flex items-center gap-2 text-gray-500 text-sm">
-                <i className="ri-file-chart-line text-teal-500"></i>
+            <div className="bg-cream-100 rounded-lg p-4 mb-6 space-y-2">
+              <div className="flex items-center gap-2 text-cream-500 text-sm">
+                <i className="ri-file-chart-line text-teal-600"></i>
                 <span>專業精美分析報告</span>
               </div>
-              <div className="flex items-center gap-2 text-gray-500 text-sm">
-                <i className="ri-printer-line text-teal-500"></i>
+              <div className="flex items-center gap-2 text-cream-500 text-sm">
+                <i className="ri-printer-line text-teal-600"></i>
                 <span>報告可直接彩色列印</span>
               </div>
-              <div className="flex items-center gap-2 text-gray-500 text-sm">
-                <i className="ri-robot-line text-teal-500"></i>
+              <div className="flex items-center gap-2 text-cream-500 text-sm">
+                <i className="ri-robot-line text-teal-600"></i>
                 <span>線上 AI 直接生成，無需等待</span>
               </div>
             </div>
 
             <form onSubmit={handleDownloadSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-cream-800 mb-2">
                   姓名 <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -834,14 +835,14 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                   required
                   value={downloadData.name}
                   onChange={(e) => setDownloadData({ ...downloadData, name: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                  className="w-full px-4 py-3 border-2 border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600 transition-all"
                   placeholder="請輸入您的姓名"
                   disabled={isGeneratingPDF}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-cream-800 mb-2">
                   手機號碼 <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -849,14 +850,14 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                   required
                   value={downloadData.phone}
                   onChange={(e) => setDownloadData({ ...downloadData, phone: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                  className="w-full px-4 py-3 border-2 border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600 transition-all"
                   placeholder="請輸入您的手機號碼"
                   disabled={isGeneratingPDF}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-cream-800 mb-2">
                   居住縣市 <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -864,14 +865,14 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                   required
                   value={downloadData.city}
                   onChange={(e) => setDownloadData({ ...downloadData, city: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                  className="w-full px-4 py-3 border-2 border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600 transition-all"
                   placeholder="例如：台北市"
                   disabled={isGeneratingPDF}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-cream-800 mb-2">
                   Line ID <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -879,7 +880,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                   required
                   value={downloadData.lineId}
                   onChange={(e) => setDownloadData({ ...downloadData, lineId: e.target.value })}
-                  className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
+                  className="w-full px-4 py-3 border-2 border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-teal-600 transition-all"
                   placeholder="請輸入您的 Line ID"
                   disabled={isGeneratingPDF}
                 />
@@ -892,13 +893,13 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                     <span className="text-sm font-medium text-teal-600">正在生成報告...</span>
                     <span className="text-sm font-medium text-teal-600">{Math.round(pdfProgress)}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                  <div className="w-full bg-cream-300 rounded-full h-3 overflow-hidden">
                     <div
-                      className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 rounded-full transition-all duration-300 ease-out"
+                      className="h-full bg-teal-600 rounded-full transition-all duration-300 ease-out"
                       style={{ width: `${pdfProgress}%` }}
                     />
                   </div>
-                  <p className="text-xs text-gray-500 mt-2 text-center">
+                  <p className="text-xs text-cream-500 mt-2 text-center">
                     {pdfProgress < 30 && '正在載入模板...'}
                     {pdfProgress >= 30 && pdfProgress < 60 && '正在處理資料...'}
                     {pdfProgress >= 60 && pdfProgress < 90 && '正在生成 PDF...'}
@@ -911,14 +912,14 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                 <button
                   type="button"
                   onClick={() => setShowDownloadForm(false)}
-                  className="flex-1 px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors whitespace-nowrap cursor-pointer"
+                  className="flex-1 px-6 py-3 border-2 border-cream-300 text-cream-800 rounded-lg font-semibold hover:bg-cream-100 transition-colors whitespace-nowrap cursor-pointer"
                   disabled={isGeneratingPDF}
                 >
                   取消
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-teal-500 to-emerald-500 text-white rounded-xl font-semibold hover:from-teal-600 hover:to-emerald-600 transition-all whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                  className="flex-1 px-6 py-3 bg-teal-600 text-white rounded-lg font-semibold hover:from-teal-600 hover:to-emerald-600 transition-all whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={isGeneratingPDF}
                 >
                   {isGeneratingPDF ? (
@@ -942,12 +943,12 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
       {/* 聯絡表單彈窗 */}
       {showContactForm && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 transform transition-all">
+          <div className="bg-white rounded-lg max-w-md w-full p-8 transform transition-all">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-gray-900">聯絡專業顧問</h3>
+              <h3 className="text-2xl font-bold text-cream-900">聯絡專業顧問</h3>
               <button
                 onClick={() => setShowContactForm(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+                className="text-cream-500 hover:text-cream-600 transition-colors cursor-pointer"
               >
                 <i className="ri-close-line text-3xl"></i>
               </button>
@@ -957,17 +958,17 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
               <div className="mb-6">
                 <i className="ri-line-fill text-7xl text-green-500"></i>
               </div>
-              <h4 className="text-2xl font-bold text-gray-900 mb-4">
+              <h4 className="text-2xl font-bold text-cream-900 mb-4">
                 立即透過 LINE 諮詢
               </h4>
-              <p className="text-gray-600 mb-8">
+              <p className="text-cream-600 mb-8">
                 我們的專業顧問將為您提供一對一的保險規劃服務
               </p>
               <a
                 href="https://lin.ee/CXd58fG"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-10 py-4 bg-green-500 text-white rounded-xl font-bold text-lg hover:bg-green-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 whitespace-nowrap"
+                className="inline-flex items-center justify-center px-10 py-4 bg-green-500 text-white rounded-lg font-bold text-lg hover:bg-green-600 transition-all transform hover:-translate-y-1 whitespace-nowrap"
               >
                 <i className="ri-line-fill mr-3 text-2xl"></i>
                 加入 LINE 諮詢
@@ -979,14 +980,14 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
 
       {/* 評價邀請卡片 */}
       {showReviewInvite && (
-        <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-2xl p-6 shadow-md animate-fade-in">
+        <div className="bg-cream-100 border border-amber-200 rounded-lg p-6 animate-fade-in">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
+            <div className="flex-shrink-0 w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
               <i className="ri-star-smile-line text-2xl text-amber-600"></i>
             </div>
             <div className="flex-1">
-              <h3 className="text-lg font-bold text-gray-900 mb-1">覺得這個工具有幫助嗎？</h3>
-              <p className="text-gray-600 text-sm mb-4">您的真實評價能幫助更多人認識保家佳，也讓我們持續進步！</p>
+              <h3 className="text-lg font-bold text-cream-900 mb-1">覺得這個工具有幫助嗎？</h3>
+              <p className="text-cream-600 text-sm mb-4">您的真實評價能幫助更多人認識保家佳，也讓我們持續進步！</p>
               <div className="flex items-center gap-3 flex-wrap">
                 <a
                   href="/?review=open"
@@ -998,7 +999,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                 <button
                   type="button"
                   onClick={() => setShowReviewInvite(false)}
-                  className="text-sm text-gray-500 hover:text-gray-700 transition-colors whitespace-nowrap"
+                  className="text-sm text-cream-500 hover:text-cream-800 transition-colors whitespace-nowrap"
                 >
                   稍後再說
                 </button>
@@ -1011,12 +1012,12 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
       {/* 登入提示彈窗 */}
       {showLoginModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 transform transition-all">
+          <div className="bg-white rounded-lg max-w-md w-full p-8 transform transition-all">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-gray-900">請先登入會員</h3>
+              <h3 className="text-2xl font-bold text-cream-900">請先登入會員</h3>
               <button
                 onClick={() => setShowLoginModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+                className="text-cream-500 hover:text-cream-600 transition-colors cursor-pointer"
               >
                 <i className="ri-close-line text-3xl"></i>
               </button>
@@ -1024,12 +1025,12 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
 
             <div className="text-center py-8">
               <div className="mb-6">
-                <i className="ri-user-lock-line text-7xl text-teal-500"></i>
+                <i className="ri-user-lock-line text-7xl text-teal-600"></i>
               </div>
-              <h4 className="text-2xl font-bold text-gray-900 mb-4">
+              <h4 className="text-2xl font-bold text-cream-900 mb-4">
                 登入後即可下載完整報告
               </h4>
-              <p className="text-gray-600 mb-8">
+              <p className="text-cream-600 mb-8">
                 為了保護您的個人隱私資料，<br />
                 請先登入會員後再下載分析報告。
               </p>

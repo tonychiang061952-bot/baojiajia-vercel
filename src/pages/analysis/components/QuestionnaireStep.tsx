@@ -157,15 +157,15 @@ export default function QuestionnaireStep({ onComplete }: Props) {
   const progress = ((currentQuestion + 1) / questions.length) * 100;
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
+    <div className="bg-white rounded-lg p-8 md:p-12">
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-semibold text-teal-600">
             問題 {currentQuestion + 1} / {questions.length}
           </span>
-          <span className="text-sm text-gray-500">{Math.round(progress)}% 完成</span>
+          <span className="text-sm text-cream-500">{Math.round(progress)}% 完成</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-cream-300 rounded-full h-2">
           <div 
             className="bg-teal-600 h-2 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
@@ -174,7 +174,7 @@ export default function QuestionnaireStep({ onComplete }: Props) {
       </div>
 
       <div className="mb-12">
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold text-cream-900 mb-8">
           {currentQ.question}
         </h2>
 
@@ -188,15 +188,15 @@ export default function QuestionnaireStep({ onComplete }: Props) {
               <button
                 key={option.value}
                 onClick={() => handleOptionClick(currentQ.id, option.value, currentQ.type)}
-                className={`w-full p-4 rounded-xl border-2 text-left transition-all cursor-pointer whitespace-nowrap ${
+                className={`w-full p-4 rounded-lg border-2 text-left transition-all cursor-pointer whitespace-nowrap ${
                   isSelected
                     ? 'border-teal-600 bg-teal-50 text-teal-900'
-                    : 'border-gray-200 hover:border-teal-300 hover:bg-gray-50'
+                    : 'border-cream-300 hover:border-teal-300 hover:bg-cream-100'
                 }`}
               >
                 <div className="flex items-center">
                   <div className={`w-6 h-6 rounded-full border-2 mr-4 flex items-center justify-center flex-shrink-0 ${
-                    isSelected ? 'border-teal-600 bg-teal-600' : 'border-gray-300'
+                    isSelected ? 'border-teal-600 bg-teal-600' : 'border-cream-300'
                   }`}>
                     {isSelected && (
                       <i className="ri-check-line text-white text-sm"></i>
@@ -216,8 +216,8 @@ export default function QuestionnaireStep({ onComplete }: Props) {
           disabled={currentQuestion === 0}
           className={`px-6 py-3 rounded-lg font-semibold transition-colors cursor-pointer whitespace-nowrap ${
             currentQuestion === 0
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              ? 'bg-cream-200 text-cream-500 cursor-not-allowed'
+              : 'bg-cream-300 text-cream-800 hover:bg-cream-300'
           }`}
         >
           <i className="ri-arrow-left-line mr-2"></i>
@@ -229,7 +229,7 @@ export default function QuestionnaireStep({ onComplete }: Props) {
           disabled={!isCurrentQuestionAnswered()}
           className={`px-6 py-3 rounded-lg font-semibold transition-colors cursor-pointer whitespace-nowrap ${
             !isCurrentQuestionAnswered()
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              ? 'bg-cream-200 text-cream-500 cursor-not-allowed'
               : 'bg-teal-600 text-white hover:bg-teal-700'
           }`}
         >

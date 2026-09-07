@@ -166,21 +166,25 @@ export default function About() {
                     className="w-full aspect-[4/5] object-contain object-bottom"
                   />
                 </span>
-                <h3 className="font-serif text-[1.3rem] font-bold text-cream-900 mt-4 mb-1">昊恩</h3>
-                <p className="text-[0.88rem] font-semibold text-teal-600">保家佳創辦人</p>
+                <h3 className="font-serif text-[1.3rem] font-bold text-cream-900 mt-4 mb-1.5">昊恩</h3>
 
-                <a
-                  href={instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-2 rounded-full border border-cream-300 bg-cream-100 py-1.5 pl-1.5 pr-3.5 text-[0.83rem] font-semibold text-cream-900 hover:border-teal-600 hover:text-teal-600 transition-colors"
-                >
-                  <span className="w-6 h-6 rounded-full flex items-center justify-center text-[0.62rem] font-bold text-white"
-                        style={{ background: 'linear-gradient(135deg,#C13584,#E1306C,#F77737)' }}>
-                    IG
-                  </span>
-                  @baojia_jia
-                </a>
+                {/* 頭銜與 IG 同一行。欄寬 272px，兩個加起來放得下。 */}
+                <div className="flex flex-wrap items-center gap-x-2.5 gap-y-2">
+                  <p className="text-[0.88rem] font-semibold text-teal-600 whitespace-nowrap">保家佳創辦人</p>
+
+                  <a
+                    href={instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-cream-300 bg-cream-100 py-1 pl-1 pr-3 text-[0.78rem] font-semibold text-cream-900 whitespace-nowrap hover:border-teal-600 hover:text-teal-600 transition-colors"
+                  >
+                    <span className="w-5 h-5 rounded-full flex items-center justify-center text-[0.55rem] font-bold text-white"
+                          style={{ background: 'linear-gradient(135deg,#C13584,#E1306C,#F77737)' }}>
+                      IG
+                    </span>
+                    @baojia_jia
+                  </a>
+                </div>
 
                 <ul className="mt-4 pt-4 grid grid-cols-2 gap-x-4 gap-y-3.5 border-t border-cream-300">
                   {stats.map((stat) => (

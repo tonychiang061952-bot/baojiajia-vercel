@@ -33,10 +33,10 @@ export default function DailyCompensationStep({ data, onUpdate, onNext, onBack }
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white rounded-lg overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
         {/* 左側輔助資訊 */}
-        <div className="bg-gradient-to-br from-teal-50 to-blue-50 p-8 lg:p-12 flex items-center">
+        <div className="bg-cream-100 p-8 lg:p-12 flex items-center">
           <div className="w-full space-y-6">
             <div className="mb-6">
               <img
@@ -44,16 +44,16 @@ export default function DailyCompensationStep({ data, onUpdate, onNext, onBack }
                   ? '/images/analysis/daily-comp-child.png'
                   : '/images/analysis/2-2.png'}
                 alt="住院日額補償說明"
-                className="w-full rounded-lg shadow-md"
+                className="w-full rounded-lg"
               />
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-sm">
-              <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+            <div className="bg-white rounded-lg p-6">
+              <h4 className="font-semibold text-cream-900 mb-3 flex items-center">
                 <i className="ri-information-line text-teal-600 mr-2"></i>
                 為什麼需要住院日額？
               </h4>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="space-y-2 text-sm text-cream-600">
                 {(isChildPlan
                   ? [
                       '父母請假陪同時的薪資損失',
@@ -80,15 +80,15 @@ export default function DailyCompensationStep({ data, onUpdate, onNext, onBack }
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-medium text-teal-600">問題 2/3</span>
-              <span className="text-sm text-gray-500">醫療需求評估</span>
+              <span className="text-sm text-cream-500">醫療需求評估</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
+            <div className="w-full bg-cream-300 rounded-full h-2 mb-6">
               <div className="bg-teal-600 h-2 rounded-full" style={{ width: '66%' }}></div>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-cream-900 mb-4">
               住院日額補償
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-cream-600">
               {isChildPlan
                 ? '孩子住院時往往需要家長請假照顧，您希望每天能補償多少金額？'
                 : '您住院期間可能無法工作、收入減少，理想的每日補償金額是多少？'}
@@ -98,13 +98,13 @@ export default function DailyCompensationStep({ data, onUpdate, onNext, onBack }
           <div className="flex-1 flex flex-col justify-center">
             {/* 金額顯示 */}
             <div className="text-center mb-12">
-              <div className="inline-flex items-center justify-center bg-teal-50 rounded-2xl px-8 py-6 mb-4">
+              <div className="inline-flex items-center justify-center bg-teal-50 rounded-lg px-8 py-6 mb-4">
                 <span className="text-5xl font-bold text-teal-600">
                   {amount.toLocaleString()}
                 </span>
-                <span className="text-2xl text-gray-600 ml-3">元/天</span>
+                <span className="text-2xl text-cream-600 ml-3">元/天</span>
               </div>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-cream-500">
                 每住院一天可獲得 {amount.toLocaleString()} 元補償
               </p>
             </div>
@@ -118,12 +118,12 @@ export default function DailyCompensationStep({ data, onUpdate, onNext, onBack }
                 step="100"
                 value={amount}
                 onChange={handleSliderChange}
-                className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-3 bg-cream-300 rounded-lg appearance-none cursor-pointer"
                 style={{
                   background: `linear-gradient(to right, #2C5183 0%, #2C5183 ${((amount - 100) / 9900) * 100}%, #e5e7eb ${((amount - 100) / 9900) * 100}%, #e5e7eb 100%)`
                 }}
               />
-              <div className="flex justify-between text-sm text-gray-500 mt-2">
+              <div className="flex justify-between text-sm text-cream-500 mt-2">
                 <span>100 元</span>
                 <span>10,000 元</span>
               </div>
@@ -131,7 +131,7 @@ export default function DailyCompensationStep({ data, onUpdate, onNext, onBack }
 
             {/* 手動輸入 */}
             <div className="mb-8">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-cream-800 mb-2">
                 或直接輸入金額（最低 100 元）
               </label>
               <div className="relative">
@@ -142,10 +142,10 @@ export default function DailyCompensationStep({ data, onUpdate, onNext, onBack }
                   step="100"
                   value={inputValue}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-lg"
+                  className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent text-lg"
                   placeholder="請輸入金額"
                 />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-cream-500">
                   元/天
                 </span>
               </div>
@@ -156,7 +156,7 @@ export default function DailyCompensationStep({ data, onUpdate, onNext, onBack }
           <div className="flex justify-between mt-8">
             <button
               onClick={onBack}
-              className="px-8 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium whitespace-nowrap cursor-pointer"
+              className="px-8 py-3 bg-cream-200 text-cream-800 rounded-lg hover:bg-cream-300 transition-colors font-medium whitespace-nowrap cursor-pointer"
             >
               <i className="ri-arrow-left-line mr-2"></i>
               上一步

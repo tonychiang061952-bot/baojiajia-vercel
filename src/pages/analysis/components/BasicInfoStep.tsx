@@ -54,59 +54,59 @@ export default function BasicInfoStep({ data, onUpdate, onNext }: BasicInfoStepP
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
+    <div className="bg-white rounded-lg p-8 md:p-12">
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-3xl font-bold text-gray-900">基本資料</h2>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+          <h2 className="text-3xl font-bold text-cream-900">基本資料</h2>
+          <div className="flex items-center gap-2 text-sm text-cream-600">
             <i className="ri-information-line"></i>
             <span>步驟 1/6</span>
           </div>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div className="bg-teal-500 h-2 rounded-full transition-all duration-300" style={{ width: '16.67%' }}></div>
+        <div className="w-full bg-cream-300 rounded-full h-2">
+          <div className="bg-teal-600 h-2 rounded-full transition-all duration-300" style={{ width: '16.67%' }}></div>
         </div>
       </div>
 
       <div className="space-y-6">
         {/* 出生年月日 - 民國格式 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-cream-800 mb-2">
             出生年月日 <span className="text-red-500">*</span>
           </label>
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs text-gray-500 mb-1">民國年</label>
+              <label className="block text-xs text-cream-500 mb-1">民國年</label>
               <input
                 type="number"
                 placeholder="85"
                 value={rocDate.year}
                 onChange={(e) => handleRocDateChange('year', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 min="1"
                 max="999"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">月</label>
+              <label className="block text-xs text-cream-500 mb-1">月</label>
               <input
                 type="number"
                 placeholder="1-12"
                 value={rocDate.month}
                 onChange={(e) => handleRocDateChange('month', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 min="1"
                 max="12"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">日</label>
+              <label className="block text-xs text-cream-500 mb-1">日</label>
               <input
                 type="number"
                 placeholder="1-31"
                 value={rocDate.day}
                 onChange={(e) => handleRocDateChange('day', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 min="1"
                 max="31"
               />
@@ -116,7 +116,7 @@ export default function BasicInfoStep({ data, onUpdate, onNext }: BasicInfoStepP
 
         {/* 性別 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-cream-800 mb-2">
             性別 <span className="text-red-500">*</span>
           </label>
           <div className="grid grid-cols-2 gap-4">
@@ -125,8 +125,8 @@ export default function BasicInfoStep({ data, onUpdate, onNext }: BasicInfoStepP
               onClick={() => setFormData({ ...formData, gender: 'male' })}
               className={`px-6 py-4 rounded-lg border-2 transition-all whitespace-nowrap cursor-pointer ${
                 formData.gender === 'male'
-                  ? 'border-teal-500 bg-teal-50 text-teal-700'
-                  : 'border-gray-300 hover:border-teal-300'
+                  ? 'border-teal-600 bg-teal-50 text-teal-700'
+                  : 'border-cream-300 hover:border-teal-300'
               }`}
             >
               <i className="ri-men-line text-2xl mb-2"></i>
@@ -137,8 +137,8 @@ export default function BasicInfoStep({ data, onUpdate, onNext }: BasicInfoStepP
               onClick={() => setFormData({ ...formData, gender: 'female' })}
               className={`px-6 py-4 rounded-lg border-2 transition-all whitespace-nowrap cursor-pointer ${
                 formData.gender === 'female'
-                  ? 'border-teal-500 bg-teal-50 text-teal-700'
-                  : 'border-gray-300 hover:border-teal-300'
+                  ? 'border-teal-600 bg-teal-50 text-teal-700'
+                  : 'border-cream-300 hover:border-teal-300'
               }`}
             >
               <i className="ri-women-line text-2xl mb-2"></i>
@@ -150,17 +150,17 @@ export default function BasicInfoStep({ data, onUpdate, onNext }: BasicInfoStepP
         {/* 平均月薪收入 - 只在成人保險規劃時顯示 */}
         {planType === 'adult' && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-cream-800 mb-2">
               平均月薪收入 <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">NT$</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-cream-500">NT$</span>
               <input
                 type="number"
                 value={formData.monthlyIncome || ''}
                 onChange={(e) => setFormData({ ...formData, monthlyIncome: parseInt(e.target.value) || 0 })}
                 placeholder="請輸入月薪"
-                className="w-full pl-14 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="w-full pl-14 pr-4 py-3 border border-cream-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:border-transparent"
                 min="0"
               />
             </div>
@@ -170,7 +170,7 @@ export default function BasicInfoStep({ data, onUpdate, onNext }: BasicInfoStepP
         {/* 婚姻狀況 - 只在成人保險規劃時顯示 */}
         {planType === 'adult' && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-cream-800 mb-2">
               婚姻狀況 <span className="text-red-500">*</span>
             </label>
             <div className="grid grid-cols-2 gap-4">
@@ -179,8 +179,8 @@ export default function BasicInfoStep({ data, onUpdate, onNext }: BasicInfoStepP
                 onClick={() => setFormData({ ...formData, maritalStatus: 'single' })}
                 className={`px-6 py-4 rounded-lg border-2 transition-all whitespace-nowrap cursor-pointer ${
                   formData.maritalStatus === 'single'
-                    ? 'border-teal-500 bg-teal-50 text-teal-700'
-                    : 'border-gray-300 hover:border-teal-300'
+                    ? 'border-teal-600 bg-teal-50 text-teal-700'
+                    : 'border-cream-300 hover:border-teal-300'
                 }`}
               >
                 <i className="ri-user-line text-2xl mb-2"></i>
@@ -191,8 +191,8 @@ export default function BasicInfoStep({ data, onUpdate, onNext }: BasicInfoStepP
                 onClick={() => setFormData({ ...formData, maritalStatus: 'married' })}
                 className={`px-6 py-4 rounded-lg border-2 transition-all whitespace-nowrap cursor-pointer ${
                   formData.maritalStatus === 'married'
-                    ? 'border-teal-500 bg-teal-50 text-teal-700'
-                    : 'border-gray-300 hover:border-teal-300'
+                    ? 'border-teal-600 bg-teal-50 text-teal-700'
+                    : 'border-cream-300 hover:border-teal-300'
                 }`}
               >
                 <i className="ri-parent-line text-2xl mb-2"></i>
@@ -209,8 +209,8 @@ export default function BasicInfoStep({ data, onUpdate, onNext }: BasicInfoStepP
           disabled={!isFormValid()}
           className={`px-8 py-3 rounded-lg font-medium transition-all whitespace-nowrap cursor-pointer ${
             isFormValid()
-              ? 'bg-teal-500 text-white hover:bg-teal-600'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              ? 'bg-teal-600 text-white hover:bg-teal-700'
+              : 'bg-cream-300 text-cream-500 cursor-not-allowed'
           }`}
         >
           下一步

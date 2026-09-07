@@ -329,6 +329,7 @@ const staticPages = [
     path: '/analysis',
     title: '保險需求分析 DIY | 保家佳',
     description: '透過簡單的問卷，快速分析您的保險需求，量身打造專屬於您的保障藍圖。',
+    schema: crumbs({ name: '需求分析 DIY' }),
     snapshot: layout('<h1>保險需求分析 DIY</h1><p class="seo-static-lead">透過問卷盤點家庭責任、醫療、收入中斷、壽險與長期照顧等保障需求。</p><p>分析結果僅供初步規劃參考，實際投保仍應依個人狀況與正式契約條款確認。</p>'),
   },
   {

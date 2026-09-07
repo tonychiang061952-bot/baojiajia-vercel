@@ -43,25 +43,25 @@ export default function SurgerySubsidyStep({ data, onUpdate, onNext, onBack }: P
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white rounded-lg overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
         {/* 左側輔助資訊 */}
-        <div className="bg-gradient-to-br from-teal-50 to-blue-50 p-8 lg:p-12 flex items-center">
+        <div className="bg-cream-100 p-8 lg:p-12 flex items-center">
           <div className="w-full space-y-6">
             <div className="mb-6">
               <img
                 src="/images/analysis/surgery-subsidy.png"
                 alt="自費醫療項目說明"
-                className="w-full rounded-lg shadow-md"
+                className="w-full rounded-lg"
               />
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-sm">
-              <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+            <div className="bg-white rounded-lg p-6">
+              <h4 className="font-semibold text-cream-900 mb-3 flex items-center">
                 <i className="ri-information-line text-teal-600 mr-2"></i>
                 為什麼需要手術補貼？
               </h4>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="space-y-2 text-sm text-cream-600">
                 <li className="flex items-start">
                   <i className="ri-check-line text-teal-600 mr-2 mt-1"></i>
                   <span>隨著醫療技術進步，自費醫療需求增加</span>
@@ -84,15 +84,15 @@ export default function SurgerySubsidyStep({ data, onUpdate, onNext, onBack }: P
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-medium text-teal-600">問題 3/3</span>
-              <span className="text-sm text-gray-500">醫療需求評估</span>
+              <span className="text-sm text-cream-500">醫療需求評估</span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
+            <div className="w-full bg-cream-300 rounded-full h-2 mb-6">
               <div className="bg-teal-600 h-2 rounded-full" style={{ width: '100%' }}></div>
             </div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-cream-900 mb-4">
               手術醫療補貼
             </h2>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-cream-600">
               隨著醫療技術、儀器、材料的進步，自費醫療的需求增加，您希望在需要時獲得多少比例的補貼？
             </p>
           </div>
@@ -102,28 +102,28 @@ export default function SurgerySubsidyStep({ data, onUpdate, onNext, onBack }: P
               <button
                 key={level.id}
                 onClick={() => setSelectedLevel(level.id)}
-                className={`relative p-5 rounded-xl border-2 transition-all text-left cursor-pointer ${
+                className={`relative p-5 rounded-lg border-2 transition-all text-left cursor-pointer ${
                   selectedLevel === level.id
-                    ? 'border-teal-600 bg-teal-50 shadow-lg'
-                    : 'border-gray-200 hover:border-teal-300 hover:shadow-md'
+                    ? 'border-teal-600 bg-teal-50 '
+                    : 'border-cream-300 hover:border-teal-300 '
                 }`}
               >
                 {level.recommended && (
-                  <div className="absolute -top-3 right-6 bg-gradient-to-r from-teal-600 to-blue-600 text-white px-4 py-1 rounded-full text-xs font-semibold">
+                  <div className="absolute -top-3 right-6 bg-teal-600 text-white px-4 py-1 rounded-full text-xs font-semibold">
                     ✨ 推薦方案
                   </div>
                 )}
                 <div className="flex items-start">
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center mr-4 ${
-                    selectedLevel === level.id ? 'bg-teal-100' : 'bg-gray-100'
+                    selectedLevel === level.id ? 'bg-teal-100' : 'bg-cream-200'
                   }`}>
                     <i className={`${level.icon} text-2xl ${
-                      selectedLevel === level.id ? 'text-teal-600' : 'text-gray-400'
+                      selectedLevel === level.id ? 'text-teal-600' : 'text-cream-500'
                     }`}></i>
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-1">
-                      <h3 className="text-lg font-bold text-gray-900">{level.title}</h3>
+                      <h3 className="text-lg font-bold text-cream-900">{level.title}</h3>
                       {selectedLevel === level.id && (
                         <div className="w-6 h-6 bg-teal-600 rounded-full flex items-center justify-center">
                           <i className="ri-check-line text-white text-sm"></i>
@@ -131,7 +131,7 @@ export default function SurgerySubsidyStep({ data, onUpdate, onNext, onBack }: P
                       )}
                     </div>
                     <p className="text-xl font-bold text-teal-600 mb-1">{level.amount}</p>
-                    <p className="text-sm text-gray-600">{level.description}</p>
+                    <p className="text-sm text-cream-600">{level.description}</p>
                   </div>
                 </div>
               </button>
@@ -142,7 +142,7 @@ export default function SurgerySubsidyStep({ data, onUpdate, onNext, onBack }: P
           <div className="flex justify-between mt-8">
             <button
               onClick={onBack}
-              className="px-8 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium whitespace-nowrap cursor-pointer"
+              className="px-8 py-3 bg-cream-200 text-cream-800 rounded-lg hover:bg-cream-300 transition-colors font-medium whitespace-nowrap cursor-pointer"
             >
               <i className="ri-arrow-left-line mr-2"></i>
               上一步
@@ -152,7 +152,7 @@ export default function SurgerySubsidyStep({ data, onUpdate, onNext, onBack }: P
               disabled={!selectedLevel}
               className={`px-8 py-3 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer ${
                 !selectedLevel
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  ? 'bg-cream-200 text-cream-500 cursor-not-allowed'
                   : 'bg-teal-600 text-white hover:bg-teal-700'
               }`}
             >

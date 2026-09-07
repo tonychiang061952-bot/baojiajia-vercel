@@ -62,19 +62,19 @@ export default function MedicalNeedsStep({ data, onUpdate, onNext, onBack }: Pro
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
+    <div className="bg-white rounded-lg p-8 md:p-12">
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <span className="text-sm font-medium text-teal-600">問題 1/3</span>
-          <span className="text-sm text-gray-500">醫療需求評估</span>
+          <span className="text-sm text-cream-500">醫療需求評估</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
+        <div className="w-full bg-cream-300 rounded-full h-2 mb-6">
           <div className="bg-teal-600 h-2 rounded-full" style={{ width: '33.33%' }}></div>
         </div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">
+        <h2 className="text-3xl font-bold text-cream-900 mb-4">
           病房選擇
         </h2>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-cream-600">
           {isChildPlan
             ? '假設孩子因疾病或意外需要住院，您希望是哪一種格局的病房呢？'
             : '若您因疾病或意外需要住院，哪一種病房格局最符合您的期待？'}
@@ -86,10 +86,10 @@ export default function MedicalNeedsStep({ data, onUpdate, onNext, onBack }: Pro
           <button
             key={option.value}
             onClick={() => handleRoomSelect(option.value)}
-            className={`text-left rounded-xl border-2 overflow-hidden transition-all cursor-pointer ${
+            className={`text-left rounded-lg border-2 overflow-hidden transition-all cursor-pointer ${
               selectedRoom === option.value
-                ? 'border-teal-600 shadow-lg'
-                : 'border-gray-200 hover:border-teal-300'
+                ? 'border-teal-600 '
+                : 'border-cream-300 hover:border-teal-300'
             }`}
           >
             <div className="relative h-48">
@@ -109,7 +109,7 @@ export default function MedicalNeedsStep({ data, onUpdate, onNext, onBack }: Pro
               <div className="space-y-2 mb-3">
                 <p className="text-sm font-semibold text-teal-600">優點：</p>
                 {option.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-start text-sm text-gray-600">
+                  <div key={idx} className="flex items-start text-sm text-cream-600">
                     <i className="ri-check-line text-teal-600 mr-2 mt-0.5 flex-shrink-0"></i>
                     <span>{feature}</span>
                   </div>
@@ -118,7 +118,7 @@ export default function MedicalNeedsStep({ data, onUpdate, onNext, onBack }: Pro
               <div className="space-y-2">
                 <p className="text-sm font-semibold text-red-600">缺點：</p>
                 {option.drawbacks.map((drawback, idx) => (
-                  <div key={idx} className="flex items-start text-sm text-gray-600">
+                  <div key={idx} className="flex items-start text-sm text-cream-600">
                     <i className="ri-close-line text-red-600 mr-2 mt-0.5 flex-shrink-0"></i>
                     <span>{drawback}</span>
                   </div>
@@ -132,7 +132,7 @@ export default function MedicalNeedsStep({ data, onUpdate, onNext, onBack }: Pro
       <div className="flex justify-between pt-6 border-t">
         <button
           onClick={onBack}
-          className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium whitespace-nowrap cursor-pointer"
+          className="px-8 py-3 border border-cream-300 text-cream-800 rounded-lg hover:bg-cream-100 transition-colors font-medium whitespace-nowrap cursor-pointer"
         >
           <i className="ri-arrow-left-line mr-2"></i>
           上一步
@@ -142,7 +142,7 @@ export default function MedicalNeedsStep({ data, onUpdate, onNext, onBack }: Pro
           disabled={!selectedRoom}
           className={`px-8 py-3 rounded-lg font-medium transition-colors whitespace-nowrap cursor-pointer ${
             !selectedRoom
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              ? 'bg-cream-200 text-cream-500 cursor-not-allowed'
               : 'bg-teal-600 text-white hover:bg-teal-700'
           }`}
         >

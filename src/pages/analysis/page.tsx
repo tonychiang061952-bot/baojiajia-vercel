@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
 import { SEO } from '../../components/SEO';
@@ -127,9 +127,31 @@ export default function AnalysisPage() {
         description="透過簡單的問卷，快速分析您的保險需求，量身打造專屬於您的保障藍圖。"
         keywords={["保險需求分析", "保單健診", "需求試算", "保險規劃"]}
         url="/analysis"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://baojiajia.tw/' },
+            { '@type': 'ListItem', position: 2, name: '需求分析 DIY' },
+          ],
+        }}
       />
       <Navigation />
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 via-blue-50 to-purple-50 py-12 px-4">
+      <div className="min-h-screen bg-cream-100 pb-12 px-4">
+        {/* 跟其他頁一致的麵包屑與頁面標題。
+            這頁原本執行期沒有任何 h1，靜態快照卻有一個，兩邊對不起來。
+            標題文字就是快照裡那一個，沒有新增內容。 */}
+        <div className="max-w-6xl mx-auto pt-7 pb-6">
+          <nav aria-label="breadcrumb" className="text-[0.8rem] text-cream-600">
+            <Link to="/" className="hover:text-teal-600">首頁</Link>
+            <span className="mx-1.5 text-cream-400">/</span>
+            <span className="text-cream-900">需求分析 DIY</span>
+          </nav>
+          <h1 className="mt-2.5 font-serif text-[1.6rem] sm:text-[2rem] font-bold leading-[1.4] text-cream-900">
+            保險需求分析 DIY
+          </h1>
+        </div>
+
         <div className="max-w-6xl mx-auto">
           {renderStep()}
         </div>
