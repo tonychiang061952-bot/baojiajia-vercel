@@ -50,6 +50,21 @@ const hasVisibleContent = (html) => String(html ?? '')
   .length > 0;
 
 const safeJson = (value) => JSON.stringify(value).replaceAll('<', '\\u003c');
+// 靜態快照也要輸出 BreadcrumbList，否則會跟 React 端渲染出來的結構化資料不一致。
+const crumbs = (...trail) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '首頁', item: `${SITE_URL}/` },
+    ...trail.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 2,
+      name: t.name,
+      ...(t.path ? { item: `${SITE_URL}${t.path}` } : {}),
+    })),
+  ],
+});
+
 const routeUrl = (path) => `${SITE_URL}${path === '/' ? '/' : path}`;
 
 const rows = await sql.query(
@@ -58,8 +73,8 @@ const rows = await sql.query(
    where collection = any($1::text[])
    order by created_at asc`,
   [[
-    'about_content', 'blog_posts', 'hero_carousel', 'homepage_content',
-    'service_details', 'service_items',
+    'about_content', 'blog_posts', 'features', 'hero_carousel', 'homepage_content',
+    'navigation_items', 'service_details', 'service_items',
   ]],
 );
 
@@ -92,6 +107,10 @@ const posts = collection('blog_posts')
     && hasVisibleContent(post.content)
   ))
   .sort((a, b) => new Date(b.updated_at || b.published_at).getTime() - new Date(a.updated_at || a.published_at).getTime());
+
+const features = collection('features')
+  .filter((feature) => isTrue(feature.is_active, true))
+  .sort((a, b) => Number(a.display_order ?? 0) - Number(b.display_order ?? 0));
 
 const homepageValues = Object.fromEntries(
   collection('homepage_content').map((item) => [item.content_key, item.content_value]),
@@ -176,6 +195,16 @@ const pageSchema = (path, title, description) => ({
   url: routeUrl(path),
 });
 
+// 一頁可能同時有 WebPage 與 BreadcrumbList（或首頁的 Organization）。
+// 兩個獨立的 <script> 也可以，但併成一個 @graph 比較好讓爬蟲把它們視為同一頁的敘述。
+const withPageSchema = (page) => {
+  const base = pageSchema(page.path, page.title, page.description);
+  if (!page.schema) return base;
+  const drop = ({ '@context': _ignored, ...rest }) => rest;
+  const extra = page.schema['@graph'] ? page.schema['@graph'] : [drop(page.schema)];
+  return { '@context': 'https://schema.org', '@graph': [drop(base), ...extra] };
+};
+
 const prerenderStyle = `
   <style id="seo-prerender-style">
     .seo-static-snapshot{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#1f2937;background:#fff;line-height:1.75}
@@ -243,30 +272,46 @@ const staticPages = [
     schema: {
       '@context': 'https://schema.org',
       '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
       name: '保家佳',
-      url: SITE_URL,
-      logo: `${SITE_URL}/hero.png`,
+      url: `${SITE_URL}/`,
+      // logo 要放真正的品牌 logo，尺寸也要跟檔案相符；hero.png 是 1920×1080 的主視覺，不是 logo。
+      logo: {
+        '@type': 'ImageObject',
+        url: `${SITE_URL}/logo.png`,
+        width: 256,
+        height: 253,
+      },
+      description: '致力於保險知識分享及提供專業的保險諮詢服務。',
+      sameAs: [
+        'https://www.instagram.com/baojia_jia/',
+        'https://www.facebook.com/Baojiajia.tw',
+      ],
     },
     snapshot: layout(`
       <h1>${escapeHtml([homepageValues.hero_title, homepageValues.hero_subtitle].filter(Boolean).join('｜') || '保家佳')}</h1>
       <p class="seo-static-lead">${escapeHtml(homepageValues.hero_description || '用知識守護每個家庭，讓保險不再艱澀難懂。')}</p>
       <h2>服務項目</h2>
       ${cardList(services.map((service) => `<a class="seo-static-card" href="/services/${escapeHtml(service.slug)}"><h3>${escapeHtml(service.title)}</h3><p>${escapeHtml(service.description)}</p></a>`))}
+      <h2>保家佳的服務特點</h2>
+      ${cardList(features.map((feature) => `<div class="seo-static-card"><h3>${escapeHtml(feature.title)}</h3><p>${escapeHtml(feature.description)}</p></div>`))}
       <a class="seo-static-cta" href="/analysis">立即開始需求分析</a>`),
   },
   {
     path: '/services',
     title: '專業保險服務項目 | 保家佳',
+    schema: crumbs({ name: '服務項目' }),
     description: '提供全方位的專業保險服務，包括保單健診、醫療保障規劃、退休理財方案等，為您的未來提供最完善的保障。',
     snapshot: layout(`
       <h1>我們的服務</h1>
-      <p class="seo-static-lead">專業的保險規劃團隊，提供從保單健診、家庭保障到退休規劃的服務。</p>
+      <p class="seo-static-lead">每個人的狀況不一樣，需要處理的問題也不一樣。依照你現在的位置，找到最接近的那一個。</p>
       ${cardList(services.map((service) => `<a class="seo-static-card" href="/services/${escapeHtml(service.slug)}"><h2>${escapeHtml(service.title)}</h2><p>${escapeHtml(service.description)}</p></a>`))}
       <a class="seo-static-cta" href="/contact">立即諮詢</a>`),
   },
   {
     path: '/blog',
     title: '保險知識專區 | 保家佳',
+    schema: crumbs({ name: '保險知識專區' }),
     description: '最專業的保險知識分享，包含醫療險、意外險、儲蓄險等各類保險理財觀念，讓您輕鬆搞懂保險。',
     snapshot: layout(`
       <h1>保險知識分享</h1>
@@ -276,6 +321,7 @@ const staticPages = [
   {
     path: '/beginner',
     title: '保險新手村 - 從零開始了解保險 | 保家佳',
+    schema: crumbs({ name: '保險新手村' }),
     description: '專為保險新手設計的入門指南，介紹壽險、醫療險、意外險等六大保障，教您如何規劃最適合自己的保險方案。',
     snapshot: layout(beginnerSnapshot()),
   },
@@ -288,12 +334,14 @@ const staticPages = [
   {
     path: '/about',
     title: '關於我們 - 保家佳 | 您的家庭保險顧問',
+    schema: crumbs({ name: '關於我們' }),
     description: '保家佳致力於創造沒有推銷壓力的保險知識環境。我們提供專業、客觀的保險諮詢，協助您破解保險話術，找到最適合自己的保障。',
     snapshot: layout(`<h1>保家佳的命名由來</h1><p class="seo-static-lead">${escapeHtml(aboutIntro || '保家佳希望用清楚、客觀的資訊，協助每個家庭理解保障與規劃選擇。')}</p><h2>我們的核心價值</h2><p>提供對等、客觀、正確的資訊，降低保險市場中的資訊落差。</p>`),
   },
   {
     path: '/contact',
     title: '聯絡我們 - 免費保險諮詢 | 保家佳',
+    schema: crumbs({ name: '聯絡我們' }),
     description: '有任何保險問題？歡迎預約免費諮詢。我們的專業團隊將為您提供客觀、專業的保險建議。',
     snapshot: layout('<h1>聯絡我們</h1><p class="seo-static-lead">有任何保險問題，歡迎留下需求，讓保家佳協助您釐清保障與規劃方向。</p><h2>立即預約免費諮詢</h2><p>請在互動頁面載入後填寫聯絡表單，或透過官方社群管道與我們聯繫。</p>'),
   },
@@ -312,7 +360,7 @@ const staticPages = [
 ];
 
 for (const page of staticPages) {
-  page.schema ||= pageSchema(page.path, page.title, page.description);
+  page.schema = withPageSchema(page);
   await writeRoute(page);
 }
 
@@ -325,12 +373,17 @@ for (const service of services) {
     image: service.detail?.hero_image_url || service.image_url,
     schema: {
       '@context': 'https://schema.org',
-      '@type': 'Service',
-      name: service.title,
-      description: service.description,
-      url: `${SITE_URL}${path}`,
-      provider: { '@type': 'Organization', name: '保家佳', url: SITE_URL },
-      serviceType: service.title,
+      '@graph': [
+        {
+          '@type': 'Service',
+          name: service.title,
+          description: service.description,
+          url: `${SITE_URL}${path}`,
+          provider: { '@type': 'Organization', name: '保家佳', url: SITE_URL },
+          serviceType: service.title,
+        },
+        crumbs({ name: '服務項目', path: '/services' }, { name: service.title }),
+      ],
     },
     snapshot: layout(`
       <p><a href="/services">服務項目</a></p>
@@ -364,7 +417,9 @@ for (const post of posts) {
           headline: post.title,
           image: post.image_url ? [absoluteUrl(post.image_url)] : [],
           datePublished: post.published_at,
-          dateModified: post.updated_at,
+          // 用「實質更新日」而不是資料庫的最後寫入時間；
+          // 改錯字不該對 Google 宣稱這篇文章更新過。
+          dateModified: post.content_updated_at || post.published_at,
           author: { '@type': 'Organization', name: post.author || '保家佳', url: `${SITE_URL}/about` },
           publisher: { '@type': 'Organization', name: '保家佳', url: SITE_URL },
           mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },

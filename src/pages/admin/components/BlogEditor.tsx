@@ -16,6 +16,10 @@ interface BlogPost {
   content: string;
   is_featured: boolean;
   is_active: boolean;
+  is_published?: boolean;
+  /** 內容實質更新日。只有勾選「這次是實質更新」才會寫入。
+      改錯字不會動到它——sitemap 與結構化資料都看這個欄位。 */
+  content_updated_at?: string | null;
   // SEO Fields
   slug?: string;
   meta_title?: string;
@@ -43,6 +47,8 @@ export default function BlogEditor({ onBack }: Props) {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisProgress, setAnalysisProgress] = useState(0);
   const [hasAnalyzed, setHasAnalyzed] = useState(false);
+  // 每次打開編輯器都預設不勾，避免「順手改錯字」被當成實質更新
+  const [markAsUpdated, setMarkAsUpdated] = useState(false);
 
   // Update focus keyword when meta keywords change (optional convenience)
   useEffect(() => {
@@ -169,6 +175,8 @@ export default function BlogEditor({ onBack }: Props) {
       category: categories[0] || '保險基礎',
       author: '保家佳',
       published_at: today,
+      is_published: true,
+      content_updated_at: null,
       read_time: '8',
       image_url: '',
       content: '',
@@ -204,6 +212,12 @@ export default function BlogEditor({ onBack }: Props) {
         content: editingPost.content,
         is_featured: editingPost.is_featured,
         is_active: editingPost.is_active,
+        // 沒設定過就視為已發布——舊資料與新文章都能正確進入 sitemap 與預渲染
+        is_published: editingPost.is_published !== false,
+        // 只有勾選「這次是實質更新」才會蓋掉；否則沿用舊值
+        content_updated_at: markAsUpdated
+          ? new Date().toISOString()
+          : (editingPost.content_updated_at ?? null),
         slug: normalizedSlug,
         meta_title: normalizedMetaTitle,
         meta_description: normalizedMetaDescription,
@@ -227,6 +241,7 @@ export default function BlogEditor({ onBack }: Props) {
       
       setEditingPost(null);
       setIsNewPost(false);
+      setMarkAsUpdated(false);
       fetchPosts();
       alert('儲存成功！');
     } catch (error: any) {
@@ -474,6 +489,31 @@ export default function BlogEditor({ onBack }: Props) {
                         onChange={(e) => setEditingPost({ ...editingPost, published_at: e.target.value })}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                       />
+                    )}
+
+                    {!isNewPost && (
+                      <div className="mt-1 rounded-lg border border-gray-200 bg-gray-50 p-3">
+                        <label className="inline-flex items-start cursor-pointer">
+                          <input
+                            type="checkbox"
+                            className="form-checkbox text-teal-600 mt-0.5"
+                            checked={markAsUpdated}
+                            onChange={(e) => setMarkAsUpdated(e.target.checked)}
+                          />
+                          <span className="ml-2 text-sm">
+                            <span className="font-semibold text-gray-800">這次是內容的實質更新</span>
+                            <span className="block text-xs text-gray-500 mt-1 leading-relaxed">
+                              勾了才會更新對外顯示的「更新日期」，也才會告訴 Google 這篇有實質改動。
+                              只是改錯字、調格式請不要勾——日期訊號要準確，Google 才會採用。
+                            </span>
+                            {editingPost.content_updated_at && (
+                              <span className="block text-xs text-gray-400 mt-1">
+                                目前的實質更新日：{new Date(editingPost.content_updated_at).toLocaleDateString('zh-TW')}
+                              </span>
+                            )}
+                          </span>
+                        </label>
+                      </div>
                     )}
                   </div>
                 </div>

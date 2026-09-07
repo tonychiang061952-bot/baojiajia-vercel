@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { db as supabase } from '../../../lib/database';
-import ImageUpload from './ImageUpload';
 
 interface HomepageContent {
   id: string;
@@ -27,17 +26,6 @@ interface Props {
   onBack: () => void;
 }
 
-interface CarouselImage {
-  id: string;
-  image_url: string;
-  display_order: number;
-  is_active: boolean;
-}
-
-interface CarouselSettings {
-  carousel_interval: string;
-}
-
 export default function HomepageEditor({ onBack }: Props) {
   const [content, setContent] = useState<HomepageContent | null>({
     id: '',
@@ -48,7 +36,7 @@ export default function HomepageEditor({ onBack }: Props) {
     hero_button1_link: '/analysis',
     hero_button2_text: '保險知識分享',
     hero_button2_link: '/blog',
-    hero_image_url: 'https://readdy.ai/api/search-image?query=Warm%20family%20protection%20concept%20with%20happy%20Asian%20family%20silhouette%20in%20bright%20natural%20setting%2C%20soft%20golden%20lighting%2C%20simple%20clean%20background%20showing%20security%20and%20care%2C%20professional%20lifestyle%20photography%20with%20emotional%20warmth&width=1920&height=1080&seq=hero-baojia-main&orientation=landscape',
+    hero_image_url: '',
     cta_title: '開始您的保險規劃之旅',
     cta_description: '先透過「需求分析 DIY」了解自己的保障缺口，或直接預約諮詢，讓保家佳為您量身規劃',
     cta_button1_text: '立即開始需求分析',
@@ -61,16 +49,9 @@ export default function HomepageEditor({ onBack }: Props) {
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [carouselImages, setCarouselImages] = useState<CarouselImage[]>([]);
-  const [carouselSettings, setCarouselSettings] = useState<CarouselSettings>({
-    carousel_interval: '5000'
-  });
-  const [newCarouselImage, setNewCarouselImage] = useState('');
 
   useEffect(() => {
     fetchContent();
-    fetchCarouselImages();
-    fetchCarouselSettings();
   }, []);
 
   const fetchContent = async () => {
@@ -94,118 +75,6 @@ export default function HomepageEditor({ onBack }: Props) {
       console.error('Error fetching homepage content:', error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const fetchCarouselImages = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('hero_carousel')
-        .select('*')
-        .order('display_order', { ascending: true });
-
-      if (error) throw error;
-      setCarouselImages(data || []);
-    } catch (error) {
-      console.error('Error fetching carousel images:', error);
-    }
-  };
-
-  const fetchCarouselSettings = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('carousel_settings')
-        .select('*');
-
-      if (error) throw error;
-
-      if (data && data.length > 0) {
-        const settings: any = {};
-        data.forEach((item: any) => {
-          settings[item.setting_key] = item.setting_value;
-        });
-        setCarouselSettings(settings);
-      }
-    } catch (error) {
-      console.error('Error fetching carousel settings:', error);
-    }
-  };
-
-  const handleAddCarouselImage = async () => {
-    if (!newCarouselImage.trim()) {
-      alert('請輸入圖片網址');
-      return;
-    }
-
-    if (carouselImages.length >= 5) {
-      alert('最多只能新增 5 張輪播圖片');
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('hero_carousel')
-        .insert({
-          image_url: newCarouselImage,
-          display_order: carouselImages.length + 1,
-          is_active: true
-        });
-
-      if (error) throw error;
-      setNewCarouselImage('');
-      fetchCarouselImages();
-      alert('圖片新增成功！');
-    } catch (error) {
-      console.error('Error adding carousel image:', error);
-      alert('新增失敗，請稍後再試');
-    }
-  };
-
-  const handleDeleteCarouselImage = async (id: string) => {
-    if (!confirm('確定要刪除這張圖片嗎？')) return;
-
-    try {
-      const { error } = await supabase
-        .from('hero_carousel')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
-      fetchCarouselImages();
-      alert('圖片已刪除');
-    } catch (error) {
-      console.error('Error deleting carousel image:', error);
-      alert('刪除失敗，請稍後再試');
-    }
-  };
-
-  const handleUpdateCarouselInterval = async (interval: string) => {
-    try {
-      const { data: existing } = await supabase
-        .from('carousel_settings')
-        .select('id')
-        .eq('setting_key', 'carousel_interval');
-
-      if (existing && existing.length > 0) {
-        await supabase
-          .from('carousel_settings')
-          .update({ setting_value: interval })
-          .eq('setting_key', 'carousel_interval');
-      } else {
-        await supabase
-          .from('carousel_settings')
-          .insert({
-            setting_key: 'carousel_interval',
-            setting_value: interval,
-            description: '輪播間隔時間（毫秒）'
-          });
-      }
-
-      setCarouselSettings(prev => ({ ...prev, carousel_interval: interval }));
-      alert('輪播間隔已更新！');
-    } catch (error) {
-      console.error('Error updating carousel interval:', error);
-      alert('更新失敗，請稍後再試');
     }
   };
 
@@ -299,58 +168,49 @@ export default function HomepageEditor({ onBack }: Props) {
           </div>
         </div>
 
-        {/* Hero Section */}
+        {/* 首頁最上方的區塊。改版後不再用輪播圖，改成文字式，
+            所以這幾個欄位是有效的；hero_image_url 已不再使用，故未列出。 */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
             <i className="ri-home-4-line text-purple-600 mr-3"></i>
-            Hero 區塊
+            首頁最上方
           </h2>
+          <p className="text-sm text-gray-500 mb-6">首頁一打開看到的標題、說明與兩顆按鈕。</p>
 
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                主標題
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">主標題</label>
               <input
                 type="text"
                 value={content.hero_title}
                 onChange={(e) => handleChange('hero_title', e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                placeholder="我們的願景是..."
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                副標題
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">副標題</label>
               <input
                 type="text"
                 value={content.hero_subtitle}
                 onChange={(e) => handleChange('hero_subtitle', e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                placeholder="打破傳統保險業務的框架"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                描述內容
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">說明文字</label>
               <textarea
+                rows={3}
                 value={content.hero_description}
                 onChange={(e) => handleChange('hero_description', e.target.value)}
-                rows={4}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
-                placeholder="提供對等、客觀、正確的資訊..."
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  按鈕1文字
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">按鈕一 文字</label>
                 <input
                   type="text"
                   value={content.hero_button1_text}
@@ -359,9 +219,7 @@ export default function HomepageEditor({ onBack }: Props) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  按鈕1連結
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">按鈕一 連結</label>
                 <input
                   type="text"
                   value={content.hero_button1_link}
@@ -369,13 +227,8 @@ export default function HomepageEditor({ onBack }: Props) {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                 />
               </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  按鈕2文字
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">按鈕二 文字</label>
                 <input
                   type="text"
                   value={content.hero_button2_text}
@@ -384,9 +237,7 @@ export default function HomepageEditor({ onBack }: Props) {
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  按鈕2連結
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">按鈕二 連結</label>
                 <input
                   type="text"
                   value={content.hero_button2_link}
@@ -395,230 +246,13 @@ export default function HomepageEditor({ onBack }: Props) {
                 />
               </div>
             </div>
-
-            <ImageUpload
-              value={content.hero_image_url}
-              onChange={(url) => handleChange('hero_image_url', url)}
-              label="背景圖片網址"
-            />
           </div>
         </div>
 
-        {/* Hero 輪播圖片管理 */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-            <i className="ri-image-carousel-line text-blue-600 mr-3"></i>
-            Hero 輪播圖片管理
-          </h2>
-
-          <div className="space-y-6">
-            {/* 輪播間隔設定 */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                輪播間隔時間（毫秒）
-              </label>
-              <div className="flex gap-3">
-                <input
-                  type="number"
-                  value={carouselSettings.carousel_interval}
-                  onChange={(e) => setCarouselSettings(prev => ({ ...prev, carousel_interval: e.target.value }))}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                  placeholder="5000"
-                  min="1000"
-                  step="1000"
-                />
-                <button
-                  onClick={() => handleUpdateCarouselInterval(carouselSettings.carousel_interval)}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors cursor-pointer whitespace-nowrap"
-                >
-                  更新間隔
-                </button>
-              </div>
-              <p className="text-xs text-gray-500 mt-1">預設 5000ms = 5秒</p>
-            </div>
-
-            {/* 新增輪播圖片 */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                新增輪播圖片 ({carouselImages.length}/5)
-              </label>
-              <div className="flex gap-3">
-                <input
-                  type="url"
-                  value={newCarouselImage}
-                  onChange={(e) => setNewCarouselImage(e.target.value)}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                  placeholder="輸入圖片網址"
-                  disabled={carouselImages.length >= 5}
-                />
-                <button
-                  onClick={handleAddCarouselImage}
-                  disabled={carouselImages.length >= 5}
-                  className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors cursor-pointer whitespace-nowrap disabled:bg-gray-400 disabled:cursor-not-allowed"
-                >
-                  新增圖片
-                </button>
-              </div>
-            </div>
-
-            {/* 輪播圖片列表 */}
-            {carouselImages.length > 0 && (
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  已新增的輪播圖片
-                </label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {carouselImages.map((image, index) => (
-                    <div key={image.id} className="border border-gray-200 rounded-lg overflow-hidden">
-                      <div className="relative h-40 bg-gray-100">
-                        <img
-                          src={image.image_url}
-                          alt={`Carousel ${index + 1}`}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.currentTarget.src = 'https://via.placeholder.com/400x300?text=圖片載入失敗';
-                          }}
-                        />
-                        <div className="absolute top-2 left-2 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                          #{index + 1}
-                        </div>
-                      </div>
-                      <div className="p-3 bg-gray-50">
-                        <p className="text-xs text-gray-600 truncate mb-2">{image.image_url}</p>
-                        <button
-                          onClick={() => handleDeleteCarouselImage(image.id)}
-                          className="w-full px-3 py-2 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors cursor-pointer"
-                        >
-                          刪除
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-            <i className="ri-megaphone-line text-orange-600 mr-3"></i>
-            行動呼籲區塊
-          </h2>
-
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                標題
-              </label>
-              <input
-                type="text"
-                value={content.cta_title}
-                onChange={(e) => handleChange('cta_title', e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                描述內容
-              </label>
-              <textarea
-                value={content.cta_description}
-                onChange={(e) => handleChange('cta_description', e.target.value)}
-                rows={3}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent resize-none"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  按鈕1文字
-                </label>
-                <input
-                  type="text"
-                  value={content.cta_button1_text}
-                  onChange={(e) => handleChange('cta_button1_text', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  按鈕1連結
-                </label>
-                <input
-                  type="text"
-                  value={content.cta_button1_link}
-                  onChange={(e) => handleChange('cta_button1_link', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  按鈕2文字
-                </label>
-                <input
-                  type="text"
-                  value={content.cta_button2_text}
-                  onChange={(e) => handleChange('cta_button2_text', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  按鈕2連結
-                </label>
-                <input
-                  type="text"
-                  value={content.cta_button2_link}
-                  onChange={(e) => handleChange('cta_button2_link', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Instagram 文字
-                </label>
-                <input
-                  type="text"
-                  value={content.instagram_text}
-                  onChange={(e) => handleChange('instagram_text', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Instagram 帳號
-                </label>
-                <input
-                  type="text"
-                  value={content.instagram_handle}
-                  onChange={(e) => handleChange('instagram_handle', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Instagram 連結
-                </label>
-                <input
-                  type="text"
-                  value={content.instagram_url}
-                  onChange={(e) => handleChange('instagram_url', e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* 行動呼籲區塊的欄位已移除。
+            改版後首頁最下方換成全站共用的那一塊（自介 + LINE 領取 + 需求分析 DIY），
+            首頁、文章頁、服務項目、服務細頁、關於我們五個頁面共用同一份文案，
+            寫在程式碼裡以確保五頁一致。要調整請找工程協助。 */}
 
         {/* Save Button */}
         <div className="flex justify-end gap-4">

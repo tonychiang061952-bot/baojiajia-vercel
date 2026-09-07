@@ -107,7 +107,10 @@ const main = async () => {
   ));
   const blogUrls = blogRows.map((row) => ({
     loc: `${SITE_URL}/blog/${String(row.data.slug).trim()}`,
-    lastmod: newestDate(row.updated_at, row.data?.updated_at, row.data?.published_at),
+    // lastmod 只在「一致且可驗證地準確」時才會被 Google 採用，
+    // 所以用後台標記過的實質更新日，沒有就退回發布日——
+    // 不用 updated_at，那是資料庫最後寫入時間，改一個錯字也會跳動。
+    lastmod: newestDate(row.data?.content_updated_at, row.data?.published_at),
     changefreq: 'monthly',
     priority: '0.70',
   }));

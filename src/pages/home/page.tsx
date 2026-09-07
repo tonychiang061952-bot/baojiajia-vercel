@@ -1,10 +1,13 @@
 
 import { Link } from 'react-router-dom';
 import Hero from './components/Hero';
+import AnalysisIntro from './components/AnalysisIntro';
 import Services from './components/Services';
 import WhyChooseUs from './components/WhyChooseUs';
+import LineMagnet from './components/LineMagnet';
+import LatestPosts from './components/LatestPosts';
 import Testimonials from './components/Testimonials';
-import CTA from './components/CTA';
+import ResourceCta from '../../components/feature/ResourceCta';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
 import { SEO } from '../../components/SEO';
@@ -20,11 +23,15 @@ export default function Home() {
         "url": "https://baojiajia.tw/",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://baojiajia.tw/hero.png",
-          "width": 512,
-          "height": 512
+          "url": "https://baojiajia.tw/logo.png",
+          "width": 256,
+          "height": 253
         },
         "description": "致力於保險知識分享及提供專業的保險諮詢服務。",
+        "sameAs": [
+          "https://www.instagram.com/baojia_jia/",
+          "https://www.facebook.com/Baojiajia.tw"
+        ],
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "customer service",
@@ -70,10 +77,15 @@ export default function Home() {
       />
       <Navigation />
       <Hero />
-      <Services />
+      <AnalysisIntro />
       <WhyChooseUs />
+      <LineMagnet />
+      <LatestPosts />
+      <Services />
       <Testimonials />
-      <CTA />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+        <ResourceCta heading="開始你的保險規劃之旅" />
+      </div>
       <Footer />
     </div>
   );

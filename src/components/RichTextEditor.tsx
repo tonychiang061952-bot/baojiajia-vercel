@@ -183,6 +183,16 @@ if (isBrowser && typeof Quill !== 'undefined') {
   if (ImageBlot && ImageBlot !== StyledImage) {
     QuillWithImports.register(StyledImage, true);
   }
+
+  // 分隔線 <hr>：Quill 預設不認得這個標籤，內容裡有 <hr> 時
+  // 只要在視覺編輯器存一次檔就會被吃掉。註冊成 blot 之後才會保留。
+  if (!QuillWithImports.imports?.['formats/divider']) {
+    const BlockEmbed = QuillWithImports.import('blots/block/embed') as any;
+    class DividerBlot extends BlockEmbed {}
+    (DividerBlot as any).blotName = 'divider';
+    (DividerBlot as any).tagName = 'hr';
+    QuillWithImports.register(DividerBlot as any);
+  }
 }
 import { uploadToCloudinary } from '../lib/cloudinary';
 
@@ -255,7 +265,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
     'bold', 'italic', 'underline', 'strike', 'blockquote',
     'list', 'bullet', 'indent',
     'link', 'image', 'video', 'color', 'background', 'align',
-    'width', 'height'
+    'width', 'height', 'divider'
   ];
 
   if (sourceMode) {

@@ -37,6 +37,28 @@
   line-height: 1.9;
 }
 
+/* 服務細頁的內文：收窄閱讀寬度、收緊編輯器產生的空白段落 */
+.service-content p,
+.service-content li {
+  color: #4A443E;
+}
+.service-content p:has(> br:only-child) {
+  margin: 0;
+  height: 10px;
+}
+.service-content img {
+  border-radius: 6px;
+}
+
+/* 分隔線：內容裡原本是一整排連字號，改成真正的細線 */
+.service-content hr,
+.article-content hr {
+  border: 0;
+  border-top: 1px solid #E8DFD7;
+  margin: 2.5rem auto;
+  width: 100%;
+}
+
 .service-content strong {
   color: #1F3A5F;
   font-weight: 700;

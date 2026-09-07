@@ -9,8 +9,11 @@ Disallow: /admin
 Disallow: /admin/
 Disallow: /admin/login
 
-# 禁止爬取 PDF 模板資源
+# 禁止爬取 PDF 模板資源。
+# 模板目錄裡的 .svg 是 /analysis 產生報告時才抓的素材，要留著；
+# 只有原始的 .html 樣板不該被收錄（沒有任何頁面連到它們）。
 Disallow: /pdf-templates/
+Disallow: /pdf_svg_html_%E6%A8%A1%E6%9D%BF%E8%A3%BD%E4%BD%9C/*.html$
 
 # Sitemap 位置
 Sitemap: https://baojiajia.tw/sitemap.xml

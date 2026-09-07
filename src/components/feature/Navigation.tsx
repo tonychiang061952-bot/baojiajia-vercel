@@ -1,11 +1,52 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useGoogleAuth } from '../../auth/GoogleAuthProvider';
 import { GoogleSignInButton } from '../GoogleSignInButton';
+import { db } from '../../lib/database';
+
+type NavItem = { path: string; label: string };
+
+// 後台改不到選單一直是個問題：這裡原本把七個項目寫死。
+// 現在改成讀 navigation_items，讀不到時才用這份保底清單，
+// 確保資料庫出問題時導覽列不會整個消失。
+const FALLBACK_NAV: NavItem[] = [
+  { path: '/', label: '首頁' },
+  { path: '/services', label: '服務項目' },
+  { path: '/beginner', label: '保險新手村' },
+  { path: '/analysis', label: '需求分析 DIY' },
+  { path: '/blog', label: '知識專區' },
+  { path: '/about', label: '關於我們' },
+  { path: '/contact', label: '聯絡我們' },
+];
+
+const FALLBACK_LOGO = '/logo.png';
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [navItems, setNavItems] = useState<NavItem[]>(FALLBACK_NAV);
+  const [logoUrl, setLogoUrl] = useState(FALLBACK_LOGO);
   const { user, signOut } = useGoogleAuth();
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const [nav, settings] = await Promise.all([
+          db.from('navigation_items').select('path, label').eq('is_active', true)
+            .order('display_order', { ascending: true }),
+          db.from('site_settings').select('setting_key, setting_value'),
+        ]);
+        if (!alive) return;
+        const items = (nav.data ?? []).filter((i: any) => i?.path && i?.label);
+        if (items.length) setNavItems(items as NavItem[]);
+        const logo = (settings.data ?? []).find((r: any) => r.setting_key === 'logo_url')?.setting_value;
+        if (logo) setLogoUrl(logo);
+      } catch (error) {
+        console.error('Navigation settings failed to load:', error);
+      }
+    })();
+    return () => { alive = false; };
+  }, []);
 
   const handleLogout = async () => {
     await signOut();
@@ -18,7 +59,7 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-14 sm:h-16 md:h-20">
           <Link to="/" className="cursor-pointer flex items-center">
             <img 
-              src="https://static.readdy.ai/image/84ccad05498cbded7957a6723736d89e/8861a0f1b7a73a71b741ceabeff4ad12.png" 
+              src={logoUrl} 
               alt="保家佳" 
               className="h-10 sm:h-12 md:h-14 w-auto object-contain"
             />
@@ -26,27 +67,15 @@ export default function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-6 lg:space-x-8">
-            <Link to="/" className="text-sm lg:text-base text-gray-700 hover:text-teal-600 transition-colors cursor-pointer whitespace-nowrap">
-              首頁
-            </Link>
-            <Link to="/services" className="text-sm lg:text-base text-gray-700 hover:text-teal-600 transition-colors cursor-pointer whitespace-nowrap">
-              服務項目
-            </Link>
-            <Link to="/beginner" className="text-sm lg:text-base text-gray-700 hover:text-teal-600 transition-colors cursor-pointer whitespace-nowrap">
-              保險新手村
-            </Link>
-            <Link to="/analysis" className="text-sm lg:text-base text-gray-700 hover:text-teal-600 transition-colors cursor-pointer whitespace-nowrap">
-              需求分析 DIY
-            </Link>
-            <Link to="/blog" className="text-sm lg:text-base text-gray-700 hover:text-teal-600 transition-colors cursor-pointer whitespace-nowrap">
-              知識專區
-            </Link>
-            <Link to="/about" className="text-sm lg:text-base text-gray-700 hover:text-teal-600 transition-colors cursor-pointer whitespace-nowrap">
-              關於我們
-            </Link>
-            <Link to="/contact" className="text-sm lg:text-base text-gray-700 hover:text-teal-600 transition-colors cursor-pointer whitespace-nowrap">
-              聯絡我們
-            </Link>
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className="text-sm lg:text-base text-gray-700 hover:text-teal-600 transition-colors cursor-pointer whitespace-nowrap"
+              >
+                {item.label}
+              </Link>
+            ))}
             
             {user ? (
               <div className="flex items-center gap-4">
@@ -82,55 +111,16 @@ export default function Navigation() {
           {isMenuOpen && (
             <div className="md:hidden absolute top-14 sm:top-16 left-0 right-0 bg-white shadow-lg border-t border-gray-100">
               <div className="px-4 py-3 space-y-2">
-                <Link 
-                  to="/" 
-                  className="block py-2 text-sm text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  首頁
-                </Link>
-                <Link
-                  to="/services"
-                  className="block py-2 text-sm text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  服務項目
-                </Link>
-                <Link 
-                  to="/beginner" 
-                  className="block py-2 text-sm text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  保險新手村
-                </Link>
-                <Link 
-                  to="/analysis" 
-                  className="block py-2 text-sm text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  需求分析 DIY
-                </Link>
-                <Link 
-                  to="/blog" 
-                  className="block py-2 text-sm text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  知識專區
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="block py-2 text-sm text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  關於我們
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="block py-2 text-sm text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded transition-colors cursor-pointer"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  聯絡我們
-                </Link>
+                {navItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className="block py-2 text-sm text-gray-700 hover:text-teal-600 hover:bg-gray-50 rounded transition-colors cursor-pointer"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
                 
                 <div className="pt-2 border-t border-gray-100 mt-2">
                   {user ? (

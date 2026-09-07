@@ -264,7 +264,7 @@ export default function CustomerReviewsEditor({ onBack }: Props) {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <img
-                    src={r.avatar_url || 'https://readdy.ai/api/search-image?query=Minimal%20profile%20avatar%20icon%2C%20flat%20design%2C%20simple%20neutral%20background&width=120&height=120&seq=default-avatar&orientation=squarish'}
+                    src={r.avatar_url || ''}
                     alt={r.user_name || 'avatar'}
                     className="w-12 h-12 rounded-full object-cover object-top"
                   />

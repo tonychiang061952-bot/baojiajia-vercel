@@ -40,6 +40,10 @@ export default {
     ],
     theme: {
       extend: {
+        fontFamily: {
+          // 標題用襯線，內文維持系統字。改版稿的整體調性靠這一組。
+          serif: ['"Noto Serif TC"', 'serif'],
+        },
         colors: {
           teal: navy,   // 舊 class 名稱不動，色值換掉
           navy,
@@ -47,6 +51,8 @@ export default {
           brandgold: {
             DEFAULT: '#EECD8B',
             ink: '#574512',
+            panel: '#FAF1DC',   // CTA 面板底色
+            edge: '#DDB863',    // CTA 面板上緣與邊框
           },
           alert: '#C0261F',
         },

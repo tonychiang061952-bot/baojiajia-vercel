@@ -1,7 +1,38 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import VisitorCounter from '../VisitorCounter';
+import { db } from '../../lib/database';
+
+// 社群連結原本寫死在這裡，後台的「網站設定」改了也不會生效。
+// 改成讀 site_settings，讀不到時退回目前正在用的網址。
+const FALLBACK_SOCIAL = {
+  instagram_url: 'https://www.instagram.com/baojia_jia/',
+  facebook_url: 'https://www.facebook.com/Baojiajia.tw',
+  line_url: 'https://lin.ee/Z7HOfYBe',
+};
 
 export default function Footer() {
+  const [social, setSocial] = useState(FALLBACK_SOCIAL);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const { data } = await db.from('site_settings').select('setting_key, setting_value');
+        if (!alive || !data) return;
+        const next = { ...FALLBACK_SOCIAL };
+        for (const row of data as any[]) {
+          const value = (row?.setting_value ?? '').trim();
+          if (value && row.setting_key in next) (next as any)[row.setting_key] = value;
+        }
+        setSocial(next);
+      } catch (error) {
+        console.error('Footer settings failed to load:', error);
+      }
+    })();
+    return () => { alive = false; };
+  }, []);
+
   return (
     <footer className="bg-cream-800 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 md:py-16">
@@ -12,7 +43,7 @@ export default function Footer() {
           </p>
           <div className="flex space-x-3 sm:space-x-4">
             <a 
-              href="https://www.instagram.com/baojia_jia/" 
+              href={social.instagram_url} 
               target="_blank"
               rel="noopener noreferrer"
               className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors cursor-pointer"
@@ -20,7 +51,7 @@ export default function Footer() {
               <i className="ri-instagram-line text-lg sm:text-xl"></i>
             </a>
             <a 
-              href="https://www.facebook.com/Baojiajia.tw" 
+              href={social.facebook_url} 
               target="_blank"
               rel="noopener noreferrer"
               className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors cursor-pointer"
@@ -28,7 +59,7 @@ export default function Footer() {
               <i className="ri-facebook-fill text-lg sm:text-xl"></i>
             </a>
             <a 
-              href="https://lin.ee/Z7HOfYBe" 
+              href={social.line_url} 
               target="_blank"
               rel="noopener noreferrer"
               className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center bg-white/10 rounded-full hover:bg-white/20 transition-colors cursor-pointer"

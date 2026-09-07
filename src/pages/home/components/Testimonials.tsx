@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db as supabase } from '../../../lib/database';
 import { useGoogleAuth } from '../../../auth/GoogleAuthProvider';
-import { Helmet } from 'react-helmet-async';
 import { sendTelegramNotification } from '../../../services/telegramService';
 
 interface Testimonial {
@@ -27,7 +26,6 @@ export default function Testimonials() {
   const [formContent, setFormContent] = useState('');
   const [formError, setFormError] = useState('');
   const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [publishedReviews, setPublishedReviews] = useState<Testimonial[]>([]);
 
   useEffect(() => {
     fetchSettingsAndData();
@@ -81,7 +79,6 @@ export default function Testimonials() {
         avatar: r.avatar_url
       }));
 
-      setPublishedReviews(formattedTestimonials as any);
       setTestimonials(formattedTestimonials as any);
     } catch (error) {
       console.error('Error fetching settings/reviews:', error);
@@ -202,41 +199,11 @@ export default function Testimonials() {
 
   return (
     <section className="py-12 sm:py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white">
-      {publishedReviews.length > 0 && (
-        <Helmet>
-          <script type="application/ld+json">
-            {JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "name": "保家佳",
-              "url": "https://baojiajia.tw/",
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": (
-                  Math.round(
-                    (publishedReviews.reduce((sum, r) => sum + (Number(r.rating) || 0), 0) / publishedReviews.length) * 10
-                  ) / 10
-                ),
-                "reviewCount": publishedReviews.length
-              },
-              "review": publishedReviews.slice(0, 10).map((r) => ({
-                "@type": "Review",
-                "reviewBody": r.content,
-                "reviewRating": {
-                  "@type": "Rating",
-                  "ratingValue": r.rating,
-                  "bestRating": 5,
-                  "worstRating": 1
-                },
-                "author": {
-                  "@type": "Person",
-                  "name": r.name
-                }
-              }))
-            })}
-          </script>
-        </Helmet>
-      )}
+      {/* 這裡原本輸出 Organization + AggregateRating 的結構化資料。
+          Google 的 Review snippet 文件明訂：被評價的對象自己控制評價來源時，
+          LocalBusiness 或任何 Organization 型別都「不符合」星等顯示資格
+          （https://developers.google.com/search/docs/appearance/structured-data/review-snippet）。
+          留著不會有星星，所以拿掉；評價本身照常顯示給讀者看。 */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 sm:mb-12 md:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">客戶真實分享</h2>

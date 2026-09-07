@@ -4,6 +4,7 @@ import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
 import { db as supabase } from '../../lib/database';
 import { SEO } from '../../components/SEO';
+import ResourceCta from '../../components/feature/ResourceCta';
 
 /**
  * 文章目錄用的錨點：依序給每個 <h2> 加上 id="sec-1"、"sec-2"⋯
@@ -73,6 +74,8 @@ interface BlogPost {
   author: string;
   published_at: string;
   updated_at: string;
+  /** 內容實質更新日。後台勾選「這次是實質更新」才會寫入。 */
+  content_updated_at?: string | null;
   read_time: string;
   image_url: string;
   content: string;
@@ -89,6 +92,7 @@ export default function BlogDetail() {
   const navigate = useNavigate();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
+  const [latestPosts, setLatestPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -147,6 +151,24 @@ export default function BlogDetail() {
     }
   };
 
+  // 側欄的最新文章：不分類別，讓讀者看完這篇還有別的路可以走
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const { data } = await supabase.from('blog_posts').select('*')
+          .eq('is_active', true).order('published_at', { ascending: false });
+        if (!alive || !data) return;
+        setLatestPosts((data as BlogPost[])
+          .filter((p) => p.id !== post?.id)
+          .slice(0, 5));
+      } catch (error) {
+        console.error('Latest posts failed to load:', error);
+      }
+    })();
+    return () => { alive = false; };
+  }, [post?.id]);
+
   const fetchRelatedPosts = async () => {
     if (!post) return;
 
@@ -157,6 +179,7 @@ export default function BlogDetail() {
         .eq('category', post.category)
         .eq('is_active', true)
         .neq('id', post.id)
+        .order('published_at', { ascending: false })
         .limit(3);
 
       if (error) throw error;
@@ -165,6 +188,15 @@ export default function BlogDetail() {
       console.error('Error fetching related posts:', error);
     }
   };
+
+  const headings = post?.content
+    ? [...post.content.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/gi)].map((m, idx) => ({
+        id: `sec-${idx + 1}`,
+        text: m[1].replace(/<[^>]+>/g, '').trim(),
+      })).filter((h) => h.text)
+    : [];
+
+  const isNewborn = /新生兒|嬰兒|寶寶|幼兒/.test(`${post?.title ?? ''}${post?.category ?? ''}`);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -214,234 +246,176 @@ export default function BlogDetail() {
       <SEO
         title={`${post.title} | 保家佳保險知識`}
         description={post.meta_description || post.excerpt}
-        keywords={post.meta_keywords ? post.meta_keywords.split(',') : [post.category, "保險知識", "保家佳"]}
+        keywords={post.meta_keywords ? post.meta_keywords.split(',') : [post.category, '保險知識', '保家佳']}
         image={post.image_url}
         url={post.slug ? `/blog/${post.slug}` : `/blog/id/${post.id}`}
         type="article"
         author={post.author}
         publishedTime={post.published_at}
-        modifiedTime={post.updated_at}
+        modifiedTime={post.content_updated_at || post.published_at}
         schema={{
-          // 用 @graph 把文章與麵包屑放在同一份 JSON-LD。
-          // BreadcrumbList 是 Google 仍支援 rich result 的類型，畫面上本來就有麵包屑，
-          // 這裡只是補上對應的標記。
-          "@context": "https://schema.org",
-          "@graph": [
+          '@context': 'https://schema.org',
+          '@graph': [
             {
-              "@type": "BlogPosting",
-              "headline": post.title,
-              "image": post.image_url ? [post.image_url] : [],
-              "datePublished": post.published_at,
-              "dateModified": post.updated_at,
-              "author": [{
-                "@type": "Organization",
-                "name": post.author,
-                "url": "https://baojiajia.tw/about"
-              }],
-              "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": `https://baojiajia.tw/blog/${post.slug || post.id}`
-              }
+              '@type': 'BlogPosting',
+              headline: post.title,
+              image: post.image_url ? [post.image_url] : [],
+              datePublished: post.published_at,
+              dateModified: post.content_updated_at || post.published_at,
+              author: [{ '@type': 'Organization', name: post.author, url: 'https://baojiajia.tw/about' }],
+              mainEntityOfPage: {
+                '@type': 'WebPage',
+                '@id': `https://baojiajia.tw/blog/${post.slug ?? post.id}`,
+              },
             },
             {
-              "@type": "BreadcrumbList",
-              "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "首頁", "item": "https://baojiajia.tw/" },
-                { "@type": "ListItem", "position": 2, "name": "知識專區", "item": "https://baojiajia.tw/blog" },
-                { "@type": "ListItem", "position": 3, "name": post.category }
-              ]
-            }
-          ]
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://baojiajia.tw/' },
+                { '@type': 'ListItem', position: 2, name: '保險知識專區', item: 'https://baojiajia.tw/blog' },
+                { '@type': 'ListItem', position: 3, name: post.category },
+              ],
+            },
+          ],
         }}
       />
       <Navigation />
 
-      {/* 麵包屑導航 */}
-      <div className="bg-gray-50 py-4">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center text-sm text-gray-600">
-            <Link to="/" className="hover:text-teal-600 transition-colors cursor-pointer">
-              首頁
-            </Link>
-            <i className="ri-arrow-right-s-line mx-2"></i>
-            <Link to="/blog" className="hover:text-teal-600 transition-colors cursor-pointer">
-              知識專區
-            </Link>
-            <i className="ri-arrow-right-s-line mx-2"></i>
-            <span className="text-gray-900">{post.category}</span>
-          </div>
-        </div>
-      </div>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_244px] items-start gap-11 px-4 sm:px-6 lg:px-8 pb-16">
+        <main className="min-w-0">
+          <nav className="pt-5 text-[0.79rem] text-cream-600">
+            <Link to="/" className="hover:text-teal-600">首頁</Link>
+            <span className="mx-2 text-cream-500">›</span>
+            <Link to="/blog" className="hover:text-teal-600">保險知識專區</Link>
+            <span className="mx-2 text-cream-500">›</span>
+            {post.category}
+          </nav>
 
-      {/* 文章內容 */}
-      <article className="py-12 sm:py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* 文章標題區 */}
-          <header className="mb-8">
-            <div className="mb-4">
-              <span className="inline-block bg-brandgold text-brandgold-ink px-4 py-1.5 rounded-full text-sm font-semibold">
-                {post.category}
-              </span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <header className="pt-5">
+            <span className="inline-block rounded-sm bg-brandgold px-2.5 py-1 text-[0.65rem] font-bold tracking-[0.15em] text-brandgold-ink mb-3.5">
+              {post.category}
+            </span>
+            <h1 className="font-serif text-[1.65rem] sm:text-[2rem] md:text-[2.25rem] font-bold leading-[1.4] text-cream-900">
               {post.title}
             </h1>
-            <div className="flex flex-wrap items-center gap-4 text-gray-600">
-              <div className="flex items-center">
-                <div className="w-10 h-10 flex items-center justify-center bg-teal-100 rounded-full mr-3">
-                  <i className="ri-user-line text-teal-600 text-lg"></i>
-                </div>
-                {/* 作者署名連到關於我們。保險屬 YMYL，Google 對 E-E-A-T 的權重更高，
-                    而作者可辨識是最基本的信任訊號。 */}
-                <Link to="/about" className="font-medium hover:text-teal-700 underline underline-offset-2 decoration-1">
+            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-1 border-b border-cream-300 pb-4 text-[0.8rem] text-cream-600">
+              <span>
+                <Link to="/about" className="font-medium underline decoration-1 underline-offset-[3px] hover:text-teal-600">
                   {post.author}
                 </Link>
-              </div>
-              <div className="flex items-center">
-                <i className="ri-calendar-line mr-2 text-lg"></i>
-                <span>{formatDate(post.published_at)}</span>
-              </div>
-              <div className="flex items-center">
-                <i className="ri-time-line mr-2 text-lg"></i>
-                <span>{post.read_time}</span>
-              </div>
+              </span>
+              <span className="tabular-nums">
+                {post.content_updated_at
+                  ? `${formatDate(post.content_updated_at)} 更新`
+                  : formatDate(post.published_at)}
+              </span>
+              {post.read_time && <span>閱讀時間 {post.read_time} 分鐘</span>}
             </div>
           </header>
 
-          {/* 文章封面圖 */}
-          {post.image_url && (
-            <div className="mb-10 rounded-2xl overflow-hidden shadow-lg">
-              <img
-                src={post.image_url}
-                alt={post.title}
-                className="w-full h-auto object-cover object-top"
-              />
-            </div>
-          )}
-
-          {/* 文章摘要 */}
           {post.excerpt && (
-            <div className="bg-teal-50 border-l-4 border-teal-600 p-6 mb-10 rounded-r-xl">
-              <p className="text-lg text-gray-700 leading-relaxed italic">
-                {post.excerpt}
-              </p>
-            </div>
+            <p className="mt-6 border-l-[3px] border-brandgold pl-4 text-[1.04rem] leading-[1.9] text-cream-900">
+              {post.excerpt}
+            </p>
           )}
 
-          {/* 文章正文 */}
+          {headings.length > 1 && (
+            <nav className="mt-7 rounded-md border border-cream-300 bg-white px-5 py-5">
+              <h2 className="mb-3 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-cream-600">本篇重點</h2>
+              <ol className="list-decimal pl-5 text-[0.9rem] text-cream-900">
+                {headings.map((h) => (
+                  <li key={h.id} className="mb-1.5 last:mb-0">
+                    <a href={`#${h.id}`} className="hover:text-teal-600 hover:underline underline-offset-[3px]">{h.text}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
+
+          {post.image_url && (
+            <figure className="mt-7">
+              <img src={post.image_url} alt={post.title} className="w-full rounded-md border border-cream-300" />
+            </figure>
+          )}
+
           <div
-            className="article-content prose prose-lg max-w-none mb-12"
+            className="article-content prose prose-lg max-w-none mt-7"
             dangerouslySetInnerHTML={{ __html: withCtaBlock(withHeadingIds(post.content)) }}
-            style={{
-              lineHeight: '1.8',
-              fontSize: '1.125rem',
-              color: '#374151'
-            }}
           />
 
-          {/* 分享按鈕 */}
-          <div className="border-t border-b border-gray-200 py-6 mb-12">
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <span className="text-gray-700 font-semibold">分享這篇文章：</span>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => {
-                    const url = window.location.href;
-                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
-                  }}
-                  className="w-10 h-10 flex items-center justify-center bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors cursor-pointer"
-                  aria-label="分享到 Facebook"
-                >
-                  <i className="ri-facebook-fill text-lg"></i>
-                </button>
-                <button
-                  onClick={() => {
-                    const url = window.location.href;
-                    window.open(
-                      `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(post.title)}`,
-                      '_blank'
-                    );
-                  }}
-                  className="w-10 h-10 flex items-center justify-center bg-sky-500 text-white rounded-full hover:bg-sky-600 transition-colors cursor-pointer"
-                  aria-label="分享到 Twitter"
-                >
-                  <i className="ri-twitter-x-fill text-lg"></i>
-                </button>
-                <button
-                  onClick={() => {
-                    const url = window.location.href;
-                    navigator.clipboard.writeText(url);
-                    alert('連結已複製到剪貼簿！');
-                  }}
-                  className="w-10 h-10 flex items-center justify-center bg-gray-600 text-white rounded-full hover:bg-gray-700 transition-colors cursor-pointer"
-                  aria-label="複製連結"
-                >
-                  <i className="ri-link text-lg"></i>
-                </button>
-              </div>
-            </div>
+          <div className="mt-12">
+            <ResourceCta magnet={isNewborn ? 'newborn' : 'general'} />
           </div>
 
-          {/* 返回按鈕 */}
-          <div className="mb-12">
-            <Link
-              to="/blog"
-              className="inline-flex items-center text-teal-600 hover:text-teal-700 font-semibold transition-colors cursor-pointer"
+          {relatedPosts.length > 0 && (
+            <section className="mt-12">
+              <h2 className="font-serif text-xl font-bold text-cream-900 mb-5">你可能也想知道</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {relatedPosts.map((related) => (
+                  <Link
+                    key={related.id}
+                    to={related.slug ? `/blog/${related.slug}` : `/blog/id/${related.id}`}
+                    className="group block rounded-md border border-cream-300 bg-white px-4 py-4 hover:border-teal-600 transition-colors"
+                  >
+                    <span className="mb-1.5 block text-[0.68rem] font-bold tracking-[0.12em] text-cream-500">{related.category}</span>
+                    <b className="block text-[0.92rem] font-semibold leading-[1.6] text-cream-900 group-hover:text-teal-600 transition-colors">
+                      {related.title}
+                    </b>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <div className="mt-10 flex flex-wrap items-center gap-3 border-t border-cream-300 pt-6 text-[0.85rem] text-cream-600">
+            <span className="font-semibold text-cream-900">分享這篇</span>
+            <button
+              onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
+              className="rounded-md border border-cream-300 bg-white px-3.5 py-1.5 hover:border-teal-600 hover:text-teal-600 transition-colors"
             >
-              <i className="ri-arrow-left-line mr-2"></i>
-              返回知識專區
+              Facebook
+            </button>
+            <button
+              onClick={() => window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(window.location.href)}`, '_blank')}
+              className="rounded-md border border-cream-300 bg-white px-3.5 py-1.5 hover:border-teal-600 hover:text-teal-600 transition-colors"
+            >
+              LINE
+            </button>
+            <button
+              onClick={() => navigator.clipboard.writeText(window.location.href)}
+              className="rounded-md border border-cream-300 bg-white px-3.5 py-1.5 hover:border-teal-600 hover:text-teal-600 transition-colors"
+            >
+              複製連結
+            </button>
+          </div>
+        </main>
+
+        <aside className="max-lg:hidden pt-5">
+          <section className="mb-8">
+            <h2 className="mb-3 border-b border-cream-300 pb-2 text-[0.72rem] font-bold tracking-[0.14em] text-cream-600">最新文章</h2>
+            <ul>
+              {latestPosts.map((item) => (
+                <li key={item.id} className="border-b border-cream-200 py-2.5 first:pt-0 last:border-b-0 last:pb-0">
+                  <Link to={item.slug ? `/blog/${item.slug}` : `/blog/id/${item.id}`}
+                        className="block text-[0.85rem] font-semibold leading-[1.55] text-cream-900 hover:text-teal-600 transition-colors">
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <div className="rounded-b-md border-t-[3px] border-brandgold-edge bg-brandgold-panel px-4 py-4">
+            <p className="mb-3 text-[0.83rem] leading-[1.75] text-cream-900">
+              不確定自己的保障夠不夠？花三分鐘做一次需求分析。
+            </p>
+            <Link to="/analysis"
+                  className="block rounded-md bg-teal-600 py-2.5 text-center text-[0.84rem] font-semibold text-white hover:bg-teal-700 transition-colors">
+              需求分析 DIY
             </Link>
           </div>
-        </div>
-      </article>
-
-      {/* 相關文章 */}
-      {relatedPosts.length > 0 && (
-        <section className="bg-gray-50 py-12 sm:py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8 text-center">
-              相關文章推薦
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {relatedPosts.map((relatedPost) => (
-                <Link
-                  key={relatedPost.id}
-                  to={relatedPost.slug ? `/blog/${relatedPost.slug}` : `/blog/id/${relatedPost.id}`}
-                  className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow cursor-pointer group"
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={relatedPost.image_url || 'https://readdy.ai/api/search-image?query=Insurance%20education%20concept%20with%20friendly%20advisor%20explaining%20to%20young%20person%2C%20bright%20modern%20setting%2C%20clean%20background%2C%20professional%20photography%20showing%20learning%20and%20understanding&width=800&height=500&seq=blog-related-default&orientation=landscape'}
-                      alt={relatedPost.title}
-                      className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-teal-600 text-white px-3 py-1.5 rounded-full text-xs font-semibold">
-                        {relatedPost.category}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-teal-600 transition-colors line-clamp-2">
-                      {relatedPost.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 leading-relaxed mb-3 line-clamp-2">
-                      {relatedPost.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      <span>{formatDate(relatedPost.published_at)}</span>
-                      <span className="flex items-center">
-                        <i className="ri-time-line mr-1"></i>
-                        {relatedPost.read_time}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+        </aside>
+      </div>
 
       <Footer />
     </div>

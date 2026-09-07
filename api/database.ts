@@ -28,7 +28,7 @@ const NUMERIC_ORDER_FIELDS = new Set([
 
 type Filter = {
   column: string;
-  operator: 'eq' | 'neq' | 'ilike' | 'in' | 'is' | 'not' | 'or';
+  operator: 'eq' | 'neq' | 'ilike' | 'in' | 'is' | 'not' | 'or' | 'lte';
   value?: unknown;
   nestedOperator?: string;
 };
@@ -129,6 +129,9 @@ function addFilters(filters: Filter[], params: unknown[]) {
       if (!Array.isArray(filter.value)) throw new Error('Invalid in filter');
       params.push(filter.value.map(String));
       clauses.push(`${field} = any($${params.length}::text[])`);
+    } else if (filter.operator === 'lte') {
+      params.push(String(filter.value));
+      clauses.push(`nullif(${field}, '')::timestamptz <= $${params.length}::timestamptz`);
     } else if (filter.operator === 'is') {
       clauses.push(filter.value === null ? `${field} is null` : `${field} is not null`);
     } else if (filter.operator === 'not') {
@@ -177,6 +180,16 @@ function normalizePayload(payload: unknown, user: Awaited<ReturnType<typeof read
 }
 
 function publicRestrictions(collection: string, filters: Filter[]) {
+  if (collection === 'blog_posts') {
+    // 未登入者只能看到「已啟用 + 已發布 + 發布時間已到」的文章。
+    // 這道關卡放在伺服器端，前台頁面不算權限邊界；
+    // 少了它，後台一存草稿就會立刻出現在文章列表與文章頁。
+    filters.push(
+      { column: 'is_active', operator: 'eq', value: true },
+      { column: 'is_published', operator: 'eq', value: true },
+      { column: 'published_at', operator: 'lte', value: new Date().toISOString() },
+    );
+  }
   if (collection === 'customer_reviews') {
     filters.push(
       { column: 'is_approved', operator: 'eq', value: true },

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navigation from '../../components/feature/Navigation';
+import Footer from '../../components/feature/Footer';
 import { SEO } from '../../components/SEO';
 import PlanTypeStep from './components/PlanTypeStep';
 import BasicInfoStep from './components/BasicInfoStep';
@@ -133,6 +134,7 @@ export default function AnalysisPage() {
           {renderStep()}
         </div>
       </div>
+      <Footer />
     </>
   );
 }

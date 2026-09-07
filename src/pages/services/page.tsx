@@ -4,8 +4,17 @@ import { db as supabase } from '../../lib/database';
 import { SEO } from '../../components/SEO';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
+import ResourceCta from '../../components/feature/ResourceCta';
 
-interface ServiceItem {
+/**
+ * 服務項目。
+ *
+ * 舊版跟首頁的服務區塊幾乎一模一樣（同樣六張卡、同樣文案、同樣版型），
+ * 對讀者和 Google 來說都沒有提供首頁沒有的東西。
+ * 改成依「你現在在哪個位置」分成三種情況，這是首頁做不到的引導。
+ */
+
+type ServiceItem = {
   id: string;
   title: string;
   description: string;
@@ -13,131 +22,161 @@ interface ServiceItem {
   image_url: string;
   slug: string;
   display_order: number;
-}
+};
+
+const GROUPS = [
+  {
+    tag: '情況一',
+    title: '已經買了保險，但不確定夠不夠',
+    body: '先不用急著加買。把手上的保單攤開來看，往往會發現保費花在不需要的地方，而真正該補的缺口反而是空的。',
+    slugs: ['policy-checkup'],
+    wide: true,
+    alt: false,
+  },
+  {
+    tag: '情況二',
+    title: '還沒規劃，看你現在在哪個階段',
+    body: '同樣一份保障，給剛出生的孩子、給有房貸的爸媽、給準備退休的長輩，重點完全不同。年齡決定了什麼該先補、什麼可以晚一點。',
+    slugs: ['children-protection', 'adult-protection', 'senior-protection'],
+    wide: false,
+    alt: true,
+  },
+  {
+    tag: '情況三',
+    title: '保障之外，還想處理錢的問題',
+    body: '保險負責的是「出事的時候不要垮」，這兩項處理的是另一件事：沒出事的那幾十年，錢要怎麼安排。',
+    slugs: ['savings-planning', 'retirement-planning'],
+    wide: false,
+    alt: false,
+  },
+];
 
 export default function ServicesPage() {
   const [services, setServices] = useState<ServiceItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchServices = async () => {
+    (async () => {
       try {
-        const { data, error } = await supabase
-          .from('service_items')
-          .select('*')
-          .eq('is_active', true)
-          .order('display_order', { ascending: true });
-
-        if (error) throw error;
-        setServices(data || []);
+        const { data } = await supabase.from('service_items').select('*')
+          .eq('is_active', true).order('display_order', { ascending: true });
+        setServices((data as ServiceItem[]) ?? []);
       } catch (error) {
         console.error('Error fetching services:', error);
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchServices();
+    })();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-cream-100">
-        <Navigation />
-        <div className="py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <div className="w-16 h-16 border-4 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-              <p className="text-gray-600">載入中...</p>
-            </div>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
+  const bySlug = (slug: string) => services.find((s) => s.slug === slug);
 
   return (
     <div className="min-h-screen bg-cream-100">
       <SEO
-        title="專業保險服務項目 | 保家佳"
-        description="提供全方位的專業保險服務，包括保單健診、醫療保障規劃、退休理財方案等，為您的未來提供最完善的保障。"
-        keywords={["保險服務", "保單健診", "醫療保障", "退休規劃", "保險諮詢"]}
+        title="服務項目 | 保家佳"
+        description="保單健診、幼兒／成人／銀髮保障諮詢、儲蓄理財與退休規劃。依照你現在的狀況，找到最接近的那一個。"
+        keywords={['保險服務', '保單健診', '醫療保障', '退休規劃', '保險諮詢']}
         url="/services"
+        schema={{
+          '@context': 'https://schema.org',
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: '首頁', item: 'https://baojiajia.tw/' },
+            { '@type': 'ListItem', position: 2, name: '服務項目' },
+          ],
+        }}
       />
       <Navigation />
-      {/* Hero Section */}
-      <div className="border-b border-cream-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-          <h1 className="text-2xl sm:text-3xl font-bold text-cream-900">我們的服務</h1>
-          <p className="text-sm sm:text-base text-cream-600 mt-2 max-w-2xl">
-            專業的保險規劃團隊，為您提供全方位的保障服務，從保單健診到退休規劃，讓您的每一分保費都發揮最大效益
+
+      <header className="border-b border-cream-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-11">
+          <h1 className="font-serif text-[1.75rem] sm:text-4xl font-bold text-cream-900 leading-[1.4]">我們的服務</h1>
+          <p className="mt-4 text-base leading-[1.9] text-cream-600 max-w-[56ch]">
+            每個人的狀況不一樣，需要處理的問題也不一樣。下面依照「你現在在哪個位置」分成三種情況，找到最接近你的那一個就可以了。
           </p>
         </div>
-      </div>
+      </header>
 
-      {/* Services Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service) => (
-            <div
-              key={service.id}
-              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 group"
-            >
-              <div className="relative h-56 overflow-hidden">
-                <img
-                  src={service.image_url}
-                  alt={service.title}
-                  className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute bottom-4 left-4">
-                  <div className="w-16 h-16 bg-teal-500 rounded-xl flex items-center justify-center shadow-lg">
-                    <i className={`${service.icon} text-3xl text-white`}></i>
-                  </div>
+      {loading ? (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-cream-600">載入中⋯⋯</div>
+      ) : (
+        GROUPS.map((group) => (
+          <section
+            key={group.tag}
+            className={`py-14 ${group.alt ? 'bg-white border-y border-cream-300' : ''}`}
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="mb-7">
+                <span className="inline-block rounded-sm bg-brandgold px-2.5 py-1 text-[0.68rem] font-bold tracking-[0.16em] text-brandgold-ink mb-3">
+                  {group.tag}
+                </span>
+                <h2 className="font-serif text-[1.4rem] font-bold text-cream-900 leading-snug">{group.title}</h2>
+                <p className="mt-2 text-[0.92rem] leading-[1.85] text-cream-600 max-w-[52ch]">{group.body}</p>
+              </div>
+
+              {group.wide ? (
+                group.slugs.map((slug) => {
+                  const s = bySlug(slug);
+                  if (!s) return null;
+                  return (
+                    <Link
+                      key={slug}
+                      to={`/services/${s.slug}`}
+                      className={`grid grid-cols-1 md:grid-cols-[340px_minmax(0,1fr)] overflow-hidden rounded-md border border-cream-300 hover:border-teal-600 transition-colors ${group.alt ? 'bg-cream-100' : 'bg-white'}`}
+                    >
+                      <div className="overflow-hidden bg-cream-200 max-md:aspect-[16/9]">
+                        {s.image_url && <img src={s.image_url} alt={s.title} loading="lazy" className="w-full h-full object-cover" />}
+                      </div>
+                      <div className="flex flex-col justify-center px-7 py-7">
+                        <h3 className="text-xl font-bold text-cream-900 mb-2.5">{s.title}</h3>
+                        <p className="text-[0.92rem] leading-[1.85] text-cream-600">{s.description}</p>
+                        <span className="mt-4 text-[0.88rem] font-semibold text-teal-600">閱讀完整介紹 →</span>
+                      </div>
+                    </Link>
+                  );
+                })
+              ) : (
+                <div className={`grid grid-cols-1 sm:grid-cols-2 gap-6 ${group.slugs.length === 3 ? 'lg:grid-cols-3' : ''}`}>
+                  {group.slugs.map((slug) => {
+                    const s = bySlug(slug);
+                    if (!s) return null;
+                    return (
+                      <Link
+                        key={slug}
+                        to={`/services/${s.slug}`}
+                        className={`flex flex-col overflow-hidden rounded-md border border-cream-300 hover:border-teal-600 transition-colors ${group.alt ? 'bg-cream-100' : 'bg-white'}`}
+                      >
+                        <div className="aspect-[16/9] overflow-hidden bg-cream-200">
+                          {s.image_url && <img src={s.image_url} alt={s.title} loading="lazy" className="w-full h-full object-cover" />}
+                        </div>
+                        <div className="flex flex-1 flex-col px-5 py-5">
+                          <h3 className="text-[1.08rem] font-bold text-cream-900 mb-2">{s.title}</h3>
+                          <p className="text-[0.86rem] leading-[1.8] text-cream-600">{s.description}</p>
+                          <span className="mt-auto pt-4 text-[0.85rem] font-semibold text-teal-600">閱讀完整介紹 →</span>
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
-              </div>
-
-              <div className="p-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-3">{service.title}</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed line-clamp-3">{service.description}</p>
-
-                <Link
-                  to={`/services/${service.slug}`}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors shadow-md hover:shadow-lg whitespace-nowrap"
-                >
-                  閱讀完整介紹
-                  <i className="ri-arrow-right-line"></i>
-                </Link>
-              </div>
+              )}
             </div>
-          ))}
-        </div>
+          </section>
+        ))
+      )}
 
-        {/* CTA Section */}
-        <div className="mt-20 bg-gradient-to-r from-teal-50 to-blue-50 rounded-2xl p-12 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">還在猶豫嗎？</h2>
-          <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
-            立即預約免費保單健診，讓我們的專業團隊為您分析現有保障，找出最適合您的保險規劃
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              to="/analysis"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors shadow-lg hover:shadow-xl text-lg font-semibold whitespace-nowrap"
-            >
-              <i className="ri-file-list-3-line"></i>
-              免費保單健診
-            </Link>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-teal-600 border-2 border-teal-500 rounded-lg hover:bg-teal-50 transition-colors text-lg font-semibold whitespace-nowrap"
-            >
-              <i className="ri-customer-service-2-line"></i>
-              聯絡我們
-            </Link>
-          </div>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <ResourceCta
+          heading="我想提供給你的資源："
+          extra={{
+            title: '預約保單健診',
+            description: '留下聯絡方式，我們約時間一起看你手上的保單',
+            to: '/contact',
+            action: '前往預約',
+          }}
+        />
       </div>
+
       <Footer />
     </div>
   );

@@ -13,8 +13,6 @@ export default defineConfig(({ mode }) => {
   define: {
     __BASE_PATH__: JSON.stringify(base),
     __IS_PREVIEW__: JSON.stringify(isPreview),
-    __READDY_PROJECT_ID__: JSON.stringify(env.PROJECT_ID || ""),
-    __READDY_VERSION_ID__: JSON.stringify(env.VERSION_ID || ""),
     __GOOGLE_CLIENT_ID__: JSON.stringify(env.GOOGLE_CLIENT_ID || ""),
   },
   plugins: [
