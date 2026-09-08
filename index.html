@@ -4,8 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <link rel="icon" type="image/png" href="/favicon.png" />
+  <!-- Favicon。Google 搜尋結果只認「正方形、邊長是 48 的倍數」的圖，
+       小於這個尺寸就會退回顯示它自己的地球圖示。網址要固定不要改，
+       換圖直接覆蓋同一個檔名，Google 重新檢索時才會沿用同一份紀錄。 -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- SEO tags are generated at build time and kept in sync by React Helmet. -->
 
