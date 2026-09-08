@@ -144,7 +144,6 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
   const [pdfProgress, setPdfProgress] = useState(0);
   const { user } = useGoogleAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showReviewInvite, setShowReviewInvite] = useState(false);
 
   // 計算年齡
   const calculateAge = (birthDate: string) => {
@@ -594,7 +593,6 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
       setShowDownloadForm(false);
       setPdfProgress(0);
       setDownloadDone(true);
-      setTimeout(() => setShowReviewInvite(true), 1500);
     } catch (error) {
       console.error('生成 PDF 失敗：', error);
       clearInterval(progressInterval);
@@ -792,7 +790,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
               <i className="ri-line-fill text-2xl"></i>
             </div>
             <div>
-              <h3 className="text-xl font-bold text-cream-900">報告看不懂的地方，可以直接問我</h3>
+              <h3 className="text-xl font-bold text-cream-900">有看不懂或是有想問的問題，都可以透過 LINE 官方私訊我</h3>
               <p className="mt-2 text-cream-700">
                 我們的專業顧問將為您提供一對一的保險規劃服務。LINE 官方不會有任何廣告訊息。
               </p>
@@ -966,37 +964,6 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
-
-      {/* 評價邀請卡片 */}
-      {showReviewInvite && (
-        <div className="bg-cream-100 border border-amber-200 rounded-lg p-6 animate-fade-in">
-          <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
-              <i className="ri-star-smile-line text-2xl text-amber-600"></i>
-            </div>
-            <div className="flex-1">
-              <h3 className="text-lg font-bold text-cream-900 mb-1">覺得這個工具有幫助嗎？</h3>
-              <p className="text-cream-600 text-sm mb-4">您的真實評價能幫助更多人認識保家佳，也讓我們持續進步！</p>
-              <div className="flex items-center gap-3 flex-wrap">
-                <a
-                  href="/?review=open"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white rounded-lg font-semibold hover:bg-teal-700 transition-colors whitespace-nowrap text-sm"
-                >
-                  <i className="ri-chat-new-line"></i>
-                  留下評價
-                </a>
-                <button
-                  type="button"
-                  onClick={() => setShowReviewInvite(false)}
-                  className="text-sm text-cream-500 hover:text-cream-800 transition-colors whitespace-nowrap"
-                >
-                  稍後再說
-                </button>
-              </div>
-            </div>
           </div>
         </div>
       )}
