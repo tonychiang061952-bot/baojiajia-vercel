@@ -60,6 +60,32 @@
 
     gtag('config', 'G-5CP17W4XQV');
   </script>
+
+  <script>
+    // 靜態快照是給爬蟲看的底稿，正常情況下 React 一載入就會蓋掉它。
+    // 若 10 秒後還在（通常是部署後舊分頁的 JS 檔名已失效、或檔案抓不到），
+    // 就明講「沒載完」，而不是讓使用者停在只剩標題的底稿上、以為內容被換掉了。
+    // 注意：這段必須放在 <head>，prerender 會把 #root 到 </body> 之間整段換掉。
+    setTimeout(function () {
+      var stuck = document.querySelector('#root .seo-static-snapshot, #root .loading-spinner');
+      if (!stuck || document.getElementById('bjj-load-warning')) return;
+      var bar = document.createElement('div');
+      bar.id = 'bjj-load-warning';
+      bar.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:9999;padding:14px 18px;' +
+        'background:#1F3A5F;color:#fff;font:15px/1.6 -apple-system,BlinkMacSystemFont,"PingFang TC",sans-serif;' +
+        'display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap';
+      var text = document.createElement('span');
+      text.textContent = '頁面沒有載入完成，請重新整理';
+      var btn = document.createElement('button');
+      btn.textContent = '重新整理';
+      btn.style.cssText = 'background:#fff;color:#1F3A5F;border:0;border-radius:6px;' +
+        'padding:8px 18px;font-weight:600;font-size:15px;cursor:pointer';
+      btn.onclick = function () { location.reload(); };
+      bar.appendChild(text);
+      bar.appendChild(btn);
+      document.body.appendChild(bar);
+    }, 10000);
+  </script>
 </head>
 
 <body>

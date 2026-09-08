@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
@@ -17,29 +17,40 @@ import OtherNeedsStep from './components/OtherNeedsStep';
 import ResultStep from './components/ResultStep';
 
 export default function AnalysisPage() {
+  const location = useLocation();
+
+  /* 進度存在 localStorage，原本不論從哪裡進來都會接續上次的步驟——
+     從別頁點「需求分析 DIY」進來會直接掉在上次做到的那一題，
+     原本要重置的那段判斷在第一次掛載時比對值還是空的，不會生效。
+     只有初始的歷史紀錄 key 才是 'default'，用它區分：
+     重新整理或直接開網址＝接續，從站內其他頁點進來＝從第一題開始。 */
+  const isDirectLoad = location.key === 'default';
+
   const [currentStep, setCurrentStep] = useState(() => {
+    if (!isDirectLoad) return 0;
     const saved = localStorage.getItem('analysis_step');
-    return saved ? parseInt(saved, 10) : 0;
+    const step = saved ? parseInt(saved, 10) : 0;
+    return Number.isFinite(step) ? step : 0;
   });
 
   const [formData, setFormData] = useState<any>(() => {
-    const saved = localStorage.getItem('analysis_data');
-    return saved ? JSON.parse(saved) : {};
+    if (!isDirectLoad) return {};
+    // 存壞的資料原本會讓整頁白畫面，這裡吞掉並從頭開始
+    try {
+      const saved = localStorage.getItem('analysis_data');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
   });
 
-  const location = useLocation();
-  const [lastLocationKey, setLastLocationKey] = useState<string | null>(null);
+  const lastLocationKey = useRef(location.key);
 
-  // 初始化或組件掛載時設置初始 key
+  // 已經在這頁時又點一次導覽列的「需求分析 DIY」，重置問卷
   useEffect(() => {
-    setLastLocationKey(location.key);
-  }, []);
-
-  // 監聽路由變化，如果是點擊導航欄（key 改變且不是第一次掛載），則重置問卷
-  useEffect(() => {
-    if (lastLocationKey && location.key !== lastLocationKey) {
+    if (location.key !== lastLocationKey.current) {
+      lastLocationKey.current = location.key;
       resetAnalysis();
-      setLastLocationKey(location.key);
     }
   }, [location.key]);
 

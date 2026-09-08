@@ -131,7 +131,8 @@ interface ResultStepProps {
 }
 
 export default function ResultStep({ data, onBack }: ResultStepProps) {
-  const [showContactForm, setShowContactForm] = useState(false);
+  // 下載完成後，CTA 面板換成「已下載」，並在頁面上長出 LINE 諮詢卡。
+  const [downloadDone, setDownloadDone] = useState(false);
   const [showDownloadForm, setShowDownloadForm] = useState(false);
   const [downloadData, setDownloadData] = useState({
     name: '',
@@ -592,6 +593,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
 
       setShowDownloadForm(false);
       setPdfProgress(0);
+      setDownloadDone(true);
       setTimeout(() => setShowReviewInvite(true), 1500);
     } catch (error) {
       console.error('生成 PDF 失敗：', error);
@@ -603,24 +605,10 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
     }
   };
 
-  const handleContactSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // 這裡可以整合表單提交功能
-    console.log('聯絡資料：', downloadData);
-    console.log('分析資料：', data);
-
-    alert('感謝您的填寫！我們的專員會盡快與您聯繫。');
-    setShowContactForm(false);
-  };
-
   return (
     <div className="max-w-5xl mx-auto space-y-12">
       {/* 恭喜完成區塊 */}
       <div className="text-center space-y-4">
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-teal-600 rounded-full mb-4">
-          <i className="ri-checkbox-circle-line text-4xl text-white"></i>
-        </div>
         {/* 頁面的 h1 是「保險需求分析 DIY」，這裡降成 h2，一頁只留一個 h1。 */}
         <h2 className="text-3xl font-bold text-cream-900">恭喜！您已完成了最關鍵的第一步</h2>
         <p className="text-xl text-teal-600 font-semibold">了解需求</p>
@@ -641,7 +629,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
             <div className="flex items-center justify-center w-16 h-16 bg-teal-600 rounded-lg mb-6 mx-auto">
               <i className="ri-question-line text-3xl text-white"></i>
             </div>
-            <h3 className="text-2xl font-bold text-cream-900 mb-4 text-center">商品選擇障礙</h3>
+            <h3 className="text-2xl font-bold text-cream-900 mb-4 text-center">保險公司、商品這麼多，該怎麼選？</h3>
             <p className="text-cream-800 leading-relaxed flex-1">
               透過需求分析，我們已經知道需要哪些保障，也知道應該規劃多少額度，但市面上這麼多家保險公司，成千上萬種商品，<span className="font-semibold text-cream-900">該從何開始比較？哪一家條款對我最好？哪一張 CP 值最高？</span>
             </p>
@@ -655,7 +643,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
             <div className="flex items-center justify-center w-16 h-16 bg-teal-600 rounded-lg mb-6 mx-auto">
               <i className="ri-file-list-3-line text-3xl text-white"></i>
             </div>
-            <h3 className="text-2xl font-bold text-cream-900 mb-4 text-center">新舊保單打架</h3>
+            <h3 className="text-2xl font-bold text-cream-900 mb-4 text-center">擔心重複或是過度的投保</h3>
             <p className="text-cream-800 leading-relaxed flex-1">
               許多人在出社會前，父母可能已經幫忙買過保險，但這些「傳家寶」往往躺在家裡的某個角落，內容成謎。如果您不知道這些舊保單的內容，會很難判斷現在該怎麼幫自己規劃！<span className="font-semibold text-cream-900">最怕的是買了重複的保險（例如買了一堆功能重複的終身醫療險），不僅浪費預算；更怕的是會讓我們以為自己有保障，結果最後才發現保障不如自己的想像。</span>
             </p>
@@ -751,20 +739,22 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
         </div>
       </div>
 
-      {/* 行動按鈕區塊 */}
-      <div className="bg-cream-100 rounded-lg p-8">
-        <div className="flex gap-4">
-          <button
-            onClick={() => setShowContactForm(true)}
-            className="flex-1 bg-teal-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-teal-600 hover:to-emerald-600 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
-          >
-            <i className="ri-calendar-check-line mr-2"></i>
-            預約專業諮詢
-          </button>
+      {/* 行動按鈕區塊
+          這頁唯一的主要動作是「留資料下載報告」，所以只留一顆主按鈕。
+          原本並排的「預約專業諮詢」移到下載完成之後才出現（見下面的 LINE 卡）。 */}
+      {!downloadDone ? (
+        <div className="bg-brandgold-panel border border-brandgold-edge border-t-4 rounded-lg px-6 py-8 sm:px-10 text-center">
+          <h3 className="text-2xl font-bold text-brandgold-ink">下載您的完整分析報告</h3>
+          <p className="mt-2 text-cream-700">剛剛那幾題算出來的保障額度，都整理在這份報告裡。</p>
+          <div className="mt-4 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-cream-700">
+            <span><i className="ri-check-line text-teal-600 mr-1"></i>專業精美分析報告</span>
+            <span><i className="ri-check-line text-teal-600 mr-1"></i>報告可直接彩色列印</span>
+            <span><i className="ri-check-line text-teal-600 mr-1"></i>線上 AI 直接生成，無需等待</span>
+          </div>
           <button
             onClick={handleDownloadReport}
             disabled={isGeneratingPDF}
-            className="flex-1 bg-white text-cream-800 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-cream-100 transition-all cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-6 inline-flex items-center justify-center bg-teal-600 text-white px-10 py-4 rounded-lg text-lg font-semibold hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isGeneratingPDF ? (
               <>
@@ -778,24 +768,64 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
               </>
             )}
           </button>
+          {/* 先講清楚門檻，避免客戶按下去才發現要登入而離開 */}
+          <p className="mt-3 text-xs text-cream-600">需登入會員並留下聯絡資料</p>
         </div>
-        <div className="mt-6 text-center">
-          <button
-            onClick={onBack}
-            className="text-cream-500 hover:text-teal-600 transition-colors text-sm cursor-pointer"
-          >
-            <i className="ri-arrow-left-line mr-1"></i>
-            重新開始分析
-          </button>
+      ) : (
+        <div className="space-y-6">
+          <div className="bg-brandgold-panel border border-brandgold-edge border-t-4 rounded-lg px-6 py-8 sm:px-10 text-center">
+            <h3 className="text-2xl font-bold text-brandgold-ink">報告已經下載完成</h3>
+            <p className="mt-2 text-cream-700">檔案在你的下載資料夾，可以直接彩色列印。</p>
+            <button
+              onClick={handleDownloadReport}
+              disabled={isGeneratingPDF}
+              className="mt-6 inline-flex items-center justify-center bg-teal-600 text-white px-10 py-4 rounded-lg text-lg font-semibold hover:bg-teal-700 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <i className="ri-download-line mr-2"></i>
+              重新下載一次
+            </button>
+          </div>
+
+          {/* 拿到報告的當下才問「要不要找我談」 */}
+          <div className="bg-white border border-cream-300 rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row gap-5 sm:items-start">
+            <div className="flex-none w-12 h-12 rounded-lg bg-[#E8F5E9] text-[#06C755] flex items-center justify-center">
+              <i className="ri-line-fill text-2xl"></i>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-cream-900">報告看不懂的地方，可以直接問我</h3>
+              <p className="mt-2 text-cream-700">
+                我們的專業顧問將為您提供一對一的保險規劃服務。LINE 官方不會有任何廣告訊息。
+              </p>
+              <a
+                href="https://lin.ee/CXd58fG"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-2 bg-[#06C755] text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+              >
+                <i className="ri-line-fill"></i>
+                加入 LINE 諮詢
+              </a>
+            </div>
+          </div>
         </div>
+      )}
+
+      <div className="text-center">
+        <button
+          onClick={onBack}
+          className="text-cream-500 hover:text-teal-600 transition-colors text-sm cursor-pointer"
+        >
+          <i className="ri-arrow-left-line mr-1"></i>
+          重新開始分析
+        </button>
       </div>
 
       {/* 下載報告表單彈窗 */}
       {showDownloadForm && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-md w-full p-8 transform transition-all">
+          <div className="bg-white rounded-lg max-w-md w-full max-h-[85vh] overflow-y-auto overscroll-contain p-6 sm:p-8 transform transition-all">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-cream-900">下載完整分析報告</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-cream-900">下載完整分析報告</h3>
               <button
                 onClick={() => setShowDownloadForm(false)}
                 className="text-cream-500 hover:text-cream-600 transition-colors cursor-pointer"
@@ -908,7 +938,7 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                 </div>
               )}
 
-              <div className="flex gap-4 mt-8">
+              <div className="flex gap-4 mt-8 sticky bottom-0 -mx-6 sm:-mx-8 -mb-6 sm:-mb-8 px-6 sm:px-8 pt-4 pb-6 sm:pb-8 bg-white border-t border-cream-200">
                 <button
                   type="button"
                   onClick={() => setShowDownloadForm(false)}
@@ -936,44 +966,6 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
-
-      {/* 聯絡表單彈窗 */}
-      {showContactForm && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-md w-full p-8 transform transition-all">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-2xl font-bold text-cream-900">聯絡專業顧問</h3>
-              <button
-                onClick={() => setShowContactForm(false)}
-                className="text-cream-500 hover:text-cream-600 transition-colors cursor-pointer"
-              >
-                <i className="ri-close-line text-3xl"></i>
-              </button>
-            </div>
-
-            <div className="text-center py-8">
-              <div className="mb-6">
-                <i className="ri-line-fill text-7xl text-green-500"></i>
-              </div>
-              <h4 className="text-2xl font-bold text-cream-900 mb-4">
-                立即透過 LINE 諮詢
-              </h4>
-              <p className="text-cream-600 mb-8">
-                我們的專業顧問將為您提供一對一的保險規劃服務
-              </p>
-              <a
-                href="https://lin.ee/CXd58fG"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-10 py-4 bg-green-500 text-white rounded-lg font-bold text-lg hover:bg-green-600 transition-all transform hover:-translate-y-1 whitespace-nowrap"
-              >
-                <i className="ri-line-fill mr-3 text-2xl"></i>
-                加入 LINE 諮詢
-              </a>
-            </div>
           </div>
         </div>
       )}

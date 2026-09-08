@@ -3,6 +3,7 @@ import { AppRoutes } from "./router";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 import { SEO } from "./components/SEO";
+import { RouteBoundary } from "./components/RouteBoundary";
 
 
 function App() {
@@ -33,7 +34,11 @@ function App() {
         }}
       />
       <BrowserRouter basename={__BASE_PATH__}>
-        <AppRoutes />
+        {/* 頁面都是 lazy 載入，這層負責顯示載入中與載入失敗，
+            避免畫面停在給爬蟲看的靜態底稿上 */}
+        <RouteBoundary>
+          <AppRoutes />
+        </RouteBoundary>
       </BrowserRouter>
     </I18nextProvider>
   );
