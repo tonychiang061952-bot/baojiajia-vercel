@@ -37,7 +37,10 @@ export default function Blog() {
     setSearchParams(next, { replace: true });
   };
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  // 全部文章只抓一次，分類與關鍵字都在前端篩。
+  // 這樣側欄的分類數字、最新文章、編輯精選永遠是全站的資料，
+  // 不會因為點了某個分類就只剩下那個分類的東西。
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
   const [categories, setCategories] = useState<string[]>(['全部']);
   const [loading, setLoading] = useState(true);
 
@@ -45,11 +48,6 @@ export default function Blog() {
     fetchCategories();
     fetchPosts();
   }, []);
-
-  useEffect(() => {
-    // Re-fetch when filters change
-    fetchPosts();
-  }, [selectedCategory, searchKeyword]);
 
   // Refresh data when component becomes visible (tab switching)
   useEffect(() => {
@@ -87,27 +85,11 @@ export default function Blog() {
 
   const fetchPosts = async () => {
     try {
-      const keyword = searchKeyword.trim();
-      let query = db
+      const { data, error } = await db
         .from('blog_posts')
         .select('*')
-        .eq('is_active', true);
-
-      if (selectedCategory !== '全部') {
-        query = query.eq('category', selectedCategory);
-      }
-
-      if (keyword) {
-        const term = `%${keyword}%`;
-        query = query.or([
-          { column: 'title', operator: 'ilike', value: term },
-          { column: 'excerpt', operator: 'ilike', value: term },
-          { column: 'category', operator: 'ilike', value: term },
-          { column: 'content', operator: 'ilike', value: term },
-        ]);
-      }
-
-      const { data, error } = await query.order('published_at', { ascending: false });
+        .eq('is_active', true)
+        .order('published_at', { ascending: false });
 
       if (error) throw error;
       // 依「實質更新日 → 發布日」排序：只有在後台勾選過實質更新的文章才會往前排，
@@ -115,19 +97,30 @@ export default function Blog() {
       const sorted = [...(data || [])].sort(
         (a: BlogPost, b: BlogPost) => listDate(b).localeCompare(listDate(a))
       );
-      setBlogPosts(sorted);
+      setAllPosts(sorted);
     } catch (error) {
       console.error('Error fetching blog posts:', error);
-      setBlogPosts([]);
+      setAllPosts([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const filteredPosts = blogPosts;
+  // 只有中間那排文章卡片會跟著分類與搜尋變動。
+  const keyword = searchKeyword.trim().toLowerCase();
+  const matchesKeyword = (post: BlogPost) =>
+    !keyword ||
+    [post.title, post.excerpt, post.category, post.content].some(
+      (field) => (field || '').toLowerCase().includes(keyword)
+    );
+  const filteredPosts = allPosts.filter(
+    (post) =>
+      (selectedCategory === '全部' || post.category === selectedCategory) && matchesKeyword(post)
+  );
 
-  const featuredPosts = blogPosts.filter(post => post.is_featured).slice(0, 5);
-  const recentPosts = [...blogPosts].sort((a, b) => listDate(b).localeCompare(listDate(a))).slice(0, 5);
+  // 側欄是全站的，跟目前選了哪個分類無關。
+  const featuredPosts = allPosts.filter(post => post.is_featured).slice(0, 5);
+  const recentPosts = [...allPosts].sort((a, b) => listDate(b).localeCompare(listDate(a))).slice(0, 5);
 
   // Format date
   const formatDate = (dateString: string) => {
@@ -140,7 +133,7 @@ export default function Blog() {
     post.content_updated_at ? `${formatDate(post.content_updated_at)} 更新` : formatDate(post.published_at);
 
   const categoryCounts = new Map<string, number>();
-  for (const post of blogPosts) categoryCounts.set(post.category, (categoryCounts.get(post.category) ?? 0) + 1);
+  for (const post of allPosts) categoryCounts.set(post.category, (categoryCounts.get(post.category) ?? 0) + 1);
 
   if (loading) {
     return (
@@ -180,7 +173,7 @@ export default function Blog() {
           <header className="mb-7">
             <h1 className="font-serif text-[1.6rem] sm:text-[2rem] font-bold text-cream-900 leading-[1.4]">保險知識專區</h1>
             <p className="mt-2 text-[0.95rem] text-cream-600">用淺顯易懂的方式，讓保險不再艱澀難懂</p>
-            <p className="mt-2.5 text-[0.8rem] text-cream-500 tabular-nums">目前 {blogPosts.length} 篇文章</p>
+            <p className="mt-2.5 text-[0.8rem] text-cream-500 tabular-nums">目前 {filteredPosts.length} 篇文章</p>
           </header>
 
           <div className="relative mb-4">
@@ -196,7 +189,7 @@ export default function Blog() {
 
           <div className="mb-6 flex flex-wrap gap-2 border-b border-cream-300 pb-6">
             {categories.map((category) => {
-              const count = category === '全部' ? blogPosts.length : categoryCounts.get(category) ?? 0;
+              const count = category === '全部' ? allPosts.length : categoryCounts.get(category) ?? 0;
               if (category !== '全部' && !count) return null;
               return (
                 <button
