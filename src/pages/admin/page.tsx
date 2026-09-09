@@ -133,7 +133,7 @@ export default function AdminPage() {
       case 'blog':
         return <BlogEditor onBack={handleBack} />;
       case 'about':
-        return <AboutEditor onBack={handleBack} />;
+        return <AboutEditor onBack={handleBack} onGo={(id) => setEditMode(id as EditMode)} />;
       case 'member-manager':
         return <MemberManager />;
       case 'navigation':

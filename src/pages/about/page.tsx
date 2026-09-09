@@ -16,7 +16,10 @@ import { SEO } from '../../components/SEO';
 
 type AboutContent = {
   mission_title: string;
-  content_value: string;
+  /** 現在的欄位：整段成立初衷，一段一行。後台「關於我們」改的就是這個。 */
+  story_value?: string;
+  /** 舊欄位：只有中間幾段，前後兩段當初寫死在這支檔案裡。story_value 空的時候才用。 */
+  content_value?: string;
   intro_visible: boolean;
 };
 
@@ -76,6 +79,7 @@ export default function About() {
   const [story, setStory] = useState<string[]>(FALLBACK_STORY);
   const [coreValues, setCoreValues] = useState(FALLBACK_VALUES);
   const [stats, setStats] = useState(FALLBACK_STATS);
+  const [heading, setHeading] = useState('保家佳的成立初衷');
   const [instagram, setInstagram] = useState('https://www.instagram.com/baojia_jia/');
 
   useEffect(() => {
@@ -90,12 +94,18 @@ export default function About() {
         ]);
         if (!alive) return;
 
-        const content = (about.data as AboutContent | null)?.content_value;
-        if (content?.trim()) {
-          const paragraphs = content.split(/\r?\n/).map((p) => p.trim()).filter(Boolean);
-          // 開場的自我介紹寫在程式碼裡，後面接資料庫的成立初衷，最後是收尾。
-          if (paragraphs.length) setStory([FALLBACK_STORY[0], ...paragraphs, FALLBACK_STORY[FALLBACK_STORY.length - 1]]);
+        const row = about.data as AboutContent | null;
+        const toParagraphs = (text: string) => text.split(/\r?\n/).map((p) => p.trim()).filter(Boolean);
+
+        if (row?.story_value?.trim()) {
+          // 後台存過之後走這條：資料庫裡就是完整的六段，前台照單全收。
+          const paragraphs = toParagraphs(row.story_value);
+          if (paragraphs.length) setStory(paragraphs);
+        } else if (row?.content_value?.trim()) {
+          // 還沒在後台按過儲存的舊資料：開場的自我介紹與收尾仍寫在程式碼裡。
+          setStory([FALLBACK_STORY[0], ...toParagraphs(row.content_value), FALLBACK_STORY[FALLBACK_STORY.length - 1]]);
         }
+        if (row?.mission_title?.trim()) setHeading(row.mission_title);
         if ((values.data as CoreValue[])?.length) setCoreValues(values.data as CoreValue[]);
         if ((statRows.data as Stat[])?.length) setStats(statRows.data as Stat[]);
         const ig = (settings.data as any[])?.find((r) => r.setting_key === 'instagram_url')?.setting_value;
@@ -148,7 +158,7 @@ export default function About() {
         <section className="py-13 sm:py-14">
           <div className="rounded-lg border border-cream-300 bg-white px-6 py-8 sm:px-10 sm:py-9">
             <h2 className="font-serif text-[1.35rem] sm:text-[1.7rem] font-bold text-cream-900 leading-snug mb-5 pb-5 border-b border-cream-300">
-              保家佳的成立初衷
+              {heading}
             </h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_272px] gap-9 lg:gap-12 items-center">
