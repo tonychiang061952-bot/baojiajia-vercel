@@ -6,6 +6,11 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/blog/Spillover%20Insurance",
+      "destination": "https://baojiajia.tw/blog/spillover-insurance-benefits",
+      "statusCode": 301
+    },
+    {
       "source": "/(.*)",
       "has": [
         {
