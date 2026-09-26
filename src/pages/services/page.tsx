@@ -43,8 +43,8 @@ const GROUPS = [
   },
   {
     tag: '情況三',
-    title: '保障之外，還想處理錢的問題',
-    body: '保險負責的是「出事的時候不要垮」，這兩項處理的是另一件事：沒出事的那幾十年，錢要怎麼安排。',
+    title: '保障之外，我們也協助處理錢的問題',
+    body: '不管是錢總是存不下來，又或是不知道該怎麼安排，我們陪你一起規劃出屬於你的財務藍圖。',
     slugs: ['savings-planning', 'retirement-planning'],
     wide: false,
     alt: false,
