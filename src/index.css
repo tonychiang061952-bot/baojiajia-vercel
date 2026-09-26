@@ -668,6 +668,23 @@
   text-decoration-color: #1F3A5F;
 }
 
+/* 常見問題每一題的外框：容器由 blog-detail 的 withFaqBlocks() 在渲染時產生 */
+.article-content .article-faq-item {
+  margin: 1rem 0;
+  padding: 1.1rem 1.35rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.article-content .article-faq-item > h3 {
+  margin-top: 0;
+}
+
+.article-content .article-faq-item > :last-child {
+  margin-bottom: 0;
+}
+
 /* 文章行動呼籲：容器由 blog-detail 的 withCtaBlock() 在渲染時產生，
    內容本身只是純段落，後台編輯不會破壞版面。 */
 .article-content .article-cta {

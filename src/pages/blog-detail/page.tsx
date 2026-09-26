@@ -87,6 +87,45 @@ function withCtaBlock(html: string): string {
   );
 }
 
+/**
+ * 常見問題：把「常見問題」h2 底下每一組 h3＋答案包成一個 .article-faq-item 外框。
+ *
+ * 跟 withCtaBlock 一樣只在渲染時加容器，內容本身維持純 h3／p。
+ * 遇到下一個 h2、延伸閱讀、免責聲明或 CTA 段落就停，不會把它們收進最後一題。
+ */
+function withFaqBlocks(html: string): string {
+  const heading = /<h2\b[^>]*>(?:(?!<\/h2>)[\s\S])*常見問題(?:(?!<\/h2>)[\s\S])*<\/h2>/i.exec(html);
+  if (!heading) return html;
+
+  const start = heading.index + heading[0].length;
+  const block = /\s*<(h[1-6]|p|ol|ul|blockquote)\b[^>]*>[\s\S]*?<\/\1>/iy;
+  const isStop = (b: string) =>
+    /^\s*<p\b[^>]*>\s*(?:<strong>|<b>)?\s*(?:延伸|本文為)/.test(b) ||
+    /baojiajia\.tw\/(?:analysis|contact)|lin\.ee/i.test(b);
+
+  let out = '';
+  let item = '';
+  let pos = start;
+  block.lastIndex = start;
+  for (let m = block.exec(html); m; m = block.exec(html)) {
+    const tag = m[1].toLowerCase();
+    if (tag === 'h3') {
+      if (item) out += `<div class="article-faq-item">${item}</div>`;
+      item = m[0].trim();
+    } else if (/^h/.test(tag) || isStop(m[0])) {
+      break;
+    } else if (item) {
+      item += m[0].trim();
+    } else {
+      out += m[0];
+    }
+    pos = block.lastIndex;
+  }
+  if (item) out += `<div class="article-faq-item">${item}</div>`;
+
+  return html.slice(0, start) + out + html.slice(pos);
+}
+
 interface BlogPost {
   id: string;
   title: string;
@@ -375,7 +414,7 @@ export default function BlogDetail() {
 
           <div
             className="article-content prose prose-lg max-w-none mt-7"
-            dangerouslySetInnerHTML={{ __html: withCtaBlock(withHeadingIds(stripInlineToc(post.content))) }}
+            dangerouslySetInnerHTML={{ __html: withCtaBlock(withFaqBlocks(withHeadingIds(stripInlineToc(post.content)))) }}
           />
 
           <div className="mt-12">
