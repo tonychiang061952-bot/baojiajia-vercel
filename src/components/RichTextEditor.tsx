@@ -1,4 +1,4 @@
-import { useRef, useMemo, useCallback, useState } from 'react';
+import { useRef, useMemo, useCallback, useState, useEffect } from 'react';
 import ReactQuill, { Quill } from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 const isBrowser = typeof window !== 'undefined';
@@ -203,11 +203,68 @@ interface Props {
 }
 
 
+/*
+ * 表格：Quill 2 內建的表格只認 <td>、一格一行。進編輯器前先把 <th> 轉成 <td>、
+ * 格內的 <br> 換成看得見的 ↵，存檔時再換回 <br>；標題列的底色改由網站樣式套在第一列。
+ */
+const CELL_BREAK = '↵';
+
+function toEditorHtml(html: string): string {
+  return html.replace(/<table\b[\s\S]*?<\/table>/gi, (table) =>
+    table
+      .replace(/<\/?thead\b[^>]*>/gi, '')
+      .replace(/<th\b([^>]*)>/gi, '<td$1>')
+      .replace(/<\/th>/gi, '</td>')
+      .replace(/<td\b[^>]*>[\s\S]*?<\/td>/gi, (cell) => cell.replace(/<br\s*\/?>/gi, CELL_BREAK)),
+  );
+}
+
+function fromEditorHtml(html: string): string {
+  return html.split(CELL_BREAK).join('<br>');
+}
+
+// 編輯器仍然存不住的東西：<div>、合併儲存格、內嵌 iframe。有這些就直接開原始碼模式。
+const UNSAFE_FOR_EDITOR = /<div\b|<iframe\b|\s(?:colspan|rowspan)\s*=/i;
+
 export default function RichTextEditor({ value, onChange, placeholder }: Props) {
   const quillRef = useRef<ReactQuill>(null);
-  // HTML 原始碼模式：直接編輯原始 HTML，Quill 不會介入正規化，
-  // 表格、<div>、id 等 Quill 不支援的標籤才存得住。
-  const [sourceMode, setSourceMode] = useState(false);
+  // HTML 原始碼模式：直接編輯原始 HTML，Quill 不會介入正規化。
+  const [sourceMode, setSourceMode] = useState(() => UNSAFE_FOR_EDITOR.test(value));
+  const autoChecked = useRef(Boolean(value));
+  // 文章內容常是非同步載入：第一次拿到內容時再判斷一次
+  useEffect(() => {
+    if (autoChecked.current || !value) return;
+    autoChecked.current = true;
+    if (UNSAFE_FOR_EDITOR.test(value)) setSourceMode(true);
+  }, [value]);
+
+  // 受控元件：編輯器吐出來的 HTML 換回 <br> 之後才交給外層；
+  // 外層把同一份內容傳回來時沿用編輯器原本的版本，避免游標跳走。
+  const lastEditorHtml = useRef<string | null>(null);
+  const editorValue = useMemo(() => {
+    const last = lastEditorHtml.current;
+    return last !== null && fromEditorHtml(last) === value ? last : toEditorHtml(value);
+  }, [value]);
+  const handleEditorChange = useCallback(
+    (html: string) => {
+      lastEditorHtml.current = html;
+      onChange(fromEditorHtml(html));
+    },
+    [onChange],
+  );
+
+  const table = (action: 'insert' | 'rowBelow' | 'colRight' | 'deleteRow' | 'deleteCol' | 'deleteTable') => {
+    const quill = quillRef.current?.getEditor();
+    const mod = quill?.getModule('table') as any;
+    if (!quill || !mod) return;
+    quill.focus();
+    if (action === 'insert') mod.insertTable(3, 3);
+    else if (action === 'rowBelow') mod.insertRowBelow();
+    else if (action === 'colRight') mod.insertColumnRight();
+    else if (action === 'deleteRow') mod.deleteRow();
+    else if (action === 'deleteCol') mod.deleteColumn();
+    else mod.deleteTable();
+  };
 
   const imageHandler = useCallback(() => {
     const input = document.createElement('input');
@@ -237,6 +294,22 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
 
   const modules = useMemo(() => {
     const base: any = {
+      table: true,
+      keyboard: {
+        bindings: {
+          // 覆蓋 Quill 預設：在表格格子裡按 Enter 就是格內換行（存檔時變成 <br>）
+          'table enter': {
+            key: 'Enter',
+            shiftKey: null,
+            format: ['table'],
+            handler(this: any, range: { index: number }) {
+              this.quill.insertText(range.index, CELL_BREAK, 'user');
+              this.quill.setSelection(range.index + 1, 0, 'silent');
+              return false;
+            },
+          },
+        },
+      },
       toolbar: {
         container: [
           [{ header: [1, 2, 3, false] }],
@@ -265,7 +338,8 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
     'bold', 'italic', 'underline', 'strike', 'blockquote',
     'list', 'bullet', 'indent',
     'link', 'image', 'video', 'color', 'background', 'align',
-    'width', 'height', 'divider'
+    'width', 'height', 'divider',
+    'table', 'table-row', 'table-body', 'table-container'
   ];
 
   if (sourceMode) {
@@ -273,8 +347,12 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
       <div className="rich-text-editor">
         <div className="flex items-center justify-between gap-3 rounded-t-lg border border-b-0 border-gray-300 bg-amber-50 px-3 py-2">
           <p className="text-xs text-amber-800">
-            HTML 原始碼模式。存檔後內容原封不動，表格與自訂排版都保得住。
-            <strong className="font-semibold">切回編輯模式並修改後，Quill 會清掉表格、div 與 id。</strong>
+            HTML 原始碼模式。存檔後內容原封不動。
+            {UNSAFE_FOR_EDITOR.test(value) ? (
+              <strong className="font-semibold">這篇有編輯模式存不住的排版（div、合併儲存格或內嵌影片），所以自動開在這裡；切回編輯模式存檔會弄壞它們。</strong>
+            ) : (
+              <span>表格在編輯模式也改得動。</span>
+            )}
           </p>
           <button
             type="button"
@@ -297,7 +375,29 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
 
   return (
     <div className="rich-text-editor">
-      <div className="flex justify-end pb-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 pb-2">
+        <div className="flex flex-wrap items-center gap-1 text-xs">
+          <span className="mr-1 text-gray-500">表格：</span>
+          {([
+            ['insert', '插入 3×3'],
+            ['rowBelow', '下方加一列'],
+            ['colRight', '右邊加一欄'],
+            ['deleteRow', '刪這一列'],
+            ['deleteCol', '刪這一欄'],
+            ['deleteTable', '刪整張表'],
+          ] as const).map(([action, label]) => (
+            <button
+              key={action}
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => table(action)}
+              className="rounded-md border border-gray-300 bg-white px-2 py-1 text-gray-700 hover:bg-gray-50"
+            >
+              {label}
+            </button>
+          ))}
+          <span className="ml-1 text-gray-400">格子裡按 Enter 會出現 ↵，就是格內換行</span>
+        </div>
         <button
           type="button"
           onClick={() => setSourceMode(true)}
@@ -309,8 +409,8 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
       <ReactQuill
         ref={quillRef}
         theme="snow"
-        value={value}
-        onChange={onChange}
+        value={editorValue}
+        onChange={handleEditorChange}
         modules={modules}
         formats={formats}
         placeholder={placeholder}

@@ -650,10 +650,32 @@
   background: #fff;
 }
 
-.article-content th {
+.article-content th,
+/* 後台編輯器存過的表格標題列會變成一般格子：沒有 th 的表格，第一列當標題列 */
+.article-content table:not(:has(th)) tr:first-child > td {
   background: #F2F5F9;
   color: #101F33;
   font-weight: 700;
+}
+
+/* LINE 按鈕：容器由 blog-detail 的 withLineButtons() 在渲染時加上 */
+.article-content .article-line-button {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.article-content .article-line-button a {
+  display: inline-block;
+  padding: 0.7rem 1.8rem;
+  border-radius: 999px;
+  background: #06c755;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.article-content .article-line-button a:hover {
+  background: #05b04b;
 }
 
 .article-content a {

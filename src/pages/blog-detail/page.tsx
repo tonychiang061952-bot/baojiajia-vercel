@@ -88,6 +88,19 @@ function withCtaBlock(html: string): string {
 }
 
 /**
+ * LINE 按鈕：整段只有一個 lin.ee 連結的段落，渲染成綠色按鈕。
+ * 樣式放在 CSS，不靠內嵌 style，後台編輯器存檔後按鈕也不會掉樣式。
+ */
+function withLineButtons(html: string): string {
+  // 後台存過之後連結外面會多包 <strong style=…>／<span>，一起剝掉
+  return html.replace(
+    /<p\b[^>]*>\s*(?:<(?:strong|b|em|span)\b[^>]*>\s*)*(<a\b[^>]*href="https?:\/\/lin\.ee\/[^"]*"[^>]*>)((?:(?!<\/a>)[\s\S])*)<\/a>\s*(?:<\/(?:strong|b|em|span)>\s*)*<\/p>/gi,
+    (_, open: string, text: string) =>
+      `<p class="article-line-button">${open.replace(/\sstyle="[^"]*"/i, '')}${text.replace(/<[^>]+>/g, '')}</a></p>`,
+  );
+}
+
+/**
  * 常見問題：把「常見問題」h2 底下每一組 h3＋答案包成一個 .article-faq-item 外框。
  *
  * 跟 withCtaBlock 一樣只在渲染時加容器，內容本身維持純 h3／p。
@@ -414,7 +427,7 @@ export default function BlogDetail() {
 
           <div
             className="article-content prose prose-lg max-w-none mt-7"
-            dangerouslySetInnerHTML={{ __html: withCtaBlock(withFaqBlocks(withHeadingIds(stripInlineToc(post.content)))) }}
+            dangerouslySetInnerHTML={{ __html: withCtaBlock(withFaqBlocks(withLineButtons(withHeadingIds(stripInlineToc(post.content))))) }}
           />
 
           <div className="mt-12">
