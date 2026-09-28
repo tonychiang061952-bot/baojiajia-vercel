@@ -44,9 +44,9 @@ export default function SurgerySubsidyStep({ data, onUpdate, onNext, onBack }: P
 
   return (
     <div className="bg-white rounded-lg overflow-hidden">
-      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
+      <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] min-h-[600px]">
         {/* 左側輔助資訊 */}
-        <div className="bg-cream-100 p-8 lg:p-12 flex items-center">
+        <div className="bg-cream-100 p-8 flex items-center">
           <div className="w-full space-y-6">
             <div className="mb-6">
               <img

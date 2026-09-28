@@ -26,8 +26,8 @@ export default function LivingExpenseStep({ data, onUpdate, onNext, onBack }: Pr
     <div className="bg-white rounded-lg overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[600px]">
         {/* 左側輔助資訊 */}
-        <div className="bg-cream-100 p-8 lg:p-12 flex items-center">
-          <div className="w-full space-y-6">
+        <div className="bg-cream-100 p-8 lg:p-12 flex">
+          <div className="w-full flex flex-col gap-6">
             <div className="bg-white rounded-lg p-6">
               <h4 className="font-semibold text-cream-900 mb-4 flex items-center">
                 <i className="ri-shopping-basket-line text-teal-600 mr-2"></i>
@@ -57,7 +57,7 @@ export default function LivingExpenseStep({ data, onUpdate, onNext, onBack }: Pr
               </ul>
             </div>
 
-            <div className="bg-white rounded-lg p-6">
+            <div className="bg-white rounded-lg p-6 flex-1">
               <h4 className="font-semibold text-cream-900 mb-3 flex items-center">
                 <i className="ri-information-line text-teal-600 mr-2"></i>
                 為什麼需要生活費補償？
