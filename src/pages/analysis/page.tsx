@@ -58,6 +58,19 @@ export default function AnalysisPage() {
     localStorage.setItem('analysis_step', currentStep.toString());
   }, [currentStep]);
 
+  /* 換題是同一頁換內容，捲動位置會停在上一題按鈕的高度，
+     手機上新題目一出來就在中間或下方。換題後捲回題目卡片頂端；
+     第一次進頁面不捲。 */
+  const stepTopRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    stepTopRef.current?.scrollIntoView({ block: 'start' });
+  }, [currentStep]);
+
   useEffect(() => {
     localStorage.setItem('analysis_data', JSON.stringify(formData));
   }, [formData]);
@@ -163,7 +176,8 @@ export default function AnalysisPage() {
           </h1>
         </div>
 
-        <div className="max-w-6xl mx-auto">
+        {/* scroll-mt 留出頂部固定選單列的高度（h-14 / sm:h-16 / md:h-20） */}
+        <div ref={stepTopRef} className="max-w-6xl mx-auto scroll-mt-16 sm:scroll-mt-20 md:scroll-mt-24">
           {renderStep()}
         </div>
       </div>
