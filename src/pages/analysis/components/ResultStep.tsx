@@ -1,8 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GoogleSignInButton } from '../../../components/GoogleSignInButton';
 import { useGoogleAuth } from '../../../auth/GoogleAuthProvider';
 import { sendTelegramNotification } from '../../../services/telegramService';
 import { db } from '../../../lib/database';
+
+// line-report-test 分支：報告改成「傳代碼到 LINE 領取」，只在預覽站測試。
+// 測試帳號是海巡大師的官方 LINE。這個分支不可合併進 main。
+const LINE_REPORT_TEST = true;
+const LINE_TEST_ACCOUNT_ID = '@018tasbo';
+const LINE_CLAIM_PREFIX = '領取報告';
+
+export interface LineReportContact {
+  name: string;
+  phone: string;
+  city: string;
+  lineId: string;
+}
+
+// 代碼的內容部分是壓縮過的問卷答案；簽章由伺服器在 LINE 那端檢查，這裡只負責解開
+export async function decodeReportToken(token: string): Promise<{ data: any; contact: LineReportContact }> {
+  const body = token.split('.')[0].replace(/-/g, '+').replace(/_/g, '/');
+  const bytes = Uint8Array.from(atob(body.padEnd(Math.ceil(body.length / 4) * 4, '=')), (c) => c.charCodeAt(0));
+  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+  const payload = JSON.parse(await new Response(stream).text());
+  if (!payload?.data || !payload?.contact) throw new Error('Invalid report token');
+  return payload;
+}
 
 // 預設模板樣式
 const DEFAULT_STYLES = `
@@ -128,9 +151,10 @@ interface PdfTemplate {
 interface ResultStepProps {
   data: any;
   onBack: () => void;
+  lineContact?: LineReportContact | null;
 }
 
-export default function ResultStep({ data, onBack }: ResultStepProps) {
+export default function ResultStep({ data, onBack, lineContact = null }: ResultStepProps) {
   // 下載完成後，CTA 面板換成「已下載」，並在頁面上長出 LINE 諮詢卡。
   const [downloadDone, setDownloadDone] = useState(false);
   const [showDownloadForm, setShowDownloadForm] = useState(false);
@@ -144,6 +168,35 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
   const [pdfProgress, setPdfProgress] = useState(0);
   const { user } = useGoogleAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [lineToken, setLineToken] = useState<string | null>(null);
+
+  // 從 LINE 的報告連結進來：聯絡資料已經在代碼裡，表單直接帶入
+  useEffect(() => {
+    if (lineContact) setDownloadData(lineContact);
+  }, [lineContact]);
+
+  const lineMessage = lineToken ? `${LINE_CLAIM_PREFIX} ${lineToken}` : '';
+  const lineUrl = `https://line.me/R/oaMessage/${LINE_TEST_ACCOUNT_ID}/?${encodeURIComponent(lineMessage)}`;
+
+  const requestLineToken = async () => {
+    setIsGeneratingPDF(true);
+    try {
+      const result = await fetch('/api/line/report-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data, contact: downloadData }),
+      });
+      const body = await result.json();
+      if (!result.ok || !body.token) throw new Error(body?.error || 'Unable to create token');
+      setLineToken(body.token);
+      setShowDownloadForm(false);
+    } catch (error) {
+      console.error('Error creating LINE report token:', error);
+      alert('暫時無法產生領取代碼，請稍後再試。');
+    } finally {
+      setIsGeneratingPDF(false);
+    }
+  };
 
   // 計算年齡
   const calculateAge = (birthDate: string) => {
@@ -211,6 +264,11 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
   const annualPremium = estimatePremium();
 
   const handleDownloadReport = () => {
+    // 測試版不需要 Google 登入：LINE 才是確認身分的那一步
+    if (LINE_REPORT_TEST) {
+      setShowDownloadForm(true);
+      return;
+    }
     if (!user) {
       setShowLoginModal(true);
       return;
@@ -228,11 +286,18 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
       return;
     }
 
+    // 測試版第一段：還沒經過 LINE 的人，先拿代碼、到 LINE 領報告
+    if (LINE_REPORT_TEST && !lineContact) {
+      await requestLineToken();
+      return;
+    }
+
     setIsGeneratingPDF(true);
     setPdfProgress(0);
 
     // 伺服器端以單一原子操作檢查並扣除下載次數，避免前端遭竄改或併發繞過限制。
-    try {
+    // 測試版不走這段（預覽站不寫資料庫）。
+    if (!LINE_REPORT_TEST) try {
       const limitResponse = await fetch('/api/downloads/claim', {
         method: 'POST',
         credentials: 'include',
@@ -265,8 +330,8 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
     }, 100);
 
     try {
-      // 保存會員問卷資料
-      if (user) {
+      // 保存會員問卷資料（測試版不存、不發通知）
+      if (user && !LINE_REPORT_TEST) {
         const { error } = await db.from('member_submissions').insert({
           user_id: user.id,
           email: user.email,
@@ -760,14 +825,25 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                 生成中...
               </>
             ) : (
-              <>
-                <i className="ri-download-line mr-2"></i>
-                下載分析報告
-              </>
+              LINE_REPORT_TEST && !lineContact ? (
+                <>
+                  <i className="ri-line-fill mr-2"></i>
+                  用 LINE 領取報告
+                </>
+              ) : (
+                <>
+                  <i className="ri-download-line mr-2"></i>
+                  下載分析報告
+                </>
+              )
             )}
           </button>
           {/* 先講清楚門檻，避免客戶按下去才發現要登入而離開 */}
-          <p className="mt-3 text-xs text-cream-600">需登入會員並留下聯絡資料</p>
+          <p className="mt-3 text-xs text-cream-600">
+            {LINE_REPORT_TEST
+              ? lineContact ? '你的資料已經帶入，按下去就能下載' : '留下聯絡資料後，報告會傳到你的 LINE'
+              : '需登入會員並留下聯絡資料'}
+          </p>
         </div>
       ) : (
         <div className="space-y-6">
@@ -955,6 +1031,11 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                       <i className="ri-loader-4-line animate-spin mr-2"></i>
                       生成中...
                     </span>
+                  ) : LINE_REPORT_TEST && !lineContact ? (
+                    <span className="flex items-center justify-center">
+                      <i className="ri-line-fill mr-2"></i>
+                      下一步
+                    </span>
                   ) : (
                     <span className="flex items-center justify-center">
                       <i className="ri-download-line mr-2"></i>
@@ -964,6 +1045,48 @@ export default function ResultStep({ data, onBack }: ResultStepProps) {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* 測試版：拿到代碼後，引導客人到 LINE 送出訊息領報告 */}
+      {lineToken && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-md w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8">
+            <div className="w-12 h-12 rounded-lg bg-[#E8F5E9] text-[#06C755] flex items-center justify-center mb-4">
+              <i className="ri-line-fill text-2xl"></i>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-cream-900">報告準備好了！</h3>
+            <p className="mt-2 text-cream-700">
+              按下面的按鈕打開 LINE，把已經幫你填好的訊息送出，報告就會馬上傳給你。
+            </p>
+            <a
+              href={lineUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 flex items-center justify-center gap-2 w-full bg-[#06C755] text-white px-6 py-4 rounded-lg text-lg font-semibold hover:opacity-90 transition-opacity"
+            >
+              <i className="ri-line-fill"></i>
+              打開 LINE 領取報告
+            </a>
+            <p className="mt-5 text-xs text-cream-600">
+              用電腦看的話：先用手機加入 LINE 官方帳號 <b>{LINE_TEST_ACCOUNT_ID}</b>，再把下面整段文字複製傳給它。
+            </p>
+            <textarea
+              id="line-claim-message"
+              readOnly
+              value={lineMessage}
+              rows={3}
+              onFocus={(e) => e.currentTarget.select()}
+              className="mt-2 w-full px-3 py-2 text-xs border border-cream-300 rounded-lg bg-cream-100 text-cream-700 break-all"
+            />
+            <button
+              type="button"
+              onClick={() => setLineToken(null)}
+              className="mt-4 w-full px-6 py-3 border-2 border-cream-300 text-cream-800 rounded-lg font-semibold hover:bg-cream-100 transition-colors cursor-pointer"
+            >
+              關閉
+            </button>
           </div>
         </div>
       )}

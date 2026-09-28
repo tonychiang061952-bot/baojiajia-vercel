@@ -95,6 +95,9 @@ async function getSettings() {
 }
 
 export async function sendTelegramMessage(data: NotificationData) {
+  // line-report-test 分支：預覽站不發正式通知。這個分支不可合併進 main。
+  const previewNotificationsDisabled = true;
+  if (previewNotificationsDisabled) return false;
   const settings = await getSettings();
   if (!settings.enabled || !settings.token || !settings.chatId) return false;
   const response = await fetch(`https://api.telegram.org/bot${settings.token}/sendMessage`, {

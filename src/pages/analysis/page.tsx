@@ -14,7 +14,7 @@ import TreatmentCostStep from './components/TreatmentCostStep';
 import LongTermCareStep from './components/LongTermCareStep';
 import LifeInsuranceStep from './components/LifeInsuranceStep';
 import OtherNeedsStep from './components/OtherNeedsStep';
-import ResultStep from './components/ResultStep';
+import ResultStep, { decodeReportToken, type LineReportContact } from './components/ResultStep';
 
 export default function AnalysisPage() {
   const location = useLocation();
@@ -43,6 +43,20 @@ export default function AnalysisPage() {
       return {};
     }
   });
+
+  // line-report-test：從 LINE 收到的報告連結（?report=代碼）打開時，還原那份問卷並直接到結果頁
+  const [lineContact, setLineContact] = useState<LineReportContact | null>(null);
+  useEffect(() => {
+    const token = new URLSearchParams(location.search).get('report');
+    if (!token) return;
+    decodeReportToken(token)
+      .then((payload) => {
+        setFormData(payload.data);
+        setLineContact(payload.contact);
+        setCurrentStep(11);
+      })
+      .catch(() => setLineContact(null));
+  }, []);
 
   const lastLocationKey = useRef(location.key);
 
@@ -124,7 +138,7 @@ export default function AnalysisPage() {
 
       // 結果頁面
       case 11:
-        return <ResultStep data={formData} onBack={resetAnalysis} />;
+        return <ResultStep data={formData} onBack={resetAnalysis} lineContact={lineContact} />;
 
       default:
         return <PlanTypeStep onSelect={(type) => { updateFormData({ planType: type }); nextStep(); }} />;
