@@ -46,6 +46,9 @@ export default function AnalysisPage() {
 
   // line-report-test：從 LINE 收到的報告連結（?report=代碼）打開時，還原那份問卷並直接到結果頁
   const [lineContact, setLineContact] = useState<LineReportContact | null>(null);
+  const [reportStatus, setReportStatus] = useState<'idle' | 'loading' | 'error'>(
+    () => (new URLSearchParams(location.search).get('report') ? 'loading' : 'idle'),
+  );
   useEffect(() => {
     const token = new URLSearchParams(location.search).get('report');
     if (!token) return;
@@ -54,8 +57,9 @@ export default function AnalysisPage() {
         setFormData(payload.data);
         setLineContact(payload.contact);
         setCurrentStep(11);
+        setReportStatus('idle');
       })
-      .catch(() => setLineContact(null));
+      .catch(() => setReportStatus('error'));
   }, []);
 
   const lastLocationKey = useRef(location.key);
@@ -178,7 +182,24 @@ export default function AnalysisPage() {
         </div>
 
         <div className="max-w-6xl mx-auto">
-          {renderStep()}
+          {reportStatus === 'loading' ? (
+            <p className="py-20 text-center text-cream-700">
+              <i className="ri-loader-4-line animate-spin mr-2"></i>正在打開你的報告…
+            </p>
+          ) : reportStatus === 'error' ? (
+            <div className="py-16 text-center">
+              <p className="text-cream-900 font-semibold">這個報告連結無法打開，可能已經過期了。</p>
+              <p className="mt-2 text-cream-700">請重新做一次需求分析，再用 LINE 領取一次。</p>
+              <button
+                onClick={() => { setReportStatus('idle'); resetAnalysis(); }}
+                className="mt-6 bg-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-teal-700 transition-colors cursor-pointer"
+              >
+                重新開始
+              </button>
+            </div>
+          ) : (
+            renderStep()
+          )}
         </div>
       </div>
       <Footer />

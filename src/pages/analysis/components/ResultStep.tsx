@@ -17,13 +17,15 @@ export interface LineReportContact {
   lineId: string;
 }
 
-// 代碼的內容部分是壓縮過的問卷答案；簽章由伺服器在 LINE 那端檢查，這裡只負責解開
+// 代碼交給伺服器驗證簽章並解開（LINE 內建瀏覽器不一定支援網頁端解壓縮）
 export async function decodeReportToken(token: string): Promise<{ data: any; contact: LineReportContact }> {
-  const body = token.split('.')[0].replace(/-/g, '+').replace(/_/g, '/');
-  const bytes = Uint8Array.from(atob(body.padEnd(Math.ceil(body.length / 4) * 4, '=')), (c) => c.charCodeAt(0));
-  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
-  const payload = JSON.parse(await new Response(stream).text());
-  if (!payload?.data || !payload?.contact) throw new Error('Invalid report token');
+  const result = await fetch('/api/line/report-data', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token }),
+  });
+  const payload = await result.json();
+  if (!result.ok || !payload?.data || !payload?.contact) throw new Error(payload?.error || 'Invalid report token');
   return payload;
 }
 
