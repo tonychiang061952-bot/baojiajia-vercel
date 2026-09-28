@@ -58,7 +58,8 @@ export default async function handler(request: any, response: any) {
       continue;
     }
 
-    const link = `${origin}/analysis?report=${encodeURIComponent(token)}`;
+    // openExternalBrowser=1：LINE 會改用手機預設的瀏覽器打開，LINE 內建瀏覽器常擋下載
+    const link = `${origin}/analysis?report=${encodeURIComponent(token)}&openExternalBrowser=1`;
     await reply(
       event.replyToken,
       `${payload.contact.name} 你好，你的保障需求分析報告準備好了！\n\n點下面的連結就能下載：\n${link}\n\n看完有任何問題，直接在這裡問我就可以。`,

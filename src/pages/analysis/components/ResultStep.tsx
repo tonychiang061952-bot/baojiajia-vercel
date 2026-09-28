@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { GoogleSignInButton } from '../../../components/GoogleSignInButton';
 import { useGoogleAuth } from '../../../auth/GoogleAuthProvider';
 import { sendTelegramNotification } from '../../../services/telegramService';
@@ -170,10 +170,17 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
   const [pdfProgress, setPdfProgress] = useState(0);
   const { user } = useGoogleAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
-  // 從 LINE 的報告連結進來：姓名已經在代碼裡（由 LINE 名稱帶入）
+  // 從 LINE 的報告連結進來：姓名手機已經在代碼裡，帶入後自動開始產生報告，不用再按一次
+  const autoStarted = useRef(false);
   useEffect(() => {
     if (lineContact) setDownloadData(lineContact);
   }, [lineContact]);
+  useEffect(() => {
+    if (!LINE_REPORT_TEST || !lineContact || autoStarted.current) return;
+    if (downloadData.name !== lineContact.name || downloadData.phone !== lineContact.phone) return;
+    autoStarted.current = true;
+    handleDownloadSubmit({ preventDefault() {} } as React.FormEvent);
+  }, [lineContact, downloadData]);
 
   // 填完姓名手機後：拿到代碼直接打開 LINE，訊息已經填好，對方按送出就會收到報告
   const claimViaLine = async () => {
@@ -643,7 +650,14 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
       // html2pdf 有 825KB，靜態 import 會讓它被每一頁 modulepreload。
       // 改成按下匯出時才載入；產出的 PDF 內容與格式完全不變。
       const { default: html2pdf } = await import('html2pdf.js');
-      await html2pdf().set(opt).from(element).save();
+      if (LINE_REPORT_TEST && lineContact) {
+        // 從 LINE 連結進來是自動產生的，不是使用者按鈕觸發，瀏覽器可能擋下載；
+        // 改成產生後直接打開 PDF，手機會用內建的 PDF 檢視器顯示，可以再存檔或分享
+        const blob: Blob = await (html2pdf().set(opt).from(element) as any).outputPdf('blob');
+        window.location.href = URL.createObjectURL(blob);
+      } else {
+        await html2pdf().set(opt).from(element).save();
+      }
 
       document.body.removeChild(container);
 
@@ -840,7 +854,9 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
           {/* 先講清楚門檻，避免客戶按下去才發現要登入而離開 */}
           <p className="mt-3 text-xs text-cream-600">
             {LINE_REPORT_TEST
-              ? lineContact ? '按下去就能下載你的報告' : '填好姓名和手機，就會打開 LINE 把報告傳給你'
+              ? lineContact
+                ? isGeneratingPDF ? `正在產生你的報告⋯ ${Math.round(pdfProgress)}%，完成後會自動打開` : '報告沒有自動打開的話，按上面的按鈕'
+                : '填好姓名和手機，就會打開 LINE 把報告傳給你'
               : '需登入會員並留下聯絡資料'}
           </p>
         </div>
