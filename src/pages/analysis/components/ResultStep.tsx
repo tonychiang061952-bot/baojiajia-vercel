@@ -170,17 +170,13 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
   const [pdfProgress, setPdfProgress] = useState(0);
   const { user } = useGoogleAuth();
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [lineToken, setLineToken] = useState<string | null>(null);
-
-  // 從 LINE 的報告連結進來：聯絡資料已經在代碼裡，表單直接帶入
+  // 從 LINE 的報告連結進來：姓名已經在代碼裡（由 LINE 名稱帶入）
   useEffect(() => {
     if (lineContact) setDownloadData(lineContact);
   }, [lineContact]);
 
-  const lineMessage = lineToken ? `${LINE_CLAIM_PREFIX} ${lineToken}` : '';
-  const lineUrl = `https://line.me/R/oaMessage/${LINE_TEST_ACCOUNT_ID}/?${encodeURIComponent(lineMessage)}`;
-
-  const requestLineToken = async () => {
+  // 填完姓名手機後：拿到代碼直接打開 LINE，訊息已經填好，對方按送出就會收到報告
+  const claimViaLine = async () => {
     setIsGeneratingPDF(true);
     try {
       const result = await fetch('/api/line/report-token', {
@@ -190,11 +186,11 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
       });
       const body = await result.json();
       if (!result.ok || !body.token) throw new Error(body?.error || 'Unable to create token');
-      setLineToken(body.token);
-      setShowDownloadForm(false);
+      const message = `${LINE_CLAIM_PREFIX} ${body.token}`;
+      window.location.href = `https://line.me/R/oaMessage/${LINE_TEST_ACCOUNT_ID}/?${encodeURIComponent(message)}`;
     } catch (error) {
       console.error('Error creating LINE report token:', error);
-      alert('暫時無法產生領取代碼，請稍後再試。');
+      alert('暫時無法打開 LINE，請稍後再試。');
     } finally {
       setIsGeneratingPDF(false);
     }
@@ -268,7 +264,8 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
   const handleDownloadReport = () => {
     // 測試版不需要 Google 登入：LINE 才是確認身分的那一步
     if (LINE_REPORT_TEST) {
-      setShowDownloadForm(true);
+      if (lineContact) handleDownloadSubmit({ preventDefault() {} } as React.FormEvent);
+      else setShowDownloadForm(true);
       return;
     }
     if (!user) {
@@ -288,9 +285,9 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
       return;
     }
 
-    // 測試版第一段：還沒經過 LINE 的人，先拿代碼、到 LINE 領報告
+    // 測試版：填完姓名手機，直接打開 LINE 領報告
     if (LINE_REPORT_TEST && !lineContact) {
-      await requestLineToken();
+      await claimViaLine();
       return;
     }
 
@@ -843,7 +840,7 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
           {/* 先講清楚門檻，避免客戶按下去才發現要登入而離開 */}
           <p className="mt-3 text-xs text-cream-600">
             {LINE_REPORT_TEST
-              ? lineContact ? '你的資料已經帶入，按下去就能下載' : '留下聯絡資料後，報告會傳到你的 LINE'
+              ? lineContact ? '按下去就能下載你的報告' : '填好姓名和手機，就會打開 LINE 把報告傳給你'
               : '需登入會員並留下聯絡資料'}
           </p>
         </div>
@@ -977,6 +974,8 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
                 />
               </div>
 
+              {/* 測試版報告會直接傳到對方的 LINE，不必再問 LINE ID */}
+              {!LINE_REPORT_TEST && (
               <div>
                 <label className="block text-sm font-semibold text-cream-800 mb-2">
                   Line ID <span className="text-red-500">*</span>
@@ -991,6 +990,7 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
                   disabled={isGeneratingPDF}
                 />
               </div>
+              )}
 
               {/* 進度條 */}
               {isGeneratingPDF && (
@@ -1036,7 +1036,7 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
                   ) : LINE_REPORT_TEST && !lineContact ? (
                     <span className="flex items-center justify-center">
                       <i className="ri-line-fill mr-2"></i>
-                      下一步
+                      打開 LINE 領取
                     </span>
                   ) : (
                     <span className="flex items-center justify-center">
@@ -1047,48 +1047,6 @@ export default function ResultStep({ data, onBack, lineContact = null }: ResultS
                 </button>
               </div>
             </form>
-          </div>
-        </div>
-      )}
-
-      {/* 測試版：拿到代碼後，引導客人到 LINE 送出訊息領報告 */}
-      {lineToken && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-md w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8">
-            <div className="w-12 h-12 rounded-lg bg-[#E8F5E9] text-[#06C755] flex items-center justify-center mb-4">
-              <i className="ri-line-fill text-2xl"></i>
-            </div>
-            <h3 className="text-xl sm:text-2xl font-bold text-cream-900">報告準備好了！</h3>
-            <p className="mt-2 text-cream-700">
-              按下面的按鈕打開 LINE，把已經幫你填好的訊息送出，報告就會馬上傳給你。
-            </p>
-            <a
-              href={lineUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 flex items-center justify-center gap-2 w-full bg-[#06C755] text-white px-6 py-4 rounded-lg text-lg font-semibold hover:opacity-90 transition-opacity"
-            >
-              <i className="ri-line-fill"></i>
-              打開 LINE 領取報告
-            </a>
-            <p className="mt-5 text-xs text-cream-600">
-              用電腦看的話：先用手機加入 LINE 官方帳號 <b>{LINE_TEST_ACCOUNT_ID}</b>，再把下面整段文字複製傳給它。
-            </p>
-            <textarea
-              id="line-claim-message"
-              readOnly
-              value={lineMessage}
-              rows={3}
-              onFocus={(e) => e.currentTarget.select()}
-              className="mt-2 w-full px-3 py-2 text-xs border border-cream-300 rounded-lg bg-cream-100 text-cream-700 break-all"
-            />
-            <button
-              type="button"
-              onClick={() => setLineToken(null)}
-              className="mt-4 w-full px-6 py-3 border-2 border-cream-300 text-cream-800 rounded-lg font-semibold hover:bg-cream-100 transition-colors cursor-pointer"
-            >
-              關閉
-            </button>
           </div>
         </div>
       )}
