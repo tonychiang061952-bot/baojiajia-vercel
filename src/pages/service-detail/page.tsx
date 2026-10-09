@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { db as supabase } from '../../lib/database';
+import { cloudinaryImage } from '../../lib/cloudinary';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
 import { SEO } from '../../components/SEO';
@@ -178,7 +179,7 @@ export default function ServiceDetailPage() {
         {(service.hero_image_url || service.image_url) && (
           <figure className="mt-8 max-w-[860px]">
             <img
-              src={service.hero_image_url || service.image_url}
+              src={cloudinaryImage(service.hero_image_url || service.image_url, 1200)}
               alt={service.title}
               className="w-full aspect-[16/9] object-cover rounded-md border border-cream-300"
             />

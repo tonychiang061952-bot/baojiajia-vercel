@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { db as supabase } from '../../../lib/database';
+import { cloudinaryImage } from '../../../lib/cloudinary';
 
 interface ServiceItem {
   id: string;
@@ -73,7 +74,7 @@ export default function Services() {
               <div className="aspect-[16/9] overflow-hidden bg-cream-200">
                 {service.image_url && (
                   <img
-                    src={service.image_url}
+                    src={cloudinaryImage(service.image_url, 800)}
                     alt={service.title}
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

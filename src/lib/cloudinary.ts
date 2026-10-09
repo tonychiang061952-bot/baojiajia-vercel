@@ -40,3 +40,12 @@ export const uploadToCloudinary = async (file: File, options: UploadToCloudinary
 export const uploadImageToCloudinaryWebp = async (file: File): Promise<string> => {
   return uploadToCloudinary(file, { forceFormat: 'webp' });
 };
+
+// 顯示用的縮圖網址：原圖不動，只在網址裡加上參數，讓 Cloudinary 即時縮成指定寬度並壓縮。
+// f_auto 自動選瀏覽器支援的格式、q_auto 自動調整畫質。非 Cloudinary 的網址（例如 Readdy 舊圖）原樣回傳。
+export const cloudinaryImage = (url: string | null | undefined, width: number): string => {
+  if (!url) return '';
+  const marker = '/image/upload/';
+  if (!url.includes('res.cloudinary.com') || !url.includes(marker)) return url;
+  return url.replace(marker, `${marker}f_auto,q_auto,w_${width}/`);
+};

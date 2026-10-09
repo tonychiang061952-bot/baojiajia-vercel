@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
 import { db } from '../../lib/database';
+import { cloudinaryImage } from '../../lib/cloudinary';
 import { SEO } from '../../components/SEO';
 
 interface BlogPost {
@@ -218,7 +219,7 @@ export default function Blog() {
                 >
                   <div className="aspect-[16/10] overflow-hidden rounded border border-cream-300 bg-cream-200">
                     {post.image_url && (
-                      <img src={post.image_url} alt={post.title} loading="lazy"
+                      <img src={cloudinaryImage(post.image_url, 800)} alt={post.title} loading="lazy"
                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
                     )}
                   </div>

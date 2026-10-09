@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { db } from '../../../lib/database';
+import { cloudinaryImage } from '../../../lib/cloudinary';
 
 /**
  * 首頁的最新文章。
@@ -82,7 +83,7 @@ export default function LatestPosts() {
               <div className="aspect-[16/10] overflow-hidden rounded border border-cream-300 bg-cream-200">
                 {post.image_url && (
                   <img
-                    src={post.image_url}
+                    src={cloudinaryImage(post.image_url, 800)}
                     alt={post.title}
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { db as supabase } from '../../lib/database';
+import { cloudinaryImage } from '../../lib/cloudinary';
 import { SEO } from '../../components/SEO';
 import Navigation from '../../components/feature/Navigation';
 import Footer from '../../components/feature/Footer';
@@ -126,7 +127,7 @@ export default function ServicesPage() {
                       className={`grid grid-cols-1 md:grid-cols-[340px_minmax(0,1fr)] overflow-hidden rounded-md border border-cream-300 hover:border-teal-600 transition-colors ${group.alt ? 'bg-cream-100' : 'bg-white'}`}
                     >
                       <div className="overflow-hidden bg-cream-200 max-md:aspect-[16/9]">
-                        {s.image_url && <img src={s.image_url} alt={s.title} loading="lazy" className="w-full h-full object-cover" />}
+                        {s.image_url && <img src={cloudinaryImage(s.image_url, 800)} alt={s.title} loading="lazy" className="w-full h-full object-cover" />}
                       </div>
                       <div className="flex flex-col justify-center px-7 py-7">
                         <h3 className="text-xl font-bold text-cream-900 mb-2.5">{s.title}</h3>
@@ -148,7 +149,7 @@ export default function ServicesPage() {
                         className={`flex flex-col overflow-hidden rounded-md border border-cream-300 hover:border-teal-600 transition-colors ${group.alt ? 'bg-cream-100' : 'bg-white'}`}
                       >
                         <div className="aspect-[16/9] overflow-hidden bg-cream-200">
-                          {s.image_url && <img src={s.image_url} alt={s.title} loading="lazy" className="w-full h-full object-cover" />}
+                          {s.image_url && <img src={cloudinaryImage(s.image_url, 800)} alt={s.title} loading="lazy" className="w-full h-full object-cover" />}
                         </div>
                         <div className="flex flex-1 flex-col px-5 py-5">
                           <h3 className="text-[1.08rem] font-bold text-cream-900 mb-2">{s.title}</h3>
