@@ -406,7 +406,7 @@ for (const post of posts) {
     description: post.meta_description || post.excerpt,
     image: post.image_url,
     publishedTime: post.published_at,
-    modifiedTime: post.updated_at,
+    modifiedTime: post.content_updated_at || post.published_at,
     // 用 @graph 同時宣告文章與麵包屑。Breadcrumb 是 Google 仍支援的 rich result，
     // 而預渲染的靜態 HTML 是 Google 先讀到的那一份，所以要在這裡也補上，
     // 不能只加在 React 元件裡。
